@@ -1,0 +1,454 @@
+/* Banner CSS section */
+
+.nav-banner {
+    padding: 15px;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    background-color: transparent;
+    transition: 1.5s;
+    z-index: 9999;
+}
+
+.nav-banner div {
+    width: fit-content;
+}
+
+.logo {
+    width: 160px;
+    flex: 1;
+}
+
+.logo img {
+    width: 160px;
+    border-radius: 40px;
+}
+
+.nav-items {
+    flex: 3;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-items a {
+    display: inline-block;
+    text-decoration: none;
+    color: blue;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.7s;
+}
+
+.nav-items a:hover {
+    color: rgb(113, 113, 195);
+}
+
+.home-donate {
+    flex: 1;
+    text-align: center;
+}
+
+.home-donate #but {
+    padding: 10px;
+    text-decoration: none;
+    border: 1px solid white;
+    font-weight: 700;
+    font-size: 23px;
+    border-radius: 5px;
+    color: white;
+    background-color: transparent;
+    transition: 1s;
+}
+
+.home-donate #but:hover {
+    background-color: rgba(62, 62, 211, 0.8);
+    cursor: pointer;
+    color: white;
+    border: none;
+
+}
+
+/* Home Hero section */
+
+.home-container {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 1s;
+}
+
+
+
+.home-header-1 {
+    background-image: linear-gradient(rgba(32, 31, 31, 0.5), rgba(32, 31, 31, 0.5)), url(../images/home1.png);
+    background-position: center;
+    background-size: cover;
+}
+
+
+.home-header-2 {
+    background-image: linear-gradient(rgba(32, 31, 31, 0.5), rgba(32, 31, 31, 0.5)), url(../images/home2.jpeg);
+    background-position: center;
+    background-size: cover;
+}
+
+
+.home-header-3 {
+    background-image: linear-gradient(rgba(32, 31, 31, 0.5), rgba(32, 31, 31, 0.5)), url(../images/home3.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.banner-text {
+    width: 60%;
+    position: relative;
+    left: 20px;
+    top: 30vh;
+}
+
+.banner-text h1 {
+    color: white;
+    font-size: 80px;
+    margin: 0;
+}
+
+.banner-text p {
+    color: white;
+    font-family: cursive;
+    font-size: 20px;
+}
+
+.banner-text button {
+    width: 130px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 3px;
+    border: 1px solid white;
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+    transition: 1s;
+}
+
+.banner-text button:hover {
+    box-shadow: 1px 1px 5px white;
+    border: none;
+    background-color: blue;
+    cursor: pointer;
+}
+
+/* First home page css */
+.home-page-1-conatiner {
+    position: relative;
+    top: 104vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.home-page-1-conatiner div {
+    background-color: rgb(47, 137, 255);
+    padding: 10px;
+    border-radius: 5px;
+    flex: 1;
+    margin: 5px;
+    color: white;
+    text-align: center;
+}
+
+.home-page-1-conatiner .values {
+    background-color: rgb(0, 115, 255);
+}
+
+.home-page-1-conatiner .values p{
+    line-height: 20px;
+    margin: 0;
+}
+
+.home-page-1-conatiner .values .fa-solid {
+    font-size: 25px;
+    color: green;
+}
+
+.home-page-1-conatiner div button {
+    width: 100px;
+    height: 40px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: rgb(47, 137, 255);
+    border: 1px solid white;
+    transition: 1s;
+}
+
+.home-page-1-conatiner div button a {
+   color: white;
+   text-decoration: none;
+    display: block;
+}
+
+.home-page-1-conatiner div button:hover {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.home-page-1-conatiner .values button {
+    background-color: transparent;
+    text-decoration: none;
+    width: 150px;
+}
+
+.home-page-1-conatiner .values button:hover {
+    font-size: 16px;
+}
+
+/* Activities Section */
+
+.activities {
+    margin-top: 105vh;
+    padding: 10px;
+}
+
+.activities h2,
+.updates h2 {
+    font-size: 45px;
+    opacity: 0.8;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.activities hr,
+.updates hr {
+    width: 30%;
+    margin-bottom: 20px;
+    margin-left: 0;
+}
+
+.home-activities {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 25px;
+    column-gap: 20px;
+}
+
+.home-activities .each-activity {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px rgb(190, 190, 190);
+}
+
+.home-activities .each-activity img {
+    width: 100%;
+    height: 55%;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.home-activities .each-activity .activities-text {
+    padding: 10px;
+}
+
+.home-activities .each-activity .activities-text h1{
+    margin: 0;
+    text-align: center;
+}
+
+/*.home-activities .each-activity .activities-text p {
+}*/
+
+/* News and updates Section */
+
+.updates {
+    padding: 10px;
+}
+
+.updates hr {
+    width: 40%;
+    margin-bottom: 20px;
+    margin-left: 0;
+}
+
+.home-news-div {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: scroll;
+}
+
+.home-news-div .each-news-item {
+    width: 400px;
+    height: 200px;
+    flex-shrink: 0;
+    border: 1px solid black;
+    margin-right: 10px;
+    padding: 10px;
+    padding-top: 40px;
+    border-radius: 4px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.home-news-div .each-news-item button {
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: aqua;
+    border: 1px solid aqua;
+    border-radius: 10px;
+    transition: 0.7s;
+}
+
+.home-news-div .each-news-item button:hover {
+    border: none;
+    box-shadow: 1px 1px 5px rgba(138, 137, 137, 0.5);
+    cursor: pointer;
+    background-color: rgb(104, 252, 255);
+}
+
+.home-news-div .each-news-item h1,
+.home-news-div .each-news-item p {
+    color: white;
+}
+
+.home-news-div .each-news-item h1 {
+    margin-bottom: 0;
+    font-size: 25px;
+    color: rgb(150, 255, 158);
+}
+
+.partners-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+}
+
+.partners-container div {
+    margin: auto;
+}
+
+#partners-hr {
+    width: 40%;
+    margin-bottom: 20px;
+    margin-left: 0;
+}
+
+#partners {
+    font-size: 45px;
+    opacity: 0.8;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.partners-container div img{
+    width: 100%;
+    object-fit: contain;
+    transition: 0.6s;
+}
+
+.partners-container div img:hover{
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+
+/* Mobile responsive section */
+
+.nav-items i {
+    display: none;
+}
+
+.open-nav-icon i {
+    color: white;
+    font-weight: 800;
+    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    top: 300px;
+    
+}
+
+
+@media (max-width: 700px) {
+
+    /* Navigation */
+
+    .nav-items {
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(0, 204, 255);
+        position: fixed;
+        padding: 20px;
+        height: 100vh;
+        right: -50vw;
+        top: 0;
+        text-align: center;
+        transition: 1s;
+        z-index: 200;
+    }
+
+    .nav-items a {
+        color: blue;
+    }
+
+    .nav-items i {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    .nav-items i:hover {
+        color: aqua;
+    }
+
+    .open-nav-icon i {
+        display: inline-block;
+        color: white;
+        font-weight: 800;
+        font-size: 30px;
+        margin-right: 120px;
+    }
+
+    /* Head Text */
+
+    .home-background h1 {
+        font-size: 35px;
+    }
+
+    .home-background p {
+        font-size: 20px;
+    }
+
+    /* Home Page 1 */
+
+    .home-page-1-conatiner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Activities Section */
+
+    .home-activities {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .partners-container {
+        grid-template-columns: 1fr;
+    }
+}

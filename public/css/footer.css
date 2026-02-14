@@ -1,0 +1,117 @@
+/* Footer Section */
+
+.footer {
+    color: white;
+    margin-top: 20px;
+}
+
+.main-footer {
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    background-image: linear-gradient(rgb(19, 129, 255),rgb(5, 82, 171));
+}
+
+.footer-logo {
+    display: flex;
+    flex-direction: column;
+    vertical-align: center;
+    justify-content: center;
+}
+
+.footer-logo img {
+    width: 300px;
+    border-radius: 150px;
+}
+
+.footer-links h2 {
+    text-align: center;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: rgb(227, 227, 227);
+    transition: 0.6s;
+}
+
+.footer-links a:hover {
+    margin-left: 10px;
+}
+
+/*.newsletter h2 {
+
+}
+
+.newsletter p {
+    
+}*/
+
+.newsletter input {
+    padding: 10px;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    width: 90%;
+}
+
+.newsletter button {
+    margin-top: 10px;
+    background-color: rgb(0, 157, 255);
+    width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    color: darkgreen;
+    font-weight: 600;
+    transition: 0.6s;
+}
+
+.newsletter button:hover {
+    background-color: blue;
+    color: white;
+    border: 1px solid white;
+    cursor: pointer;
+}
+
+.last-footer {
+    background-color: blue;
+    padding: 5px;
+    text-align: center;
+}
+
+.last-footer a {
+    text-decoration: none;
+    color: rgb(204, 204, 204);
+    font-weight: 600;
+}
+
+
+.foot-icons{
+    margin-top: 20px;
+}
+
+.foot-icons i {
+    color: rgba(7, 201, 255, 1);
+    font-size: 35px;
+    margin-right: 10px;
+    transition: 0.6s;
+}
+
+.foot-icons i:hover {
+    color: rgb(145, 231, 255);
+    cursor: pointer;
+}
+
+/* Responsive Territory */
+
+@media (max-width: 700px) {
+    .main-footer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-logo {
+        margin: auto;
+    }
+}

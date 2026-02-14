@@ -1,0 +1,336 @@
+/* Body Section */
+
+.body {
+    padding: 10px;
+}
+
+.intro {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.intro .text {
+    border-radius: 10px;
+    box-shadow: 0px 0px 3px blue;
+    margin-right: 10px;
+    padding: 10px;
+    width: 55%;
+    height: fit-content;
+}
+
+.intro .text h1 {
+    font-weight: 800;
+    font-size: 30px;
+    text-align: center;
+    opacity: 0.6;
+    color: blue;
+    margin: 0px;
+}
+
+.intro .text p {
+    font-size: 20px;
+    font-weight: 100;
+    color: rgb(51, 84, 1);
+}
+
+.intro .image img{
+    border-radius: 10px;
+    height: 300px;
+}
+
+.mvv {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    background-color: lightblue;
+    border-radius: 10px;
+}
+
+.mvv div {
+    border: 1px solid rgb(107, 230, 255);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.mvv div h1 {
+    text-align: center;
+    margin: 0;
+}
+
+.background {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    padding-top: 10px;
+    border-radius: 10px;
+    background-color: lightblue;
+}
+
+.background .heading {
+    width: fit-content;
+    margin: auto;
+}
+
+.background .heading h1 {
+    text-align: center;
+    margin: 0;
+    color: rgb(50, 50, 50);
+    background-color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+
+}
+
+.text-boxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.text-boxes .text p {
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    margin: 10px;
+}
+
+
+
+
+/* Team Section */
+
+#team-header,
+.history h1 {
+    font-size: 45px;
+    opacity: 0.8;
+    font-weight: 700;
+    margin-bottom: 5px;
+    margin-left: 20px;
+}
+
+hr {
+    width: 30%;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.team {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+}
+
+.team .container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px blue;
+    flex-shrink: 0;
+}
+
+.team-image,
+.team-image img {
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.team-text {
+    margin: 10px;
+    text-align: center;
+}
+
+.team-text h1 {
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+
+
+/* Hostory Section */
+
+.time-line {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: auto;
+    justify-content: space-between;
+    background-color: aqua;
+    height: fit-content;
+    border-radius: 20px;
+}
+
+.time-line div {
+    margin: 0;
+    padding: 5px;
+    border-radius: 20px;
+    background-color: blue;
+    border: 1px solid blue;
+    width: fit-content;
+    font-weight: 800;
+    color: white;
+    cursor: pointer;
+    transition: 0.7s;
+}
+
+.time-line div:hover {
+    background-color: aqua;
+    border: 1px solid white
+}
+
+.y2020,
+.y2022,
+.y2024 {
+    animation: timeline;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes timeline {
+    0% {
+        background-color: blue;
+    }
+
+    50% {
+        background-color: aqua;
+    }
+
+    100% {
+        background-color: lightblue;
+    }
+}
+
+.year {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px rgb(120, 120, 120);
+    margin: 20px;
+    padding: 10px;
+}
+
+.year-heading h2 {
+    animation: headGlide;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    text-align: center;
+    font-size: 25px;
+    height: 30px;
+}
+
+@keyframes headGlide {
+    0% {
+        font-weight: 300;
+        color: blue;
+    }
+
+    50% {
+        font-weight: 600;
+        color: aqua;
+    }
+
+    100% {
+        font-weight: 900;
+        color: blue;
+    }
+}
+
+.year-content {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.year-content img {
+    border-radius: 10px;
+}
+
+.year-text {
+    border: none;
+    margin: 0px;
+    margin-left: 10px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 2px rgb(184, 184, 184);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+    
+#management {
+     display: grid;
+     grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/* Responsive squard */
+
+@media (max-width: 700px) {
+
+    .intro {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .intro .text,
+    .intro .image{
+        width: 95%;
+    }
+
+    .intro .image img {
+        width: 100%;
+        margin: auto;
+        margin-top: 20px;
+    }
+
+    .mvv,
+    .text-boxes{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .team {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #team-header,
+    .history h1 {
+        font-size: 26px;
+    }
+
+    hr {
+        width: 45%;
+    }
+
+    .year-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .year-content img {
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .year-text {
+        border: none;
+        box-shadow: none;
+    }
+    
+    #management {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add-updates.css') }}">
+</head>
+<body style="background-color: rgb(184, 255, 176)">
+    {% if authenticated %}
+        <div class="form-section">
+            <h1>Add Updates</h1>
+            <form action="{{ url_for('news_create') }}" method="post" enctype="multipart/form-data">
+
+                <input type="text" name="title" placeholder="Title" required>
+                {% if errors and errors.get('title') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('title') }}</p>
+                {% endif %}
+
+                <label for="image" style="font-weight: 600; font-size: 20px;">Choose an image</label>
+                <input type="file" name="image" required>
+                {% if errors and errors.get('image') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('image') }}</p>
+                {% endif %}
+
+                <input type="text" name="caption" placeholder="Short image caption" required>
+                {% if errors and errors.get('caption') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('caption') }}</p>
+                {% endif %}
+
+                <textarea name="detail" placeholder="Write the details of the news here" required></textarea>
+                {% if errors and errors.get('detail') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('detail') }}</p>
+                {% endif %}
+
+                <button type="submit">Post</button>
+            </form>
+        </div>
+
+        <div style="width: 50%; margin: auto; margin-top: 30px">
+            <h1 style="text-align: center;">Current Updates</h1>
+            {% for new in news %}
+                <div style="box-shadow: 1px 1px 3px rgb(187, 187, 187); min-height: 30px; background-color: white; border-radius: 3px; padding: 3px; margin: 10px;">
+                    <p style="margin: 0; padding: 5px; font-weight: bold;">{{ new.title }}</p>
+                    <a href="{{ url_for('news_edit_page', update_id=new.id) }}"><button>Edit</button></a>
+                    <a href="{{ url_for('news_delete', update_id=new.id) }}"><button style="background-color: red;">Delete</button></a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="add-testimonies form-section">
+            <h1>Add Testimonies</h1>
+            <form action="{{ url_for('testimony_create') }}" method="post" enctype="multipart/form-data">
+
+                <input type="text" name="name" placeholder="Name" required>
+                {% if errors and errors.get('name') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('name') }}</p>
+                {% endif %}
+
+                <label for="image" style="font-weight: 600; font-size: 20px;">Person image</label>
+                <input type="file" name="image" required>
+                {% if errors and errors.get('image') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('image') }}</p>
+                {% endif %}
+
+                <input type="text" name="testimony" placeholder="Testimony message" required>
+                {% if errors and errors.get('testimony') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('testimony') }}</p>
+                {% endif %}
+
+                <button type="submit">Post</button>
+            </form>
+        </div>
+
+        <div style="width: 50%; margin: auto; margin-top: 30px">
+            <h1 style="text-align: center;">Available Testimonies</h1>
+            {% for each in testimonies %}
+                <div style="box-shadow: 1px 1px 3px rgb(187, 187, 187); min-height: 30px; background-color: white; border-radius: 3px; padding: 3px; margin: 10px;">
+                    <p style="margin: 0; padding: 5px; font-weight: bold;">{{ each.name }}</p>
+                    <a href="{{ url_for('testimony_delete', testimony_id=each.id) }}"><button style="background-color: red;">Delete</button></a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="width: 50%; margin: auto; margin-top: 30px">
+            <h1 style="text-align: center;">Contacts and requests</h1>
+            {% for contact in contacts %}
+                <div style="box-shadow: 1px 1px 3px rgb(187, 187, 187); min-height: 30px; background-color: white; border-radius: 3px; padding: 3px; margin: 10px;">
+                    <p style="margin: 0; padding: 5px; font-weight: bold;">Name: {{ contact.full_name }}</p>
+                    <p style="margin: 0; padding: 5px; font-weight: bold;">Email: {{ contact.email }}</p>
+                    <p style="margin: 0; padding: 5px; font-weight: bold;">Phone: {{ contact.phone }}</p>
+                    <p style="margin: 0; padding: 5px; font-weight: bold;">Purpose: {{ contact.purpose }}</p>
+                    <p style="margin: 0; padding: 5px; font-weight: bold;">Message: {{ contact.message }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="width: 50%; margin: auto; margin-top: 30px">
+            <h1 style="text-align: center;">Newsletter Signups</h1>
+            {% for newsletter in newsletters %}
+                <div style="box-shadow: 1px 1px 3px rgb(187, 187, 187); min-height: 30px; background-color: white; border-radius: 3px; padding: 3px; margin: 10px;">
+                    <p style="margin: 0; padding: 5px; font-weight: bold;">{{ newsletter.email }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        You are not authenticated!
+    {% endif %}
+
+</body>
+</html>

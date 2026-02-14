@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tweens</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
+
+    <!-- Start of LiveChat (www.livechat.com) code -->
+    <script>
+        window.__lc = window.__lc || {};
+        window.__lc.license = 19114195;
+        window.__lc.integration_name = "manual_onboarding";
+        window.__lc.product_name = "livechat";
+        ;(function(n,t,c){function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0;n.type="text/javascript";n.src="https://cdn.livechatinc.com/tracking.js";t.head.appendChild(n)}};!n.__lc.asyncInit&&e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))
+    </script>
+    <noscript><a href="https://www.livechat.com/chat-with/19114195/" rel="nofollow">Chat with us</a>, powered by <a href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
+    <!-- End of LiveChat code -->
+
+</head>
+<body>
+    <!-- Banner Section -->
+
+    <div class="nav-banner">
+        <div class="logo">
+            <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"></a>
+        </div>
+
+        <div class="nav-items">
+            <i class="fa-solid fa-rectangle-xmark" onclick="document.querySelector('.nav-items').style.right = '-50vw';"></i>
+            <a href="{{ url_for('home') }}" class="home-nav-links" style="color: white;">Home</a>
+            <a href="{{ url_for('about') }}" class="home-nav-links" style="color: white;">About Us</a>
+            <a href="{{ url_for('achievements') }}" class="home-nav-links" style="color: white;">Achievements</a>
+            <a href="{{ url_for('contact') }}" class="home-nav-links" style="color: white;">Contact Us</a>
+        </div>
+
+        <div class="home-donate">
+            <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" id="but">Donate</a>
+        </div>
+
+        <div class="open-nav-icon" style="cursor: pointer;">
+            <i class="fa-solid fa-bars" onclick="document.querySelector('.nav-items').style.right = '0';"></i>
+        </div>
+
+    </div>
+
+    <!--  Home Background Section -->
+    <div class="home-background">
+        <div class="home-container home-header-1" data-id="1">
+            <div class="banner-text">
+                <h1>Tweens</h1>
+                <p>Over five years of improving the lives of children living in Tongogara refugee settlement.</p>
+                <a href="{{ url_for('about') }}"><button>Check Out</button></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Page 1 -->
+
+    <div class="home-page-1-conatiner funnel-display-myText">
+
+        <div class="mission funnel-display-myText">
+            <h1><i class="fa-solid fa-compass" style="font-size: 30px;"></i> Our Mission</h1>
+            <p>To empower underprivileged students by providing educational support, essential resources, and meaningful community engagement, fostering a culture of continuous learning, resilience, and personal growth. Through mentorship we aim to equip students with the knowledge and skills they need to create a brighter future for themselves and their communities.</p>
+            <button><a href="{{ url_for('about') }}" style="color: white; text-decoration: none; display: block;">Learnmore</a></button>
+        </div>
+
+        <div class="values funnel-display-myText">
+            <h1><i class="fa-solid fa-heart" style="font-size: 30px; color: white;"></i> Our Values</h1>
+
+            <p style="text-align: left;"> <strong>Education for Empowerment:</strong> Providing quality learning opportunities to help children build skills and create brighter futures.</p>
+
+            <p style="text-align: left;"><strong> Inclusivity & Equality:</strong> Ensuring that every child, regardless of background, has an equal opportunity to succeed.</p>
+
+            <p style="text-align: left;"><strong> Community & Collaboration:</strong> Fostering teamwork and partnerships to create sustainable educational impact.</p>
+
+            <button style="margin-top: 20px; color: transparent;"><a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" style="color: white; text-decoration: none; display: block;">Donate Here</a></button>
+        </div>
+
+        <div class="impact funnel-display-myText">
+            <h1><i class="fa-solid fa-earth-americas" style="font-size: 30px;"></i> Our Impact</h1>
+            <p>TWEENS has significantly impacted underprivileged students through education and community support. Over 7 girls were inspired to retake their O-Level exams, and awareness campaigns have reached 500+ students. Up to 200 students benefit from tutoring, study spaces, Wi-Fi, and learning materials. As a result, 8 students secured A-Level scholarships at USAP Community School, while 8 others earned scholarships abroad.</p>
+            <button><a href="{{ url_for('about') }}" style="color: white; text-decoration: none; display: block;">Explore</a></button>
+        </div>
+    </div>
+
+    <!-- Activities Section -->
+    <section class="activities" id="activities">
+
+        <h2>Our Activities</h2>
+        <hr>
+
+        <div class="home-activities funnel-display-myText">
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/homeGirlsClub.jpeg') }}" alt="">
+                <div class="activities-text">
+                    <h1>Big to young sister mentorship</h1>
+                    <p>Older, more experienced students mentoring younger girls, offering academic guidance, emotional support, and motivation to help them succeed in their studies and personal growth. It may focus on building confidence, resilience, and a sense of community among young girls, ensuring they have role models to look up to.</p>
+                </div>
+            </div>
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/homeCleanUp.png') }}" alt="">
+                <div class="activities-text">
+                    <h1>Girls book club</h1>
+                    <p>The Girls Book Club is a safe and engaging space where girls come together to read, discuss books, and develop a love for learning. It may focus on improving literacy, critical thinking, and self expression while also fostering discussions on empowerment, leadership, and personal growth through literature.</p>
+                </div>
+            </div>
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/Parent-Teacher.jpg') }}" alt="">
+                <div class="activities-text">
+                    <h1>Parent Teacher Association</h1>
+                    <p>The Parent-Teacher Association is a collaborative platform where parents, teachers, and mentors come together to discuss students' academic progress, challenges, and overall well-being. It may focus on strengthening the support system for students, addressing educational needs, and creating a more inclusive and nurturing learning environment.</p>
+                </div>
+            </div>
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/homeALevel.png') }}" alt="">
+                <div class="activities-text">
+                    <h1>A level study program</h1>
+                    <p>The A-Level Study Program is an initiative that provides academic support, resources, and mentorship to students preparing for their A-Level exams. It may include tutoring, study materials, structured study sessions, and guidance on scholarship opportunities to help students excel and transition smoothly to higher education.</p>
+                </div>
+            </div>
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/HomeEducationAwarenessCampains.jpeg') }}" alt="">
+                <div class="activities-text">
+                    <h1>Education awareness campaigns and community outreach</h1>
+                    <p>This initiative focuses on advocating for the importance of education, encouraging students to stay in school, and providing resources to underserved communities. It may involve motivational talks, workshops, church and community visits, and awareness programs aimed at inspiring learners, parents, and stakeholders to prioritize education and lifelong learning.</p>
+                </div>
+            </div>
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/HomeStudentSeminars.jpeg') }}" alt="">
+                <div class="activities-text">
+                    <h1>Student seminars and workshop</h1>
+                    <p>This initiative provides interactive learning experiences where students gain academic, career, and personal development skills. These sessions may include expert talks, hands-on training, mentorship, and discussions on topics like leadership, study techniques, career planning, and personal growth to empower students for success.</p>
+                </div>
+            </div>
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/HomeOLevelTutoringAndHomework.JPG') }}" alt="">
+                <div class="activities-text">
+                    <h1>O-Level tutoring and homework support</h1>
+                    <p>The O-Level Tutoring and Homework Support program offers personalized academic assistance to students preparing for their O-Level exams. It may include one-on-one tutoring sessions, group study sessions, and help with homework to ensure students fully understand their subjects and improve their exam performance. This initiative aims to build students' confidence and academic skills for success in their exams.</p>
+                </div>
+            </div>
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/HomeExtracurricularsAtTweens.jpeg') }}" alt="">
+                <div class="activities-text">
+                    <h1>Extracurricular offerings at TWEENS</h1>
+                    <p>The Extracurricular Offerings at TWEENS provide students with opportunities to explore activities beyond academics, such as sports, arts, leadership programs, and social clubs. These activities aim to develop well-rounded individuals by fostering creativity, teamwork, communication skills, and personal interests, contributing to both academic and personal growth.</p>
+                </div>
+            </div>
+
+            <div class="each-activity">
+                <img src="{{ url_for('static', filename='images/HomeCleanUpCampain.JPG') }}" alt="">
+                <div class="activities-text">
+                    <h1>Clean up campaigns</h1>
+                    <p>The Clean Up Campaigns at TWEENS focus on promoting environmental awareness and responsibility within the community. Students and volunteers participate in cleaning local areas, raising awareness about waste management, and encouraging sustainable practices. These campaigns help instill a sense of pride in the community and teach the importance of environmental stewardship.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <h2 id="partners">Our Partners</h2>
+    <hr id="partners-hr">
+    <section class="partners-container">
+
+        <div style="width: 240px">
+            <img src="{{ url_for('static', filename='images/educationMatters.png') }}" alt="">
+        </div>
+
+        <div style="width: 240px">
+            <img src="{{ url_for('static', filename='images/GlobalFundLogo.png') }}" alt="">
+        </div>
+
+        <div style="width: 240px">
+            <img src="{{ url_for('static', filename='images/cohereLogo.png') }}" alt="">
+        </div>
+
+        <div style="width: 240px">
+            <img src="{{ url_for('static', filename='images/naledi.jpg') }}" alt="">
+        </div>
+
+        <div style="width: 240px">
+            <img src="{{ url_for('static', filename='images/Globalchangemakerslogo.png') }}" alt="">
+        </div>
+
+    </section>
+
+    <!-- News and Updates Section -->
+    <section class="updates funnel-display-myText">
+
+        <h2>News</h2>
+        <hr>
+
+        <div class="home-news-div">
+            {% for update in updates %}
+                {% set update_img_url = url_for('static', filename=update.image or '') %}
+                {% set full_news = url_for('news_detail', update_id=update.id) %}
+                {% set update_title = update.title %}
+                {% include 'components/home_news.html' %}
+            {% endfor %}
+        </div>
+
+    </section>
+
+{% include 'components/footer.html' %}

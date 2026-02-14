@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add-updates.css') }}">
+</head>
+<body>
+    {% if authenticated %}
+        <div class="form-section">
+            <h1>Edit Updates Here</h1>
+            <form action="{{ url_for('news_edit', update_id=update.id) }}" method="post" enctype="multipart/form-data">
+
+                <input type="text" name="title" placeholder="Title" value="{{ update.title }}" required>
+                {% if errors and errors.get('title') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('title') }}</p>
+                {% endif %}
+
+                <label for="image" style="font-weight: 600; font-size: 20px;">Choose an image</label>
+                <input type="file" name="image">
+                {% if errors and errors.get('image') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('image') }}</p>
+                {% endif %}
+
+                <input type="text" name="caption" placeholder="Short image caption" value="{{ update.caption }}" required>
+                {% if errors and errors.get('caption') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('caption') }}</p>
+                {% endif %}
+
+                <textarea name="detail" placeholder="Write the details of the news here" required>{{ update.detail }}</textarea>
+                {% if errors and errors.get('detail') %}
+                    <p style="color: red; font-style: italic;">{{ errors.get('detail') }}</p>
+                {% endif %}
+
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    {% else %}
+        You are not authenticated!
+    {% endif %}
+</body>
+</html>

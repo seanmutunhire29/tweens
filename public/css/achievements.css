@@ -1,0 +1,273 @@
+.achievements {
+    width: 100%;
+    height: 80vh;
+    background-color: white;
+    padding: 20px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.star {
+    width: 50px;
+    height: 50px;
+    background-color: blue;
+    border-radius: 25px;
+    margin: auto;
+    position: relative;
+    cursor: pointer;
+    left: 0;
+    right: 0;
+}
+
+.inner-star {
+    width: 20px;
+    height: 20px;
+    border-radius: -10px;
+    position: absolute;
+    background-color: blue;
+    z-index: 10;
+    left: 50%;
+    transform: rotate(0.25turn);
+    animation: stars;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+.my-tooltip {
+    position: absolute;
+    font-weight: 900;
+    opacity: 1;
+    color: rgb(202, 0, 0);
+    z-index: 5;
+    right: -27px;
+    bottom: -40px;
+    font-size: small;
+    font-weight: 600;
+    animation: tooltipanime;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes stars {
+    0% {
+        transform: scale(1) rotate(-360deg);
+        border-radius: 1px;
+    }
+
+    5% {
+        background-position: center;
+        background-size: cover;
+        box-shadow: 0px 0px 0px black;
+        transform: scale(2) rotate(360deg);
+        border-radius: 4px;
+    }
+
+    25% {
+        background-position: center;
+        background-size: cover;
+        box-shadow: 0px 0px 1px rgb(58, 58, 58);
+        transform: scale(3) rotate(360deg);
+        border-radius: 7px;
+    }
+
+    50% {
+        background-position: center;
+        background-size: cover;
+        box-shadow: 0px 0px 3px rgb(91, 91, 91);
+        transform: scale(4) rotate(360deg);
+        border-radius: 10px;
+    }
+
+    75% {
+        background-position: center;
+        background-size: cover;
+        box-shadow: 0px 0px 5px rgb(53, 53, 53);
+        transform: scale(4) rotate(360deg);
+        border-radius: 15px;
+    }
+}
+
+@keyframes tooltipanime {
+    0% {
+        color: black;
+    }
+    25% {
+        color: blue;
+    }
+    50% {
+        color: aqua;
+    }
+    75% {
+        color: blue;
+    }
+    90% {
+        color: red;
+
+    }
+}
+
+/* Popup container */
+
+.mother-container {
+    z-index: 10000;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.container {
+    z-index: 20000;
+    margin-top: 10vh;
+    height: 80vh;
+    width: 80%; 
+    border-radius: 3px;
+    border: none;
+    background-color: white;
+    position: relative;
+}
+
+.heading h1 {
+    margin: 10px;
+    font-weight: 900;
+    color: blue;
+}
+
+.close .fa-solid{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: blue;
+    transition: 2s;
+}
+
+.close .fa-solid:hover {
+    color: aqua;
+    cursor: pointer;
+}
+
+.container .heading {
+    text-align: center;
+    font-size: 25px;
+}
+
+.container .body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.pop-img {
+    flex: 1;
+    margin-right: 20px;
+    height: 55vh;
+}
+
+.container .body .text {
+    flex: 1;
+    margin-left: 20px;
+    border: 2px double rgb(158, 250, 255);
+    padding: 10px;
+    border-radius: 3px;
+    overflow-y: auto;
+    height: 55vh;
+}
+
+.pop-img img {
+    width: 100%;
+    border-radius: 10px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.top-header {
+    font-weight: 800;
+    font-size: 40px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+hr {
+    width: 30%;
+    margin-left: 0;
+    margin-left: 10px;
+}
+
+/* Carousel CSS */
+
+.carousel-item img {
+    border-radius: 5px;
+    width: 600px;
+    height: 500px;
+    object-fit: cover;
+}
+
+.carousel-item {
+    text-align: center;
+}
+
+.carousel {
+    width: 600px;
+}
+
+.my-carousel-here {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(to right, aqua, blue);
+}
+
+/*Responsive Mafia*/
+
+@media (max-width: 700px) {
+   .achievements {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 80px;
+        column-gap: 50px;
+        margin-bottom: 150px;
+    }
+
+    .top-header {
+        font-size: 20px;
+        margin-top: 40px;
+    }
+
+    hr {
+        width: 50%;
+    }
+
+    .mypopup {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #mypopup {
+        display: grid;
+        grid-template-columns: 90vw;
+    }
+    
+    #mypopup .pop-img {
+        height: 25vh;
+    }
+    
+    #mypopup .text {
+        margin-left: -20px;
+        margin-top: 10px;
+        height: 25vh;
+    }
+    
+    #mypopup img {
+        height: 25vh;
+    }
+}
+

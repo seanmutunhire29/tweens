@@ -1,0 +1,56 @@
+{% set title = 'Achievements' %}
+{% set file_css = '<link rel="stylesheet" href="' ~ url_for('static', filename='css/achievements.css') ~ '">' %}
+{% set bg_image_url = 'images/achieveHero.png' %}
+{% set topic = 'Achievements' %}
+{% set caption = 'Learn about our achievements' %}
+{% include 'components/hero.html' %}
+
+<!-- Achievements Section -->
+<h1 class="top-header">Our Achivements</h1>
+<hr>
+
+<div class="achievements"></div>
+
+<div class="mother-container"></div>
+
+<!-- Testimonials Section -->
+<h1 class="top-header">Testimonials</h1>
+<hr>
+
+<div class="my-carousel-here">
+    <div class="carousel slide" id="achieve" data-bs-wrap="true" data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+            {% for each in testimonies %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <img src="{{ url_for('static', filename=each.image or '') }}" class="d-block w-100" alt="Testimonial Image">
+                    <div class="carousel-caption">
+                        <h1 style="text-shadow: 0px 0px 10px black">{{ each.name }}</h1>
+                        <p style="text-shadow: 0px 0px 10px black">{{ each.caption }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#achieve" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#achieve" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators">
+            {% for each in testimonies %}
+                <button type="button" data-bs-target="#achieve" data-bs-slide-to="{{ loop.index0 }}" class="{% if loop.first %}active{% endif %}"></button>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% include 'components/footer.html' %}

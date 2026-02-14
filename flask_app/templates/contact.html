@@ -1,0 +1,83 @@
+{% set title = 'Contact' %}
+{% set file_css = '<link rel="stylesheet" href="' ~ url_for('static', filename='css/contact.css') ~ '">' %}
+{% set bg_image_url = 'images/contactHero.png' %}
+{% set topic = 'Contact Us' %}
+{% set caption = 'Get in touch' %}
+{% include 'components/hero.html' %}
+
+<!-- Contact form section -->
+{% with messages = get_flashed_messages(category_filter=['contact_success']) %}
+    {% if messages %}
+        <div id="success-message" style="color: white; padding: 10px; background-color: rgb(0, 119, 0);">
+            {{ messages[0] }}
+        </div>
+
+        <script>
+            setTimeout(function() {
+                document.getElementById('success-message').style.display = 'none';
+            }, 1600);
+        </script>
+    {% endif %}
+{% endwith %}
+
+<div class="contact-form">
+    <form method="post" action="{{ url_for('contact_submit') }}" class="form-side">
+
+        <h1>Get In Touch</h1>
+        <input type="text" placeholder="Full Name" name="name" required value="{{ form_data.get('name', '') if form_data else '' }}">
+        {% if errors and errors.get('name') %}
+            <p style="color: red; font-style: italic;">{{ errors.get('name') }}</p>
+        {% endif %}
+
+        <input type="email" placeholder="Email" name="email" required value="{{ form_data.get('email', '') if form_data else '' }}">
+        {% if errors and errors.get('email') %}
+            <p style="color: red; font-style: italic;">{{ errors.get('email') }}</p>
+        {% endif %}
+
+        <input type="text" placeholder="Phone number" name="contact-number" required value="{{ form_data.get('contact_number', '') if form_data else '' }}">
+        {% if errors and errors.get('contact-number') %}
+            <p style="color: red; font-style: italic;">{{ errors.get('contact-number') }}</p>
+        {% endif %}
+
+        <label for="purpose">Purpose of enquiry:</label>
+        <select name="purpose" id="mySelect" required>
+            <option value="">Select something...</option>
+            <option value="volunteer" {% if form_data and form_data.get('purpose') == 'volunteer' %}selected{% endif %}>I'm interested in volunteering.</option>
+            <option value="ask" {% if form_data and form_data.get('purpose') == 'ask' %}selected{% endif %}>General inquiry</option>
+            <option value="partner" {% if form_data and form_data.get('purpose') == 'partner' %}selected{% endif %}>I want to partner</option>
+            <option value="donate" {% if form_data and form_data.get('purpose') == 'donate' %}selected{% endif %}>I want to donate</option>
+        </select>
+        {% if errors and errors.get('purpose') %}
+            <p style="color: red; font-style: italic;">{{ errors.get('purpose') }}</p>
+        {% endif %}
+
+        <textarea name="message" placeholder="Message" required>{{ form_data.get('message', '') if form_data else '' }}</textarea>
+        {% if errors and errors.get('message') %}
+            <p style="color: red; font-style: italic;">{{ errors.get('message') }}</p>
+        {% endif %}
+
+        <button type="submit">Send</button>
+    </form>
+    <div class="img-side">
+        <img src="{{ url_for('static', filename='images/contactGetInTouch.png') }}" alt="contact image">
+    </div>
+</div>
+
+<!-- Direct contact Section -->
+<div class="direct-contact-section">
+    <h1>Locate Us</h1>
+    <hr>
+</div>
+
+<div class="direct-contact-container">
+    <div class="direct-contact">
+        <h1>Direct Contact</h1>
+        <i class="fa-solid fa-phone"></i> <strong>Phone:</strong> <p> 078 767 6946</p>
+        <i class="fa-solid fa-envelope"></i> <strong>Email:</strong><p> admin@tweenstongogara.org</p>
+    </div>
+    <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d29754.895071620176!2d32.816376072941985!3d-19.302002444454168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTnCsDE3JzU2LjAiUyAzMsKwNDknMDIuMCJF!5e0!3m2!1sen!2szw!4v1740441187549!5m2!1sen!2szw" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</div>
+
+{% include 'components/footer.html' %}
