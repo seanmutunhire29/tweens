@@ -5,20 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     {{ file_css | safe }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/hero.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik+Dirt&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik+Dirt&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     <!-- Start of LiveChat (www.livechat.com) code -->
     <script>
@@ -34,20 +25,45 @@
 </head>
 <body>
 
-    <!-- Header Section -->
+    <header class="relative min-h-[60vh] bg-cover bg-center" style="background-image: url('{{ url_for('static', filename=bg_image_url) }}');">
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/50 to-slate-950/90"></div>
+        <div class="relative z-10">
+            <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+                <a href="{{ url_for('home') }}" class="flex items-center gap-3">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Tweens logo" class="h-12 w-12 rounded-2xl border border-white/30 object-cover">
+                    <span class="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">Tweens</span>
+                </a>
+                <div class="hidden items-center gap-6 text-sm font-semibold text-white md:flex">
+                    <a href="{{ url_for('home') }}" class="hover:text-brand-aqua">Home</a>
+                    <a href="{{ url_for('about') }}" class="hover:text-brand-aqua">About Us</a>
+                    <a href="{{ url_for('achievements') }}" class="hover:text-brand-aqua">Achievements</a>
+                    <a href="{{ url_for('contact') }}" class="hover:text-brand-aqua">Contact Us</a>
+                    <a href="{{ url_for('programs') }}" class="hover:text-brand-aqua">Programs</a>
+                </div>
+                <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" class="hidden items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10 md:inline-flex">
+                    Donate
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                </a>
+            </nav>
 
-    <div class="header-container" style="width: 100%; background-image: linear-gradient(rgba(32, 31, 31, 0.5), rgba(32, 31, 31, 0.5)), url({{ url_for('static', filename=bg_image_url) }});
-    background-position: center;
-    background-size: cover;">
-        <div class="header-text">
-            <h1>{{ topic }}</h1>
-            <p>{{ caption }}</p>
+            <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 pb-16 pt-6 text-white">
+                <div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-white/70">
+                    <span class="h-2 w-2 rounded-full bg-brand-aqua"></span>
+                    {{ topic }}
+                </div>
+                <h1 class="text-4xl font-semibold leading-tight md:text-5xl">{{ topic }}</h1>
+                <p class="max-w-2xl text-base text-white/85 md:text-lg">{{ caption }}</p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="{{ url_for('about') }}" class="rounded-full bg-brand-aqua px-5 py-2 text-sm font-semibold text-slate-900 transition hover:brightness-110">Learn More</a>
+                    <a href="{{ url_for('contact') }}" class="rounded-full border border-white/40 px-5 py-2 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10">Get In Touch</a>
+                </div>
+                <div class="flex flex-wrap gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-white/70 md:hidden">
+                    <a href="{{ url_for('home') }}" class="hover:text-brand-aqua">Home</a>
+                    <a href="{{ url_for('about') }}" class="hover:text-brand-aqua">About</a>
+                    <a href="{{ url_for('achievements') }}" class="hover:text-brand-aqua">Achievements</a>
+                    <a href="{{ url_for('contact') }}" class="hover:text-brand-aqua">Contact</a>
+                    <a href="{{ url_for('programs') }}" class="hover:text-brand-aqua">Programs</a>
+                </div>
+            </div>
         </div>
-        <div class="nav-items">
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('about') }}">About Us</a>
-            <a href="{{ url_for('achievements') }}">Achievements</a>
-            <a href="{{ url_for('contact') }}">Contact Us</a>
-            <a href="{{ url_for('programs') }}">Programs</a>
-        </div>
-    </div>
+    </header>

@@ -57,53 +57,72 @@ const allAchievements = [
 ]
 
 
-// Creating the stars on the page
 let starsHTML = '';
 allAchievements.forEach((achievement) => {
+    const imagePath = achievement.image.startsWith('/') ? achievement.image : `/${achievement.image}`;
     const myStar = `
-        <div class="star" data-id="${achievement.id}">
-            <div class="inner-star" style="background-image: url(${achievement.image});"></div>
-            <div class="my-tooltip" class="font-weight: 700">${achievement.title}</div>
-        </div>
+        <button class="star group relative flex h-20 w-20 items-center justify-center rounded-full bg-brand-blue/10 ring-2 ring-brand-aqua/30 transition hover:ring-brand-aqua md:h-24 md:w-24" data-id="${achievement.id}">
+            <span class="inner-star absolute inset-1 rounded-full bg-cover bg-center" style="background-image: url(${imagePath});"></span>
+            <span class="my-tooltip absolute -bottom-8 whitespace-nowrap rounded-full bg-slate-900 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white opacity-0 transition group-hover:opacity-100">${achievement.title}</span>
+        </button>
     `;
-    console.log(document.querySelector('.star'));
 
     starsHTML += myStar;
 });
-document.querySelector('.achievements').innerHTML = starsHTML;
-
+const achievementsContainer = document.querySelector('.achievements');
+if (achievementsContainer) {
+    achievementsContainer.innerHTML = starsHTML;
+}
 
 const allStars = document.querySelectorAll('.star');
-
 allStars.forEach((star) => {
-    star.addEventListener('click', ()=> {
-        document.querySelector('.mother-container').style.display = 'block';
-        const starId = star.dataset.id;
-        let chosenObject;
-        allAchievements.forEach((object) => {
-            if(starId == object.id){
-                chosenObject = object;
-            }
-        });
+    star.addEventListener('click', () => {
+        const modal = document.querySelector('.mother-container');
+        if (!modal) {
+            return;
+        }
 
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        const starId = Number(star.dataset.id);
+        const chosenObject = allAchievements.find((object) => object.id === starId);
+        if (!chosenObject) {
+            return;
+        }
+
+        const imagePath = chosenObject.image.startsWith('/') ? chosenObject.image : `/${chosenObject.image}`;
         const generatedHTML = `
-            <div class="container">
-                <div class="close" onclick="document.querySelector('.mother-container').innerHTML = ''; document.querySelector('.mother-container').style.display = 'none';"><i class="fa-solid fa-rectangle-xmark"></i></div>
-                <div class="heading">
-                    <h1>${chosenObject.title}</h1>
-                </div>
-                <hr style="width: 100%;">
-                <div class="body mypopup" id="mypopup">
-                    <div class="pop-img">
-                        <img src="${chosenObject.image}" alt="">
-                    </div>
-                    <div class="text">
-                        <p>${chosenObject.text}</p>
+            <div class="relative w-full max-w-4xl rounded-3xl bg-white p-6 shadow-2xl">
+                <button class="absolute right-4 top-4 rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-brand-aqua hover:text-brand-blue" data-close="true">
+                    <i class="fa-solid fa-rectangle-xmark"></i>
+                </button>
+                <div class="space-y-4">
+                    <h1 class="text-2xl font-semibold text-slate-900">${chosenObject.title}</h1>
+                    <div class="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+                        <div class="overflow-hidden rounded-2xl border border-slate-200">
+                            <img src="${imagePath}" alt="" class="h-full w-full object-cover">
+                        </div>
+                        <div class="text-sm text-slate-600">${chosenObject.text}</div>
                     </div>
                 </div>
             </div>
         `;
 
-        document.querySelector('.mother-container').innerHTML = generatedHTML;
+        modal.innerHTML = generatedHTML;
     });
+});
+
+document.addEventListener('click', (event) => {
+    const modal = document.querySelector('.mother-container');
+    if (!modal) {
+        return;
+    }
+
+    const target = event.target;
+    if (target && target.closest('[data-close="true"]')) {
+        modal.innerHTML = '';
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
 });

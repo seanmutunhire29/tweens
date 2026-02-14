@@ -4,40 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/add-updates.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-slate-50">
     {% if authenticated %}
-        <div class="form-section">
-            <h1>Edit Updates Here</h1>
-            <form action="{{ url_for('news_edit', update_id=update.id) }}" method="post" enctype="multipart/form-data">
+        <main class="mx-auto max-w-3xl px-6 py-16">
+            <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <h1 class="text-2xl font-semibold text-slate-900">Edit Updates Here</h1>
+                <form action="{{ url_for('news_edit', update_id=update.id) }}" method="post" enctype="multipart/form-data" class="mt-6 grid gap-4">
+                    <input type="text" name="title" placeholder="Title" value="{{ update.title }}" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">
+                    {% if errors and errors.get('title') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('title') }}</p>
+                    {% endif %}
 
-                <input type="text" name="title" placeholder="Title" value="{{ update.title }}" required>
-                {% if errors and errors.get('title') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('title') }}</p>
-                {% endif %}
+                    <label for="image" class="text-xs font-semibold uppercase tracking-wider text-slate-500">Choose an image</label>
+                    <input type="file" name="image" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm">
+                    {% if errors and errors.get('image') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('image') }}</p>
+                    {% endif %}
 
-                <label for="image" style="font-weight: 600; font-size: 20px;">Choose an image</label>
-                <input type="file" name="image">
-                {% if errors and errors.get('image') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('image') }}</p>
-                {% endif %}
+                    <input type="text" name="caption" placeholder="Short image caption" value="{{ update.caption }}" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">
+                    {% if errors and errors.get('caption') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('caption') }}</p>
+                    {% endif %}
 
-                <input type="text" name="caption" placeholder="Short image caption" value="{{ update.caption }}" required>
-                {% if errors and errors.get('caption') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('caption') }}</p>
-                {% endif %}
+                    <textarea name="detail" placeholder="Write the details of the news here" required class="min-h-[150px] w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">{{ update.detail }}</textarea>
+                    {% if errors and errors.get('detail') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('detail') }}</p>
+                    {% endif %}
 
-                <textarea name="detail" placeholder="Write the details of the news here" required>{{ update.detail }}</textarea>
-                {% if errors and errors.get('detail') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('detail') }}</p>
-                {% endif %}
-
-                <button type="submit">Update</button>
-            </form>
-        </div>
+                    <button type="submit" class="rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Update</button>
+                </form>
+            </div>
+        </main>
     {% else %}
-        You are not authenticated!
+        <div class="mx-auto max-w-xl px-6 py-20 text-center text-slate-600">You are not authenticated!</div>
     {% endif %}
 </body>
 </html>

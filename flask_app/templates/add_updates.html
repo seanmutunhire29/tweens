@@ -4,107 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/add-updates.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: rgb(184, 255, 176)">
+<body class="bg-emerald-50">
     {% if authenticated %}
-        <div class="form-section">
-            <h1>Add Updates</h1>
-            <form action="{{ url_for('news_create') }}" method="post" enctype="multipart/form-data">
+        <main class="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-12">
+            <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <h1 class="text-2xl font-semibold text-slate-900">Add Updates</h1>
+                <form action="{{ url_for('news_create') }}" method="post" enctype="multipart/form-data" class="mt-6 grid gap-4">
+                    <input type="text" name="title" placeholder="Title" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">
+                    {% if errors and errors.get('title') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('title') }}</p>
+                    {% endif %}
 
-                <input type="text" name="title" placeholder="Title" required>
-                {% if errors and errors.get('title') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('title') }}</p>
-                {% endif %}
+                    <label for="image" class="text-xs font-semibold uppercase tracking-wider text-slate-500">Choose an image</label>
+                    <input type="file" name="image" required class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm">
+                    {% if errors and errors.get('image') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('image') }}</p>
+                    {% endif %}
 
-                <label for="image" style="font-weight: 600; font-size: 20px;">Choose an image</label>
-                <input type="file" name="image" required>
-                {% if errors and errors.get('image') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('image') }}</p>
-                {% endif %}
+                    <input type="text" name="caption" placeholder="Short image caption" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">
+                    {% if errors and errors.get('caption') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('caption') }}</p>
+                    {% endif %}
 
-                <input type="text" name="caption" placeholder="Short image caption" required>
-                {% if errors and errors.get('caption') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('caption') }}</p>
-                {% endif %}
+                    <textarea name="detail" placeholder="Write the details of the news here" required class="min-h-[150px] w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none"></textarea>
+                    {% if errors and errors.get('detail') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('detail') }}</p>
+                    {% endif %}
 
-                <textarea name="detail" placeholder="Write the details of the news here" required></textarea>
-                {% if errors and errors.get('detail') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('detail') }}</p>
-                {% endif %}
+                    <button type="submit" class="rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Post</button>
+                </form>
+            </section>
 
-                <button type="submit">Post</button>
-            </form>
-        </div>
-
-        <div style="width: 50%; margin: auto; margin-top: 30px">
-            <h1 style="text-align: center;">Current Updates</h1>
-            {% for new in news %}
-                <div style="box-shadow: 1px 1px 3px rgb(187, 187, 187); min-height: 30px; background-color: white; border-radius: 3px; padding: 3px; margin: 10px;">
-                    <p style="margin: 0; padding: 5px; font-weight: bold;">{{ new.title }}</p>
-                    <a href="{{ url_for('news_edit_page', update_id=new.id) }}"><button>Edit</button></a>
-                    <a href="{{ url_for('news_delete', update_id=new.id) }}"><button style="background-color: red;">Delete</button></a>
+            <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <h2 class="text-xl font-semibold text-slate-900">Current Updates</h2>
+                <div class="mt-6 grid gap-4">
+                    {% for new in news %}
+                        <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                            <p class="text-sm font-semibold text-slate-700">{{ new.title }}</p>
+                            <div class="flex gap-2">
+                                <a href="{{ url_for('news_edit_page', update_id=new.id) }}" class="rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-700">Edit</a>
+                                <a href="{{ url_for('news_delete', update_id=new.id) }}" class="rounded-full border border-rose-400 px-3 py-1 text-xs font-semibold text-rose-500">Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </section>
 
-        <div class="add-testimonies form-section">
-            <h1>Add Testimonies</h1>
-            <form action="{{ url_for('testimony_create') }}" method="post" enctype="multipart/form-data">
+            <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <h2 class="text-xl font-semibold text-slate-900">Add Testimonies</h2>
+                <form action="{{ url_for('testimony_create') }}" method="post" enctype="multipart/form-data" class="mt-6 grid gap-4">
+                    <input type="text" name="name" placeholder="Name" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">
+                    {% if errors and errors.get('name') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('name') }}</p>
+                    {% endif %}
 
-                <input type="text" name="name" placeholder="Name" required>
-                {% if errors and errors.get('name') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('name') }}</p>
-                {% endif %}
+                    <label for="image" class="text-xs font-semibold uppercase tracking-wider text-slate-500">Person image</label>
+                    <input type="file" name="image" required class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm">
+                    {% if errors and errors.get('image') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('image') }}</p>
+                    {% endif %}
 
-                <label for="image" style="font-weight: 600; font-size: 20px;">Person image</label>
-                <input type="file" name="image" required>
-                {% if errors and errors.get('image') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('image') }}</p>
-                {% endif %}
+                    <input type="text" name="testimony" placeholder="Testimony message" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">
+                    {% if errors and errors.get('testimony') %}
+                        <p class="text-xs text-rose-500">{{ errors.get('testimony') }}</p>
+                    {% endif %}
 
-                <input type="text" name="testimony" placeholder="Testimony message" required>
-                {% if errors and errors.get('testimony') %}
-                    <p style="color: red; font-style: italic;">{{ errors.get('testimony') }}</p>
-                {% endif %}
+                    <button type="submit" class="rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Post</button>
+                </form>
+            </section>
 
-                <button type="submit">Post</button>
-            </form>
-        </div>
-
-        <div style="width: 50%; margin: auto; margin-top: 30px">
-            <h1 style="text-align: center;">Available Testimonies</h1>
-            {% for each in testimonies %}
-                <div style="box-shadow: 1px 1px 3px rgb(187, 187, 187); min-height: 30px; background-color: white; border-radius: 3px; padding: 3px; margin: 10px;">
-                    <p style="margin: 0; padding: 5px; font-weight: bold;">{{ each.name }}</p>
-                    <a href="{{ url_for('testimony_delete', testimony_id=each.id) }}"><button style="background-color: red;">Delete</button></a>
+            <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <h2 class="text-xl font-semibold text-slate-900">Available Testimonies</h2>
+                <div class="mt-6 grid gap-4">
+                    {% for each in testimonies %}
+                        <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                            <p class="text-sm font-semibold text-slate-700">{{ each.name }}</p>
+                            <a href="{{ url_for('testimony_delete', testimony_id=each.id) }}" class="rounded-full border border-rose-400 px-3 py-1 text-xs font-semibold text-rose-500">Delete</a>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </section>
 
-        <div style="width: 50%; margin: auto; margin-top: 30px">
-            <h1 style="text-align: center;">Contacts and requests</h1>
-            {% for contact in contacts %}
-                <div style="box-shadow: 1px 1px 3px rgb(187, 187, 187); min-height: 30px; background-color: white; border-radius: 3px; padding: 3px; margin: 10px;">
-                    <p style="margin: 0; padding: 5px; font-weight: bold;">Name: {{ contact.full_name }}</p>
-                    <p style="margin: 0; padding: 5px; font-weight: bold;">Email: {{ contact.email }}</p>
-                    <p style="margin: 0; padding: 5px; font-weight: bold;">Phone: {{ contact.phone }}</p>
-                    <p style="margin: 0; padding: 5px; font-weight: bold;">Purpose: {{ contact.purpose }}</p>
-                    <p style="margin: 0; padding: 5px; font-weight: bold;">Message: {{ contact.message }}</p>
+            <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <h2 class="text-xl font-semibold text-slate-900">Contacts and Requests</h2>
+                <div class="mt-6 grid gap-4">
+                    {% for contact in contacts %}
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                            <p><strong>Name:</strong> {{ contact.full_name }}</p>
+                            <p><strong>Email:</strong> {{ contact.email }}</p>
+                            <p><strong>Phone:</strong> {{ contact.phone }}</p>
+                            <p><strong>Purpose:</strong> {{ contact.purpose }}</p>
+                            <p><strong>Message:</strong> {{ contact.message }}</p>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </section>
 
-        <div style="width: 50%; margin: auto; margin-top: 30px">
-            <h1 style="text-align: center;">Newsletter Signups</h1>
-            {% for newsletter in newsletters %}
-                <div style="box-shadow: 1px 1px 3px rgb(187, 187, 187); min-height: 30px; background-color: white; border-radius: 3px; padding: 3px; margin: 10px;">
-                    <p style="margin: 0; padding: 5px; font-weight: bold;">{{ newsletter.email }}</p>
+            <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <h2 class="text-xl font-semibold text-slate-900">Newsletter Signups</h2>
+                <div class="mt-6 grid gap-3">
+                    {% for newsletter in newsletters %}
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">{{ newsletter.email }}</div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            </section>
+        </main>
     {% else %}
-        You are not authenticated!
+        <div class="mx-auto max-w-xl px-6 py-20 text-center text-slate-600">You are not authenticated!</div>
     {% endif %}
 
 </body>

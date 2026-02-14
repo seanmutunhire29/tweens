@@ -1,84 +1,68 @@
 const selectElement = document.getElementById("mySelect");
+const messageBox = document.getElementById("messageBox");
+const submitButton = document.getElementById("formSubmit");
+const formSide = document.querySelector(".form-side");
 
-// Define variables to store references to dynamic elements
 let donateOpion;
-let volunteerText;
-let volunteerButton;
-let askButton;
-let asktext;
-let partnerButton;
-let partnerText;
 
-// Function to remove all dynamic elements
-function removeChildren() {
+function resetFormHelpers() {
   donateOpion?.remove();
-  volunteerText?.remove();
-  volunteerButton?.remove();
-  askButton?.remove();
-  asktext?.remove();
-  partnerButton?.remove();
-  partnerText?.remove();
+  donateOpion = undefined;
+
+  if (messageBox) {
+    messageBox.classList.remove("hidden");
+    messageBox.value = "";
+    messageBox.placeholder = "Message";
+  }
+
+  if (submitButton) {
+    submitButton.classList.remove("hidden");
+  }
 }
 
 // Add event listener for the select dropdown
 selectElement.addEventListener("change", () => {
   const selectedOption = selectElement.value;
 
-  // Remove all previously created elements
-  removeChildren();
+  resetFormHelpers();
 
   // Dynamically add new elements based on the selected option
   switch (selectedOption) {
     case "donate":
       donateOpion = document.createElement("p");
+      donateOpion.className = "mt-3 text-sm text-slate-600";
       donateOpion.innerHTML =
-        'For you to donate, we kindly ask you to visit our donate page <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank">here</a>';
-      document.querySelector(".form-side").append(donateOpion);
+        'For you to donate, we kindly ask you to visit our donate page <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" class="font-semibold text-brand-blue">here</a>.';
+      formSide.append(donateOpion);
+
+      if (messageBox) {
+        messageBox.classList.add("hidden");
+      }
+
+      if (submitButton) {
+        submitButton.classList.add("hidden");
+      }
       break;
 
     case "volunteer":
-      volunteerText = document.createElement("textarea");
-      volunteerText.id = "textbox";
-      volunteerText.placeholder =
-        "Tell Us your skills and the program for which you want to volunteer";
-      volunteerText.name = "message";
-
-      volunteerButton = document.createElement("button");
-      volunteerButton.id = "formSubmit";
-      volunteerButton.type = "submit";
-      volunteerButton.innerHTML = "Submit";
-
-      document.querySelector(".form-side").append(volunteerText, volunteerButton);
+      if (messageBox) {
+        messageBox.placeholder =
+          "Tell us your skills and the program for which you want to volunteer";
+      }
       break;
 
     case "ask":
-      asktext = document.createElement("textarea");
-      asktext.id = "textbox";
-      asktext.placeholder =
-        "Feel free to ask your questions here, and don't be afraid to be as specific and elaborate as you can be...";
-      asktext.name = "message";
-
-      askButton = document.createElement("button");
-      askButton.id = "formSubmit";
-      askButton.type = "submit";
-      askButton.innerHTML = "Submit";
-
-      document.querySelector(".form-side").append(asktext, askButton);
+      if (messageBox) {
+        messageBox.placeholder =
+          "Feel free to ask your questions here, and don't be afraid to be as specific and elaborate as you can be...";
+      }
       break;
 
     case "partner":
-      partnerText = document.createElement("textarea");
-      partnerText.id = "textbox";
-      partnerText.placeholder =
-        "Tell Us your organisation and why you need to partner with us...";
-      partnerText.name = "message";
-
-      partnerButton = document.createElement("button");
-      partnerButton.id = "formSubmit";
-      partnerButton.type = "submit";
-      partnerButton.innerHTML = "Submit";
-
-      document.querySelector(".form-side").append(partnerText, partnerButton);
+      if (messageBox) {
+        messageBox.placeholder =
+          "Tell us your organisation and why you need to partner with us...";
+      }
       break;
   }
 });

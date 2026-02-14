@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tweens</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     <!-- Start of LiveChat (www.livechat.com) code -->
     <script>
@@ -26,196 +24,172 @@
 
 </head>
 <body>
-    <!-- Banner Section -->
-
-    <div class="nav-banner">
-        <div class="logo">
-            <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"></a>
+    <div class="nav-banner fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-colors duration-700">
+        <div class="logo flex items-center gap-3">
+            <a href="{{ url_for('home') }}" class="inline-flex items-center gap-3">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="h-12 w-12 rounded-2xl border border-white/20 object-cover">
+                <span class="hidden text-xs font-semibold uppercase tracking-[0.3em] text-white/80 md:inline">Tweens</span>
+            </a>
         </div>
 
-        <div class="nav-items">
-            <i class="fa-solid fa-rectangle-xmark" onclick="document.querySelector('.nav-items').style.right = '-50vw';"></i>
-            <a href="{{ url_for('home') }}" class="home-nav-links" style="color: white;">Home</a>
-            <a href="{{ url_for('about') }}" class="home-nav-links" style="color: white;">About Us</a>
-            <a href="{{ url_for('achievements') }}" class="home-nav-links" style="color: white;">Achievements</a>
-            <a href="{{ url_for('contact') }}" class="home-nav-links" style="color: white;">Contact Us</a>
+        <div class="nav-items fixed top-0 h-full w-72 flex-col gap-6 bg-slate-950/95 px-6 py-8 text-white shadow-2xl transition-all duration-500 md:static md:flex md:h-auto md:w-auto md:flex-row md:bg-transparent md:p-0 md:text-white" style="right: -100vw;">
+            <button class="md:hidden" onclick="document.querySelector('.nav-items').style.right = '-100vw';">
+                <i class="fa-solid fa-rectangle-xmark text-2xl"></i>
+            </button>
+            <a href="{{ url_for('home') }}" class="home-nav-links text-base font-semibold">Home</a>
+            <a href="{{ url_for('about') }}" class="home-nav-links text-base font-semibold">About Us</a>
+            <a href="{{ url_for('achievements') }}" class="home-nav-links text-base font-semibold">Achievements</a>
+            <a href="{{ url_for('contact') }}" class="home-nav-links text-base font-semibold">Contact Us</a>
         </div>
 
-        <div class="home-donate">
-            <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" id="but">Donate</a>
+        <div class="home-donate hidden md:block">
+            <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" class="rounded-full border border-white/40 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Donate</a>
         </div>
 
-        <div class="open-nav-icon" style="cursor: pointer;">
-            <i class="fa-solid fa-bars" onclick="document.querySelector('.nav-items').style.right = '0';"></i>
-        </div>
-
-    </div>
-
-    <!--  Home Background Section -->
-    <div class="home-background">
-        <div class="home-container home-header-1" data-id="1">
-            <div class="banner-text">
-                <h1>Tweens</h1>
-                <p>Over five years of improving the lives of children living in Tongogara refugee settlement.</p>
-                <a href="{{ url_for('about') }}"><button>Check Out</button></a>
-            </div>
+        <div class="open-nav-icon md:hidden" style="cursor: pointer;">
+            <i class="fa-solid fa-bars text-2xl text-white" onclick="document.querySelector('.nav-items').style.right = '0';"></i>
         </div>
     </div>
 
-    <!-- Home Page 1 -->
-
-    <div class="home-page-1-conatiner funnel-display-myText">
-
-        <div class="mission funnel-display-myText">
-            <h1><i class="fa-solid fa-compass" style="font-size: 30px;"></i> Our Mission</h1>
-            <p>To empower underprivileged students by providing educational support, essential resources, and meaningful community engagement, fostering a culture of continuous learning, resilience, and personal growth. Through mentorship we aim to equip students with the knowledge and skills they need to create a brighter future for themselves and their communities.</p>
-            <button><a href="{{ url_for('about') }}" style="color: white; text-decoration: none; display: block;">Learnmore</a></button>
-        </div>
-
-        <div class="values funnel-display-myText">
-            <h1><i class="fa-solid fa-heart" style="font-size: 30px; color: white;"></i> Our Values</h1>
-
-            <p style="text-align: left;"> <strong>Education for Empowerment:</strong> Providing quality learning opportunities to help children build skills and create brighter futures.</p>
-
-            <p style="text-align: left;"><strong> Inclusivity & Equality:</strong> Ensuring that every child, regardless of background, has an equal opportunity to succeed.</p>
-
-            <p style="text-align: left;"><strong> Community & Collaboration:</strong> Fostering teamwork and partnerships to create sustainable educational impact.</p>
-
-            <button style="margin-top: 20px; color: transparent;"><a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" style="color: white; text-decoration: none; display: block;">Donate Here</a></button>
-        </div>
-
-        <div class="impact funnel-display-myText">
-            <h1><i class="fa-solid fa-earth-americas" style="font-size: 30px;"></i> Our Impact</h1>
-            <p>TWEENS has significantly impacted underprivileged students through education and community support. Over 7 girls were inspired to retake their O-Level exams, and awareness campaigns have reached 500+ students. Up to 200 students benefit from tutoring, study spaces, Wi-Fi, and learning materials. As a result, 8 students secured A-Level scholarships at USAP Community School, while 8 others earned scholarships abroad.</p>
-            <button><a href="{{ url_for('about') }}" style="color: white; text-decoration: none; display: block;">Explore</a></button>
+    <div class="home-background relative min-h-screen">
+        <div class="home-container absolute inset-0 flex items-center" data-id="1" style="background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('{{ url_for('static', filename='images/home1.png') }}'); background-position: center; background-size: cover;">
+            <div class="absolute inset-0"></div>
+            <div class="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 text-white">
+                <div class="max-w-2xl space-y-6">
+                    <h1 class="text-5xl font-semibold leading-tight md:text-6xl">Tweens</h1>
+                    <p class="text-lg text-white/85">Over five years of improving the lives of children living in Tongogara refugee settlement.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="{{ url_for('about') }}" class="rounded-full bg-brand-aqua px-6 py-3 text-sm font-semibold text-slate-900 transition hover:brightness-110">Check Out</a>
+                        <a href="#activities" class="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10">Explore</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Activities Section -->
-    <section class="activities" id="activities">
+    <main class="relative z-10 bg-slate-50">
+        <section class="mx-auto grid max-w-6xl gap-6 px-6 pb-12 pt-16 md:grid-cols-3">
+            <div class="rounded-2xl bg-brand-blue p-6 text-white shadow-lg">
+                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-compass mr-2"></i>Our Mission</h2>
+                <p class="text-sm text-white/90">To empower underprivileged students by providing educational support, essential resources, and meaningful community engagement, fostering a culture of continuous learning, resilience, and personal growth.</p>
+                <a href="{{ url_for('about') }}" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Learn More</a>
+            </div>
+            <div class="rounded-2xl bg-blue-700 p-6 text-white shadow-lg">
+                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-heart mr-2"></i>Our Values</h2>
+                <p class="text-sm text-white/90"><strong>Education for Empowerment:</strong> Providing quality learning opportunities to help children build skills and create brighter futures.</p>
+                <p class="mt-3 text-sm text-white/90"><strong>Inclusivity & Equality:</strong> Ensuring that every child, regardless of background, has an equal opportunity to succeed.</p>
+                <p class="mt-3 text-sm text-white/90"><strong>Community & Collaboration:</strong> Fostering teamwork and partnerships to create sustainable educational impact.</p>
+                <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Donate Here</a>
+            </div>
+            <div class="rounded-2xl bg-slate-900 p-6 text-white shadow-lg">
+                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-earth-americas mr-2"></i>Our Impact</h2>
+                <p class="text-sm text-white/85">TWEENS has significantly impacted underprivileged students through education and community support. Up to 200 students benefit from tutoring, study spaces, Wi-Fi, and learning materials.</p>
+                <a href="{{ url_for('about') }}" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Explore</a>
+            </div>
+        </section>
 
-        <h2>Our Activities</h2>
-        <hr>
-
-        <div class="home-activities funnel-display-myText">
-
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/homeGirlsClub.jpeg') }}" alt="">
-                <div class="activities-text">
-                    <h1>Big to young sister mentorship</h1>
-                    <p>Older, more experienced students mentoring younger girls, offering academic guidance, emotional support, and motivation to help them succeed in their studies and personal growth. It may focus on building confidence, resilience, and a sense of community among young girls, ensuring they have role models to look up to.</p>
+        <section class="mx-auto max-w-6xl px-6 py-12" id="activities">
+            <div class="flex items-center justify-between">
+                <h2 class="text-3xl font-semibold text-slate-900">Our Activities</h2>
+                <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Community</span>
+            </div>
+            <div class="mt-8 grid gap-6 md:grid-cols-2">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ url_for('static', filename='images/homeGirlsClub.jpeg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">Big to young sister mentorship</h3>
+                        <p class="mt-2 text-sm text-slate-600">Older, more experienced students mentoring younger girls, offering academic guidance, emotional support, and motivation to help them succeed in their studies and personal growth.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ url_for('static', filename='images/homeCleanUp.png') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">Girls book club</h3>
+                        <p class="mt-2 text-sm text-slate-600">A safe and engaging space where girls come together to read, discuss books, and develop a love for learning while fostering discussions on empowerment and leadership.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ url_for('static', filename='images/Parent-Teacher.jpg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">Parent Teacher Association</h3>
+                        <p class="mt-2 text-sm text-slate-600">Parents, teachers, and mentors collaborate to discuss students' academic progress, challenges, and well-being to create a nurturing learning environment.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ url_for('static', filename='images/homeALevel.png') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">A level study program</h3>
+                        <p class="mt-2 text-sm text-slate-600">Academic support, resources, and mentorship for students preparing for A-Level exams, including structured study sessions and guidance on scholarships.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ url_for('static', filename='images/HomeEducationAwarenessCampains.jpeg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">Education awareness campaigns</h3>
+                        <p class="mt-2 text-sm text-slate-600">Advocating for the importance of education through motivational talks, workshops, and outreach that inspire learners, parents, and stakeholders.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ url_for('static', filename='images/HomeStudentSeminars.jpeg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">Student seminars and workshops</h3>
+                        <p class="mt-2 text-sm text-slate-600">Interactive learning experiences where students gain academic, career, and personal development skills through expert talks and mentorship.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ url_for('static', filename='images/HomeOLevelTutoringAndHomework.JPG') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">O-Level tutoring and homework support</h3>
+                        <p class="mt-2 text-sm text-slate-600">Personalized academic assistance to improve exam performance, build confidence, and strengthen academic skills.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <img src="{{ url_for('static', filename='images/HomeExtracurricularsAtTweens.jpeg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">Extracurricular offerings</h3>
+                        <p class="mt-2 text-sm text-slate-600">Opportunities to explore activities beyond academics such as sports, arts, leadership programs, and social clubs.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg md:col-span-2">
+                    <img src="{{ url_for('static', filename='images/HomeCleanUpCampain.JPG') }}" alt="" class="h-48 w-full rounded-xl object-cover">
+                    <div>
+                        <h3 class="text-xl font-semibold">Clean up campaigns</h3>
+                        <p class="mt-2 text-sm text-slate-600">Promoting environmental awareness and responsibility within the community through cleanup activities and waste management education.</p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/homeCleanUp.png') }}" alt="">
-                <div class="activities-text">
-                    <h1>Girls book club</h1>
-                    <p>The Girls Book Club is a safe and engaging space where girls come together to read, discuss books, and develop a love for learning. It may focus on improving literacy, critical thinking, and self expression while also fostering discussions on empowerment, leadership, and personal growth through literature.</p>
-                </div>
+        <section class="mx-auto max-w-6xl px-6 py-12">
+            <div class="flex items-center justify-between">
+                <h2 class="text-3xl font-semibold text-slate-900">Our Partners</h2>
+                <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Allies</span>
             </div>
-
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/Parent-Teacher.jpg') }}" alt="">
-                <div class="activities-text">
-                    <h1>Parent Teacher Association</h1>
-                    <p>The Parent-Teacher Association is a collaborative platform where parents, teachers, and mentors come together to discuss students' academic progress, challenges, and overall well-being. It may focus on strengthening the support system for students, addressing educational needs, and creating a more inclusive and nurturing learning environment.</p>
-                </div>
+            <div class="mt-8 grid items-center gap-6 sm:grid-cols-2 lg:grid-cols-5">
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/educationMatters.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/GlobalFundLogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/cohereLogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/naledi.jpg') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/Globalchangemakerslogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
             </div>
-
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/homeALevel.png') }}" alt="">
-                <div class="activities-text">
-                    <h1>A level study program</h1>
-                    <p>The A-Level Study Program is an initiative that provides academic support, resources, and mentorship to students preparing for their A-Level exams. It may include tutoring, study materials, structured study sessions, and guidance on scholarship opportunities to help students excel and transition smoothly to higher education.</p>
-                </div>
-            </div>
-
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/HomeEducationAwarenessCampains.jpeg') }}" alt="">
-                <div class="activities-text">
-                    <h1>Education awareness campaigns and community outreach</h1>
-                    <p>This initiative focuses on advocating for the importance of education, encouraging students to stay in school, and providing resources to underserved communities. It may involve motivational talks, workshops, church and community visits, and awareness programs aimed at inspiring learners, parents, and stakeholders to prioritize education and lifelong learning.</p>
-                </div>
-            </div>
-
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/HomeStudentSeminars.jpeg') }}" alt="">
-                <div class="activities-text">
-                    <h1>Student seminars and workshop</h1>
-                    <p>This initiative provides interactive learning experiences where students gain academic, career, and personal development skills. These sessions may include expert talks, hands-on training, mentorship, and discussions on topics like leadership, study techniques, career planning, and personal growth to empower students for success.</p>
-                </div>
-            </div>
-
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/HomeOLevelTutoringAndHomework.JPG') }}" alt="">
-                <div class="activities-text">
-                    <h1>O-Level tutoring and homework support</h1>
-                    <p>The O-Level Tutoring and Homework Support program offers personalized academic assistance to students preparing for their O-Level exams. It may include one-on-one tutoring sessions, group study sessions, and help with homework to ensure students fully understand their subjects and improve their exam performance. This initiative aims to build students' confidence and academic skills for success in their exams.</p>
-                </div>
-            </div>
-
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/HomeExtracurricularsAtTweens.jpeg') }}" alt="">
-                <div class="activities-text">
-                    <h1>Extracurricular offerings at TWEENS</h1>
-                    <p>The Extracurricular Offerings at TWEENS provide students with opportunities to explore activities beyond academics, such as sports, arts, leadership programs, and social clubs. These activities aim to develop well-rounded individuals by fostering creativity, teamwork, communication skills, and personal interests, contributing to both academic and personal growth.</p>
-                </div>
-            </div>
-
-            <div class="each-activity">
-                <img src="{{ url_for('static', filename='images/HomeCleanUpCampain.JPG') }}" alt="">
-                <div class="activities-text">
-                    <h1>Clean up campaigns</h1>
-                    <p>The Clean Up Campaigns at TWEENS focus on promoting environmental awareness and responsibility within the community. Students and volunteers participate in cleaning local areas, raising awareness about waste management, and encouraging sustainable practices. These campaigns help instill a sense of pride in the community and teach the importance of environmental stewardship.</p>
-                </div>
-            </div>
-
-        </div>
+        </section>
 
     </section>
 
-    <h2 id="partners">Our Partners</h2>
-    <hr id="partners-hr">
-    <section class="partners-container">
-
-        <div style="width: 240px">
-            <img src="{{ url_for('static', filename='images/educationMatters.png') }}" alt="">
-        </div>
-
-        <div style="width: 240px">
-            <img src="{{ url_for('static', filename='images/GlobalFundLogo.png') }}" alt="">
-        </div>
-
-        <div style="width: 240px">
-            <img src="{{ url_for('static', filename='images/cohereLogo.png') }}" alt="">
-        </div>
-
-        <div style="width: 240px">
-            <img src="{{ url_for('static', filename='images/naledi.jpg') }}" alt="">
-        </div>
-
-        <div style="width: 240px">
-            <img src="{{ url_for('static', filename='images/Globalchangemakerslogo.png') }}" alt="">
-        </div>
-
-    </section>
-
-    <!-- News and Updates Section -->
-    <section class="updates funnel-display-myText">
-
-        <h2>News</h2>
-        <hr>
-
-        <div class="home-news-div">
-            {% for update in updates %}
-                {% set update_img_url = url_for('static', filename=update.image or '') %}
-                {% set full_news = url_for('news_detail', update_id=update.id) %}
-                {% set update_title = update.title %}
-                {% include 'components/home_news.html' %}
-            {% endfor %}
-        </div>
-
-    </section>
+        <section class="mx-auto max-w-6xl px-6 py-12">
+            <div class="flex items-center justify-between">
+                <h2 class="text-3xl font-semibold text-slate-900">News</h2>
+                <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Updates</span>
+            </div>
+            <div class="mt-8 grid gap-6 md:grid-cols-3">
+                {% for update in updates %}
+                    {% set update_img_url = url_for('static', filename=update.image or '') %}
+                    {% set full_news = url_for('news_detail', update_id=update.id) %}
+                    {% set update_title = update.title %}
+                    {% include 'components/home_news.html' %}
+                {% endfor %}
+            </div>
+        </section>
+    </main>
 
 {% include 'components/footer.html' %}

@@ -133,6 +133,11 @@ const programs = [
     }
 ];
 
+function normalizePath(path) {
+    const normalized = path.replace(/\\/g, "/");
+    return normalized.startsWith("/") ? normalized : `/${normalized}`;
+}
+
 // Show programs when page loads
 const defaultButton = document.querySelector('.js-button');
 showProgs(programs, defaultButton);
@@ -147,89 +152,94 @@ selectButtons.forEach((button) => {
 
 // Function to display programs based on the selected filter
 function showProgs(allProgs, button) {
-    // Reset button styles
     document.querySelectorAll('.js-button').forEach((btn) => {
-        btn.style.backgroundColor = 'blue';
-        btn.style.color = 'white';
+        btn.classList.remove('bg-brand-aqua', 'text-slate-900');
+        btn.classList.add('bg-brand-blue', 'text-white');
     });
 
-    // Highlight selected button
-    button.style.backgroundColor = 'aqua';
-    button.style.color = 'blue';
+    if (button) {
+        button.classList.add('bg-brand-aqua', 'text-slate-900');
+        button.classList.remove('bg-brand-blue', 'text-white');
+    }
 
     let displayProgs = ``;
 
-    // Generate program cards
     allProgs.forEach((program) => {
-        if (button.innerHTML === 'All' || button.innerHTML.toLowerCase() === program.category) {
+        const matches =
+            button &&
+            (button.innerHTML === 'All' || button.innerHTML.toLowerCase() === program.category);
+
+        if (matches) {
+            const showImage = normalizePath(program.showImage);
             displayProgs += `
-                <div data-id="${program.id}" class="each-prog">
-                    <div class="image">
-                        <img src="${program.showImage}" alt="${program.title}">
+                <div data-id="${program.id}" class="each-prog group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                    <div class="aspect-[4/3] overflow-hidden">
+                        <img src="${showImage}" alt="${program.title}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
                     </div>
-                    <div class="text">
-                        <h1>${program.title}</h1>
-                        <p>${program.description}</p>
+                    <div class="space-y-2 p-5">
+                        <h3 class="text-lg font-semibold text-slate-900">${program.title}</h3>
+                        <p class="text-sm text-slate-600">${program.description}</p>
                     </div>
                 </div>
             `;
         }
     });
 
-    // Inject the generated HTML into the page
     document.querySelector('.prog-body').innerHTML = displayProgs;
 }
 
 // Delegate click events for dynamically created program cards
 document.querySelector('.prog-body').addEventListener('click', (event) => {
     const prog = event.target.closest('.each-prog');
-    if (!prog) return;
+    if (!prog) {
+        return;
+    }
 
     const program = programs.find((one) => one.id == prog.dataset.id);
+    if (!program) {
+        return;
+    }
 
-    let myMedia = program.media.map((pic, index) => `
-        <div class="carousel-item ${index === 0 ? 'active' : ''}">
-            <img src="${pic}" style="width: 100%; height: 85.4vh; object-fit: cover;" alt="Program Image">
-        </div>
-    `).join('');
-
-    // Display program details in a pop-up with Bootstrap carousel
-    const showProg = `
-        <div style="width: 100%; height: 100vh; background-color: rgba(117, 117, 117, 0.9); position: fixed; top: 0; left: 0;">
-            <div class="pop-up" style="background-color: rgba(117, 117, 117, 0.9); padding: 20px;">
-                <div class="close" style="margin: 0; text-align: right;">
-                    <i class="fa-solid fa-rectangle-xmark js-close" style="cursor: pointer; z-index: 200000; position: absolute; top: 10px; right: -50px;"></i>
+    const mediaItems = program.media
+        .map((pic) => {
+            const normalized = normalizePath(pic);
+            return `
+                <div class="overflow-hidden rounded-2xl border border-slate-200">
+                    <img src="${normalized}" class="h-40 w-full object-cover" alt="Program Image">
                 </div>
+            `;
+        })
+        .join('');
 
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        ${myMedia}
+    const showProg = `
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4">
+            <div class="relative w-full max-w-5xl rounded-3xl bg-white p-6 shadow-2xl">
+                <button class="js-close absolute right-4 top-4 rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-brand-aqua hover:text-brand-blue">
+                    <i class="fa-solid fa-rectangle-xmark"></i>
+                </button>
+                <div class="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+                    <div class="grid max-h-[60vh] grid-cols-2 gap-3 overflow-y-auto pr-1">
+                        ${mediaItems}
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                    <div>
+                        <h2 class="text-2xl font-semibold text-slate-900">${program.title}</h2>
+                        <p class="mt-3 text-sm text-slate-600">${program.description}</p>
+                        <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            <span class="rounded-full border border-slate-200 px-3 py-1">${program.category}</span>
+                            <span class="rounded-full border border-slate-200 px-3 py-1">Impact level ${program.progress}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     `;
 
     document.querySelector('.eachProg').innerHTML = showProg;
-
-    // Highlight progress levels
-    const progressLevel = program.progress;
-    for (let i = 1; i <= progressLevel; i++) {
-        document.querySelector(`#p${i}`).style.backgroundColor = 'blue';
-    }
 });
 
 // Close pop-up logic
 document.querySelector('.eachProg').addEventListener('click', (event) => {
-    if (event.target.classList.contains('js-close')) {
+    if (event.target.classList.contains('js-close') || event.target.closest('.js-close')) {
         document.querySelector('.eachProg').innerHTML = '';
     }
 });

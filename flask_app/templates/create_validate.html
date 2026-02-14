@@ -5,40 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Authentication</title>
-    <style>
-        form {
-            width: fit-content;
-            height: fit-content;
-            text-align: center;
-            background-color: rgb(205, 255, 248);
-            display: flex;
-            flex-direction: column;
-            margin: auto;
-            margin-top: 30px;
-            padding: 10px;
-        }
-
-        input {
-            width: 30vw;
-            height: 20px;
-            margin: 3px;
-        }
-
-        button {
-            width: 100px;
-            padding: 3px;
-            border-radius: 3px;
-            background-color: greenyellow;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
-<body>
-    <form action="{{ url_for('news_validate_submit') }}" method="post">
-        <input type="text" name="name" placeholder="Name" required>
-
-        <input type="password" name="password" placeholder="Password" required>
-
-        <button type="submit">Enter</button>
-    </form>
+<body class="bg-slate-900">
+    <div class="mx-auto flex min-h-screen max-w-md items-center px-6">
+        <form action="{{ url_for('news_validate_submit') }}" method="post" class="w-full rounded-3xl bg-white p-8 shadow-xl">
+            <h1 class="text-2xl font-semibold text-slate-900">Admin Access</h1>
+            <p class="mt-2 text-sm text-slate-500">Enter your credentials to manage updates.</p>
+            <div class="mt-6 grid gap-4">
+                <input type="text" name="name" placeholder="Name" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">
+                <input type="password" name="password" placeholder="Password" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:border-brand-aqua focus:outline-none">
+                <button type="submit" class="rounded-full bg-brand-aqua px-6 py-3 text-sm font-semibold uppercase tracking-wider text-slate-900 transition hover:brightness-110">Enter</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

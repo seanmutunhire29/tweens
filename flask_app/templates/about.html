@@ -1,201 +1,123 @@
 {% set title = 'About' %}
-{% set file_css = '<link rel="stylesheet" href="' ~ url_for('static', filename='css/about.css') ~ '">' %}
+{% set file_css = '' %}
 {% set bg_image_url = 'images/about_hero.JPG' %}
 {% set topic = 'About' %}
 {% set caption = 'Learn about Tweens' %}
 {% include 'components/hero.html' %}
 
-<!-- Body Section -->
+<main class="mx-auto flex max-w-6xl flex-col gap-16 px-6 py-12">
+    <section class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="space-y-4">
+            <h2 class="text-3xl font-semibold text-slate-900">Who We Are</h2>
+            <p class="text-sm text-slate-600"><strong>Together We Educationally Empower Non-privileged Students (TWEENS)</strong> is a program aimed at supporting refugee youth in Tongogara Refugee Settlement, backed by Education Matters' mission to connect talent with opportunity. TWEENS is a refugee-led peer tutoring initiative focused on empowering refugee youth through education and mentorship.</p>
+        </div>
+        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
+            <img src="{{ url_for('static', filename='images/aboutWhoWeAre.png') }}" alt="who we are" class="h-full w-full object-cover">
+        </div>
+    </section>
 
-<section class="body">
+    <section class="grid gap-6 lg:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 class="text-xl font-semibold text-brand-blue">Mission</h3>
+            <p class="mt-3 text-sm text-slate-600">Promote education in Tongogara Refugee Settlement by offering quality learning opportunities, resources, and mentorship for refugee youth.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 class="text-xl font-semibold text-brand-blue">Vision</h3>
+            <p class="mt-3 text-sm text-slate-600">Empower local and refugee youth by providing access to quality education and mentorship, helping them develop skills and confidence needed to pursue their dreams.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h3 class="text-xl font-semibold text-brand-blue">Values</h3>
+            <p class="mt-3 text-sm text-slate-600">Education for empowerment, inclusivity, equality, and community collaboration to create sustainable impact.</p>
+        </div>
+    </section>
 
-    <div class="intro">
-        <div class="text">
-            <h1 style="font-size: 22px">Who We Are</h1>
-            <p><strong>Together We Educationally Empower Non-privileged Students (TWEENS)</strong> is a program specifically aimed at supporting refugee youth in Tongogara Refugee Settlement, backed by Education Matters' mission to connect talent with opportunity. TWEENS is a refugee led peer tutoring initiative focused on empowering refugee youth through education and mentorship. Launched during the COVID-19 lockdowns of 2020, TWEENS began as a service learning project by A-Level students from Education Matters' USAP Community School, providing peer tutoring to fellow refugees.</p>
+    <section class="rounded-3xl bg-slate-900 px-8 py-10 text-white">
+        <h2 class="text-3xl font-semibold">Background</h2>
+        <div class="mt-6 grid gap-6 lg:grid-cols-3">
+            <p class="text-sm text-white/80">The TWEENS project in Tongogara Refugee Settlement was created to support academically talented refugees who lack the intellectual resources and counseling to continue their education beyond O-levels.</p>
+            <p class="text-sm text-white/80">TWEENS quickly gained attention during the pandemic and attracted donors like Kate Chambers and the Naledi Foundation, helping fund a dedicated learning space.</p>
+            <p class="text-sm text-white/80">What started as tutoring for 11 students has grown to include 39 volunteers serving over 200 students with tutoring, Wi-Fi, laptops, and recreational activities.</p>
         </div>
-        <div class="image">
-            <img src="{{ url_for('static', filename='images/aboutWhoWeAre.png') }}" alt="who we are">
-        </div>
-    </div>
+    </section>
 
-    <div class="mvv">
-        <div class="mission">
-            <h1 style="font-size: 22px">Mission</h1>
-            <p>Promote education in Tongogara Refugee Settlement by offering quality learning opportunities, resources, and mentorship for refugee youth. This initiative empowers students to overcome challenges and build a better future, fostering a culture of learning and creating pathways to greater opportunities and self reliance.</p>
+    <section>
+        <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-semibold text-slate-900">Tweens Co-founders</h2>
+            <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Leadership</span>
         </div>
-        <div class="vision">
-            <h1 style="font-size: 22px">Vision</h1>
-            <p>To empower local and refugee youth by providing access to quality education and mentorship, helping them develop the skills and confidence needed to pursue their dreams. Through these opportunities, we aim to break down barriers and create a supportive environment where every young person can reach their full potential, regardless of their circumstances.</p>
-        </div>
-        <div class="values">
-            <h1 style="font-size: 22px">Values</h1>
-            <p>Education for empowerment provides quality learning opportunities, equipping children with skills to build brighter futures. By promoting inclusivity and equality, we ensure every child has equal access to education and opportunities to succeed. Through community and collaboration, we foster teamwork and partnerships to create a sustainable impact on education for all.</p>
-        </div>
-    </div>
-
-    <div class="background">
-        <div class="heading">
-            <h1 style="font-size: 22px">Background</h1>
-        </div>
-        <div class="text-boxes">
-            <div class="text">
-                <p>The TWEENS project in Tongogara Refugee Settlement was created to support academically talented refugees who lack the intellectual resources and counseling to continue their education beyond O-levels. With limited support, many students face high dropout rates, leading to social issues such as early marriages and drug abuse. When schools closed in 2020, TWEENS began as a volunteer tutoring program for 11 students. Tutors initially visited homes and later transitioned to online lessons via WhatsApp. TWEENS also held sessions to highlight the value of education and available scholarships.</p>
+        <div class="mt-6 grid gap-6 md:grid-cols-3 lg:grid-cols-5">
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/kabelu.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Chrinovic Kabelu</h3>
             </div>
-            <div class="text">
-                <p>TWEENS quickly gained attention from students who were unable to attend school during the pandemic and lacked access to online learning. The program attracted donors like Kate Chambers, who provided books, and the Naledi Foundation, which donated lamps for nighttime study. In 2021, refugee student Agathe Mwehu received a Davis Projects for Peace award to fund the renovation of a dedicated TWEENS building. The Zimbabwean government offered a space, and the TWEENS Centre opened in November 2021, providing a space for learning and growth.</p>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/ishimwe.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Damascent Ishimwe</h3>
             </div>
-            <div class="text">
-                <p>What started as a tutoring service for 11 students has grown to include 39 volunteers, serving over 200 students with tutoring, study spaces, Wi-Fi, laptops, iPads, and recreational activities. The TWEENS Centre offers extra lessons, a library, and games like Ping-Pong and chess. Awareness campaigns have motivated youths who failed their exams to retake them. In 2023, TWEENS launched an A-Level study program to bridge the gap left by UNHCR funding cuts. The program currently supports 20 students across seven subjects, preparing them for Advanced Level exams, with plans to expand.</p>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/olive.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Olive Iragena</h3>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/matson.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Matson Kitamisi</h3>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/prince.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Prince Bashangezi</h3>
             </div>
         </div>
-    </div>
+    </section>
 
-</section>
+    <section>
+        <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-semibold text-slate-900">Tweens Management on Ground</h2>
+            <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Operations</span>
+        </div>
+        <div class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/mrEmmanuel.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Emmanuel Shyaka</h3>
+                <p class="text-xs text-slate-500">Chairperson</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/mussa.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Mussa Mapigano Mingwikwi</h3>
+                <p class="text-xs text-slate-500">Vice Chairperson</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/bukasa.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Dalicia Bukasa</h3>
+                <p class="text-xs text-slate-500">Project Manager</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/manasseh.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Manasseh Kazadi</h3>
+                <p class="text-xs text-slate-500">Finance</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                <img src="{{ url_for('static', filename='images/ancilla.jpg') }}" alt="" class="mx-auto h-32 w-32 rounded-2xl object-cover">
+                <h3 class="mt-4 text-base font-semibold">Ancilla Niyirema</h3>
+                <p class="text-xs text-slate-500">Secretary</p>
+            </div>
+        </div>
+    </section>
 
-<!-- Our Team -->
-
-<h1 id="team-header" style="margin-top: 30px">Tweens Co-founders</h1>
-<hr>
-
-<section class="team">
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/kabelu.jpg') }}" alt="">
+    <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+        <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-semibold text-slate-900">Our History</h2>
+            <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Timeline</span>
         </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Chrinovic Kabelu</h1>
+        <div class="mt-6 flex flex-wrap gap-3">
+            <button class="jsyear rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">2020</button>
+            <button class="jsyear rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">2021</button>
+            <button class="jsyear rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">2022</button>
+            <button class="jsyear rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">2023</button>
+            <button class="jsyear rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">2024</button>
+            <button class="jsyear rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">2025</button>
         </div>
-    </div>
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/ishimwe.jpg') }}" alt="">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Damascent Ishimwe</h1>
-        </div>
-    </div>
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/olive.jpg') }}" alt="">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Olive Iragena</h1>
-        </div>
-    </div>
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/matson.jpg') }}" alt="">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Matson Kitamisi</h1>
-        </div>
-    </div>
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/prince.jpg') }}" alt="">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Prince Bashangezi</h1>
-        </div>
-    </div>
-
-</section>
-
-<!-- Tweens Management -->
-
-<h1 id="team-header" style="margin-top: 30px">Tweens Management on Ground</h1>
-<hr>
-
-<section class="team" id="management" style="width: 100%; display: flex; flex-wrap: wrap;">
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/mrEmmanuel.jpg') }}" alt="" style="height: 250px; object-fit: cover">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Emmanuel Shyaka</h1>
-            <p style="color: black;">Chairperson</p>
-        </div>
-    </div>
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/mussa.jpg') }}" alt="" style="height: 250px; object-fit: cover">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Mussa Mapigano Mingwikwi</h1>
-            <p style="color: black;">Vice Chairperson</p>
-        </div>
-    </div>
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/bukasa.jpg') }}" alt="" style="height: 250px; object-fit: cover">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Dalicia Bukasa</h1>
-            <p style="color: black;">Project Manager</p>
-        </div>
-    </div>
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/manasseh.jpg') }}" alt="" style="height: 250px; object-fit: cover">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Manasseh Kazadi</h1>
-            <p style="color: black;">Finance</p>
-        </div>
-    </div>
-
-    <div class="container" style="width: fit-content; padding: 0;">
-        <div class="team-image">
-            <img src="{{ url_for('static', filename='images/ancilla.jpg') }}" alt="" style="height: 250px; object-fit: cover">
-        </div>
-        <div class="team-text">
-            <h1 style="font-size: 25px">Ancilla Niyirema</h1>
-            <p style="color: black;">Secretary</p>
-        </div>
-    </div>
-
-</section>
-
-<!-- History section -->
-
-<section class="history" style="margin-top: 30px">
-
-    <h1>Our History</h1>
-    <hr>
-
-    <div class="time-line">
-        <div class="y2020 jsyear">
-            2020
-        </div>
-        <div class="y2021 jsyear">
-            2021
-        </div>
-        <div class="y2022 jsyear">
-            2022
-        </div>
-        <div class="y2023 jsyear">
-            2023
-        </div>
-        <div class="y2024 jsyear">
-            2024
-        </div>
-        <div class="y2025 jsyear">
-            2025
-        </div>
-    </div>
-
-    <div class="years-container" style="width: 70%; margin: auto;"></div>
-
-</section>
+        <div class="years-container mt-8"></div>
+    </section>
+</main>
 
 {% include 'components/footer.html' %}

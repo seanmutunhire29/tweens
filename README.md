@@ -5,6 +5,7 @@ This project has been migrated to Flask with Jinja templates. The Flask app live
 ## Requirements
 
 - Python 3.10+
+- Node.js 18+
 
 Install dependencies:
 
@@ -35,6 +36,26 @@ python flask_app/app.py
 ```
 
 The server starts on http://127.0.0.1:5000.
+
+## Tailwind build
+
+Install Node dependencies:
+
+```
+npm install
+```
+
+Build Tailwind once:
+
+```
+npm run tailwind:build
+```
+
+Or watch during development:
+
+```
+npm run tailwind:watch
+```
 
 ## Notes
 

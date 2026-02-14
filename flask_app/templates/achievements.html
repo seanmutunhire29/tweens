@@ -1,56 +1,36 @@
 {% set title = 'Achievements' %}
-{% set file_css = '<link rel="stylesheet" href="' ~ url_for('static', filename='css/achievements.css') ~ '">' %}
+{% set file_css = '' %}
 {% set bg_image_url = 'images/achieveHero.png' %}
 {% set topic = 'Achievements' %}
 {% set caption = 'Learn about our achievements' %}
 {% include 'components/hero.html' %}
 
-<!-- Achievements Section -->
-<h1 class="top-header">Our Achivements</h1>
-<hr>
+<main class="mx-auto flex max-w-6xl flex-col gap-14 px-6 py-12">
+    <section>
+        <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-semibold text-slate-900">Our Achievements</h2>
+            <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Impact</span>
+        </div>
+        <p class="mt-4 max-w-3xl text-sm text-slate-600">Tap a star to explore the stories behind our milestones. Each highlight represents a student, a community, or a breakthrough powered by collective action.</p>
+        <div class="achievements mt-8 grid grid-cols-3 gap-6 sm:grid-cols-4 lg:grid-cols-6"></div>
+        <div class="mother-container fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 p-4"></div>
+    </section>
 
-<div class="achievements"></div>
-
-<div class="mother-container"></div>
-
-<!-- Testimonials Section -->
-<h1 class="top-header">Testimonials</h1>
-<hr>
-
-<div class="my-carousel-here">
-    <div class="carousel slide" id="achieve" data-bs-wrap="true" data-bs-ride="carousel">
-
-        <div class="carousel-inner">
+    <section>
+        <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-semibold text-slate-900">Testimonials</h2>
+            <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Voices</span>
+        </div>
+        <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {% for each in testimonies %}
-                <div class="carousel-item {% if loop.first %}active{% endif %}">
-                    <img src="{{ url_for('static', filename=each.image or '') }}" class="d-block w-100" alt="Testimonial Image">
-                    <div class="carousel-caption">
-                        <h1 style="text-shadow: 0px 0px 10px black">{{ each.name }}</h1>
-                        <p style="text-shadow: 0px 0px 10px black">{{ each.caption }}</p>
-                    </div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <img src="{{ url_for('static', filename=each.image or '') }}" alt="Testimonial Image" class="h-40 w-full rounded-xl object-cover">
+                    <h3 class="mt-4 text-lg font-semibold text-slate-900">{{ each.name }}</h3>
+                    <p class="mt-2 text-sm text-slate-600">{{ each.caption }}</p>
                 </div>
             {% endfor %}
         </div>
-
-        <!-- Carousel Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#achieve" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-
-        <button class="carousel-control-next" type="button" data-bs-target="#achieve" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-
-        <!-- Carousel Indicators -->
-        <div class="carousel-indicators">
-            {% for each in testimonies %}
-                <button type="button" data-bs-target="#achieve" data-bs-slide-to="{{ loop.index0 }}" class="{% if loop.first %}active{% endif %}"></button>
-            {% endfor %}
-        </div>
-
-    </div>
-</div>
+    </section>
+</main>
 
 {% include 'components/footer.html' %}

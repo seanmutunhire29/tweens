@@ -4,50 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Update</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik+Dirt&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
 </head>
 <body>
-    <div class="whole-news">
-
-        <div class="title">
-            <h1 class="rubik-dirt-regular">{{ update.title }}</h1>
-            <p>{{ update.created_at | format_date }}</p>
+    <main class="mx-auto flex max-w-4xl flex-col gap-8 px-6 py-12">
+        <div class="space-y-2">
+            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">News Update</p>
+            <h1 class="text-4xl font-semibold text-slate-900">{{ update.title }}</h1>
+            <p class="text-sm text-slate-500">{{ update.created_at | format_date }}</p>
         </div>
 
-        <div class="image">
-            <img src="{{ url_for('static', filename=update.image or '') }}" alt="news image">
-            <div class="label">{{ update.caption }}</div>
+        <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <img src="{{ url_for('static', filename=update.image or '') }}" alt="news image" class="h-80 w-full object-cover">
+            <div class="border-t border-slate-100 px-6 py-4 text-sm font-semibold text-brand-blue">{{ update.caption }}</div>
         </div>
 
-        <div class="main-text story" style="margin-top: 20px">{{ update.detail }}</div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 text-sm text-slate-600 shadow-sm">
+            {{ update.detail }}
+        </div>
 
-    </div>
-    <div style="display: flex; justify-content: space-evenly; margin-top: 30px;">
-        <div style="font-size: 30px; color: blue; cursor: pointer" tooltip>
+        <div class="flex items-center justify-between">
             {% if update.id + 1 <= max_id %}
-                <a href="{{ url_for('news_detail', update_id=update.id + 1) }}"><i class="fa-solid fa-backward"></i></a>
+                <a href="{{ url_for('news_detail', update_id=update.id + 1) }}" class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-aqua hover:text-brand-blue">
+                    <i class="fa-solid fa-backward"></i>
+                    Newer
+                </a>
+            {% else %}
+                <span></span>
             {% endif %}
-        </div>
-        <div style="font-size: 30px; color: blue; cursor: pointer">
             {% if update.id - 1 >= min_id %}
-                <a href="{{ url_for('news_detail', update_id=update.id - 1) }}"><i class="fa-solid fa-forward"></i></a>
+                <a href="{{ url_for('news_detail', update_id=update.id - 1) }}" class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-brand-aqua hover:text-brand-blue">
+                    Older
+                    <i class="fa-solid fa-forward"></i>
+                </a>
             {% endif %}
         </div>
-    </div>
+    </main>
 
 {% include 'components/footer.html' %}
