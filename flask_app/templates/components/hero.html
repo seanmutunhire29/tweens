@@ -30,7 +30,7 @@
         <div class="relative z-10">
             <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
                 <a href="{{ url_for('home') }}" class="flex items-center gap-3">
-                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Tweens logo" class="h-12 w-12 rounded-2xl border border-white/30 object-cover">
+                    <img src="{{ url_for('static', filename=global_content.get('logo_image', 'images/logo.png')) }}" alt="Tweens logo" class="h-12 w-12 rounded-2xl border border-white/30 object-cover">
                     <span class="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">{{ global_content.get('org_name', 'Tweens') }}</span>
                 </a>
                 <div class="hidden items-center gap-6 text-sm font-semibold text-white md:flex">

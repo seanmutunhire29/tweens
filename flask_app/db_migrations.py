@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Integer, MetaData, String, Table, Text, UniqueConstraint
+from sqlalchemy import inspect, text
 
 from models import db
 
@@ -23,3 +24,42 @@ def run_migrations() -> None:
     )
 
     site_content_table.create(bind=db.engine, checkfirst=True)
+
+    inspector = inspect(db.engine)
+    table_names = set(inspector.get_table_names())
+    if "updates_table" not in table_names:
+        return
+
+    existing_columns = {column["name"] for column in inspector.get_columns("updates_table")}
+    statements = []
+
+    if "category" not in existing_columns:
+        statements.append("ALTER TABLE updates_table ADD COLUMN category VARCHAR(120) DEFAULT 'General'")
+    if "author_name" not in existing_columns:
+        statements.append("ALTER TABLE updates_table ADD COLUMN author_name VARCHAR(120) DEFAULT 'Tweens Admin'")
+    if "excerpt" not in existing_columns:
+        statements.append("ALTER TABLE updates_table ADD COLUMN excerpt TEXT DEFAULT ''")
+    if "status" not in existing_columns:
+        statements.append("ALTER TABLE updates_table ADD COLUMN status VARCHAR(20) DEFAULT 'draft'")
+    if "published_at" not in existing_columns:
+        statements.append("ALTER TABLE updates_table ADD COLUMN published_at DATETIME")
+
+    if statements:
+        with db.engine.begin() as connection:
+            for statement in statements:
+                connection.execute(text(statement))
+
+    with db.engine.begin() as connection:
+        connection.execute(
+            text(
+                """
+                UPDATE updates_table
+                SET
+                    category = COALESCE(NULLIF(category, ''), 'General'),
+                    author_name = COALESCE(NULLIF(author_name, ''), 'Tweens Admin'),
+                    excerpt = COALESCE(NULLIF(excerpt, ''), SUBSTR(detail, 1, 220)),
+                    status = COALESCE(NULLIF(status, ''), 'published'),
+                    published_at = COALESCE(published_at, created_at)
+                """
+            )
+        )

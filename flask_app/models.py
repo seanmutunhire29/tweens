@@ -21,10 +21,15 @@ class Updates(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(120), nullable=False, default="General")
+    author_name = db.Column(db.String(120), nullable=False, default="Tweens Admin")
+    excerpt = db.Column(db.Text, nullable=False, default="")
     caption = db.Column(db.String(255), nullable=False)
     detail = db.Column(db.Text, nullable=False)
     image = db.Column(db.String(255))
-    created_at = db.Column(db.DateTime)
+    status = db.Column(db.String(20), nullable=False, default="draft")
+    published_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 
 class Testimony(db.Model):

@@ -27,7 +27,7 @@
     <div class="nav-banner fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-colors duration-700">
         <div class="logo flex items-center gap-3">
             <a href="{{ url_for('home') }}" class="inline-flex items-center gap-3">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="h-12 w-12 rounded-2xl border border-white/20 object-cover">
+                <img src="{{ url_for('static', filename=global_content.get('logo_image', 'images/logo.png')) }}" alt="Logo" class="h-12 w-12 rounded-2xl border border-white/20 object-cover">
                 <span class="hidden text-xs font-semibold uppercase tracking-[0.3em] text-white/80 md:inline">{{ global_content.get('org_name', 'Tweens') }}</span>
             </a>
         </div>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="home-background relative min-h-screen">
-        <div class="home-container absolute inset-0 flex items-center" data-id="1" style="background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('{{ url_for('static', filename='images/home1.png') }}'); background-position: center; background-size: cover;">
+        <div class="home-container absolute inset-0 flex items-center" data-id="1" style="background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('{{ url_for('static', filename=page_content.hero.background_image) }}'); background-position: center; background-size: cover;">
             <div class="absolute inset-0"></div>
             <div class="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 text-white">
                 <div class="max-w-2xl space-y-6">

@@ -4,7 +4,10 @@ import os
 from datetime import datetime
 from pathlib import Path
 
+import markdown
 from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
+from sqlalchemy import func, or_
+from markupsafe import Markup, escape
 from werkzeug.utils import secure_filename
 
 from db_migrations import run_migrations
@@ -59,6 +62,7 @@ SITE_CONTENT_DEFAULTS = {
         "branding": {
             "org_name": "Tweens",
             "donate_url": "https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/",
+            "logo_image": "images/logo.png",
         },
         "footer": {
             "tagline": "Refugee-led education initiatives building brighter futures through mentorship, access, and community care.",
@@ -71,6 +75,7 @@ SITE_CONTENT_DEFAULTS = {
         "hero": {
             "title": "Tweens",
             "caption": "Over five years of improving the lives of children living in Tongogara refugee settlement.",
+            "background_image": "images/home1.png",
         },
         "mission": {
             "title": "Our Mission",
@@ -94,10 +99,12 @@ SITE_CONTENT_DEFAULTS = {
         "hero": {
             "topic": "About",
             "caption": "Learn about Tweens",
+            "background_image": "images/about_hero.JPG",
         },
         "overview": {
             "title": "Who We Are",
             "body": "Together We Educationally Empower Non-privileged Students (TWEENS) is a program aimed at supporting refugee youth in Tongogara Refugee Settlement, backed by Education Matters' mission to connect talent with opportunity. TWEENS is a refugee-led peer tutoring initiative focused on empowering refugee youth through education and mentorship.",
+            "image": "images/aboutWhoWeAre.png",
         },
         "mission": {"body": "Promote education in Tongogara Refugee Settlement by offering quality learning opportunities, resources, and mentorship for refugee youth."},
         "vision": {"body": "Empower local and refugee youth by providing access to quality education and mentorship, helping them develop skills and confidence needed to pursue their dreams."},
@@ -111,6 +118,7 @@ SITE_CONTENT_DEFAULTS = {
         "hero": {
             "topic": "Achievements",
             "caption": "Learn about our achievements",
+            "background_image": "images/achieveHero.png",
         },
         "overview": {
             "title": "Our Achievements",
@@ -122,10 +130,12 @@ SITE_CONTENT_DEFAULTS = {
         "hero": {
             "topic": "Contact Us",
             "caption": "Get in touch",
+            "background_image": "images/contactHero.png",
         },
         "form": {
             "title": "Get In Touch",
             "caption": "We respond within 48 hours. Tell us how we can help.",
+            "image": "images/contactGetInTouch.png",
         },
         "direct": {
             "title": "Direct Contact",
@@ -138,6 +148,7 @@ SITE_CONTENT_DEFAULTS = {
         "hero": {
             "topic": "Programs",
             "caption": "Explore our programs",
+            "background_image": "images/tutoring.JPG",
         },
         "overview": {"title": "Program Highlights"},
         "cta": {
@@ -150,6 +161,7 @@ SITE_CONTENT_DEFAULTS = {
         "hero": {
             "topic": "Donations",
             "caption": "Support our work",
+            "background_image": "images/achieveHero.png",
         },
         "overview": {
             "title": "Support TWEENS",
@@ -162,6 +174,39 @@ SITE_CONTENT_DEFAULTS = {
 
 def humanize(value: str) -> str:
     return value.replace("_", " ").strip().title()
+
+
+def is_image_content_field(field_name: str) -> bool:
+    return field_name in {"image", "background_image", "logo_image"} or field_name.endswith("_image")
+
+
+NEWS_STATUSES = {"draft", "published"}
+
+
+def parse_datetime_local(value: str) -> datetime | None:
+    cleaned = value.strip()
+    if not cleaned:
+        return None
+    try:
+        return datetime.fromisoformat(cleaned)
+    except ValueError:
+        return None
+
+
+def public_news_query():
+    return Updates.query.filter(
+        Updates.status == "published",
+        or_(Updates.published_at.is_(None), Updates.published_at <= datetime.utcnow()),
+    )
+
+
+def render_markdown_content(value: str | None) -> Markup:
+    source = str(escape(value or ""))
+    html = markdown.markdown(
+        source,
+        extensions=["fenced_code", "tables", "sane_lists", "nl2br"],
+    )
+    return Markup(html)
 
 
 def seed_site_content() -> None:
@@ -221,6 +266,7 @@ def get_site_content_editor() -> dict[str, list[dict[str, object]]]:
                         "name": field,
                         "label": humanize(field),
                         "value": values.get((page, section, field), default_value),
+                        "is_image": is_image_content_field(field),
                     }
                 )
             page_sections.append(
@@ -251,7 +297,7 @@ def inject_global_site_content():
 
 @app.get("/")
 def home():
-    updates = Updates.query.order_by(Updates.id.desc()).all()
+    updates = public_news_query().order_by(func.coalesce(Updates.published_at, Updates.created_at).desc(), Updates.id.desc()).all()
     return render_template(
         "home.html",
         updates=updates,
@@ -319,6 +365,68 @@ def admin_content_update():
     return redirect(url_for("news_create_page"))
 
 
+@app.post("/admin/content/image")
+def admin_content_image_update():
+    if not is_authenticated():
+        abort(403)
+
+    page = request.form.get("page", "").strip()
+    section = request.form.get("section", "").strip()
+    field = request.form.get("field", "").strip()
+    action = request.form.get("action", "upload").strip()
+
+    if (
+        page not in SITE_CONTENT_DEFAULTS
+        or section not in SITE_CONTENT_DEFAULTS.get(page, {})
+        or field not in SITE_CONTENT_DEFAULTS.get(page, {}).get(section, {})
+        or not is_image_content_field(field)
+    ):
+        flash("Invalid image content section selected.", "content_error")
+        return redirect(url_for("news_create_page"))
+
+    record = SiteContent.query.filter_by(page=page, section=section, field=field).first()
+    current_value = record.value if record else SITE_CONTENT_DEFAULTS[page][section][field]
+
+    if action == "remove":
+        if current_value.startswith("updateImages/"):
+            current_path = PUBLIC_DIR / current_value
+            if current_path.exists():
+                current_path.unlink()
+
+        default_value = SITE_CONTENT_DEFAULTS[page][section][field]
+        if record:
+            record.value = default_value
+        else:
+            db.session.add(SiteContent(page=page, section=section, field=field, value=default_value))
+
+        db.session.commit()
+        flash("Image removed and reset to default.", "content_success")
+        return redirect(url_for("news_create_page"))
+
+    image = request.files.get("image")
+    if not image or not image.filename or not allowed_file(image.filename):
+        flash("Please upload a valid image (jpg, jpeg, png, gif).", "content_error")
+        return redirect(url_for("news_create_page"))
+
+    filename = f"{int(datetime.utcnow().timestamp())}_{secure_filename(image.filename)}"
+    image_relative_path = f"updateImages/{filename}"
+    image.save(UPLOAD_DIR / filename)
+
+    if current_value.startswith("updateImages/"):
+        current_path = PUBLIC_DIR / current_value
+        if current_path.exists():
+            current_path.unlink()
+
+    if record:
+        record.value = image_relative_path
+    else:
+        db.session.add(SiteContent(page=page, section=section, field=field, value=image_relative_path))
+
+    db.session.commit()
+    flash("Image updated successfully.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
 @app.get("/news/createValidate")
 def news_validate_page():
     return render_template("create_validate.html")
@@ -345,19 +453,39 @@ def news_create():
         abort(403)
 
     title = request.form.get("title", "").strip()
+    category = request.form.get("category", "General").strip()
+    author_name = request.form.get("author_name", "Tweens Admin").strip()
+    excerpt = request.form.get("excerpt", "").strip()
     caption = request.form.get("caption", "").strip()
     detail = request.form.get("detail", "").strip()
+    status = request.form.get("status", "draft").strip().lower()
+    published_at_raw = request.form.get("published_at", "")
+    published_at = parse_datetime_local(published_at_raw)
     image = request.files.get("image")
     errors = {}
 
     if not title:
         errors["title"] = "Title is required."
+    if not category:
+        errors["category"] = "Category is required."
+    if not author_name:
+        errors["author_name"] = "Author is required."
     if not caption:
         errors["caption"] = "Caption is required."
     if not detail:
         errors["detail"] = "Detail is required."
+    if status not in NEWS_STATUSES:
+        errors["status"] = "Status must be draft or published."
+    if published_at_raw.strip() and not published_at:
+        errors["published_at"] = "Publish date/time is invalid."
     if not image or not allowed_file(image.filename):
         errors["image"] = "Image is required (jpg, jpeg, png, gif)."
+
+    if status == "published" and not published_at:
+        published_at = datetime.utcnow()
+
+    if not excerpt:
+        excerpt = detail[:220]
 
     if errors:
         news = Updates.query.order_by(Updates.id.desc()).all()
@@ -372,6 +500,16 @@ def news_create():
             newsletters=newsletters,
             testimonies=testimonies,
             site_content_editor=get_site_content_editor(),
+            news_form_data={
+                "title": title,
+                "category": category,
+                "author_name": author_name,
+                "excerpt": excerpt,
+                "caption": caption,
+                "detail": detail,
+                "status": status,
+                "published_at": published_at_raw,
+            },
             errors=errors,
         )
 
@@ -381,9 +519,15 @@ def news_create():
 
     update = Updates(
         title=title,
+        category=category,
+        author_name=author_name,
+        excerpt=excerpt,
         detail=detail,
         caption=caption,
         image=image_path,
+        status=status,
+        published_at=published_at,
+        created_at=datetime.utcnow(),
     )
     db.session.add(update)
     db.session.commit()
@@ -458,19 +602,39 @@ def news_edit(update_id: int):
 
     update = Updates.query.get_or_404(update_id)
     title = request.form.get("title", "").strip()
+    category = request.form.get("category", "General").strip()
+    author_name = request.form.get("author_name", "Tweens Admin").strip()
+    excerpt = request.form.get("excerpt", "").strip()
     caption = request.form.get("caption", "").strip()
     detail = request.form.get("detail", "").strip()
+    status = request.form.get("status", "draft").strip().lower()
+    published_at_raw = request.form.get("published_at", "")
+    published_at = parse_datetime_local(published_at_raw)
     image = request.files.get("image")
 
     errors = {}
     if not title:
         errors["title"] = "Title is required."
+    if not category:
+        errors["category"] = "Category is required."
+    if not author_name:
+        errors["author_name"] = "Author is required."
     if not caption:
         errors["caption"] = "Caption is required."
     if not detail:
         errors["detail"] = "Detail is required."
+    if status not in NEWS_STATUSES:
+        errors["status"] = "Status must be draft or published."
+    if published_at_raw.strip() and not published_at:
+        errors["published_at"] = "Publish date/time is invalid."
     if image and not allowed_file(image.filename):
         errors["image"] = "Image must be jpg, jpeg, png, or gif."
+
+    if status == "published" and not published_at:
+        published_at = datetime.utcnow()
+
+    if not excerpt:
+        excerpt = detail[:220]
 
     if errors:
         return render_template(
@@ -493,8 +657,13 @@ def news_edit(update_id: int):
         update.image = image_path
 
     update.title = title
+    update.category = category
+    update.author_name = author_name
+    update.excerpt = excerpt
     update.caption = caption
     update.detail = detail
+    update.status = status
+    update.published_at = published_at
     db.session.commit()
 
     flash("News update edited successfully!", "news_success")
@@ -514,14 +683,27 @@ def news_delete(update_id: int):
 
 @app.get("/news/<int:update_id>")
 def news_detail(update_id: int):
-    update = Updates.query.get_or_404(update_id)
-    min_id = db.session.query(db.func.min(Updates.id)).scalar()
-    max_id = db.session.query(db.func.max(Updates.id)).scalar()
+    query = Updates.query
+    if not is_authenticated():
+        query = public_news_query()
+
+    update = query.filter(Updates.id == update_id).first_or_404()
+    newer_update = query.filter(Updates.id > update.id).order_by(Updates.id.asc()).first()
+    older_update = query.filter(Updates.id < update.id).order_by(Updates.id.desc()).first()
+    related_updates = (
+        query.filter(Updates.id != update.id)
+        .order_by(func.coalesce(Updates.published_at, Updates.created_at).desc(), Updates.id.desc())
+        .limit(4)
+        .all()
+    )
+
     return render_template(
         "news.html",
         update=update,
-        min_id=min_id,
-        max_id=max_id,
+        newer_update=newer_update,
+        older_update=older_update,
+        related_updates=related_updates,
+        rendered_detail=render_markdown_content(update.detail),
         file_js="",
     )
 
