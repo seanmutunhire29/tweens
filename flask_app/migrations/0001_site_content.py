@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-from app import app, seed_site_content
+from app import app
 from db_migrations import run_migrations
-from models import db
 
 
 if __name__ == "__main__":
     with app.app_context():
         run_migrations()
-        db.create_all()
-        seed_site_content()
-    print("SQLite database initialized.")
+    print("Migration 0001 applied: site_content_table")

@@ -1,24 +1,24 @@
 {% set title = 'Achievements' %}
 {% set file_css = '' %}
 {% set bg_image_url = 'images/achieveHero.png' %}
-{% set topic = 'Achievements' %}
-{% set caption = 'Learn about our achievements' %}
+{% set topic = page_content.hero.topic %}
+{% set caption = page_content.hero.caption %}
 {% include 'components/hero.html' %}
 
 <main class="mx-auto flex max-w-6xl flex-col gap-14 px-6 py-12">
     <section>
         <div class="flex items-center justify-between">
-            <h2 class="text-3xl font-semibold text-slate-900">Our Achievements</h2>
+            <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.overview.title }}</h2>
             <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Impact</span>
         </div>
-        <p class="mt-4 max-w-3xl text-sm text-slate-600">Tap a star to explore the stories behind our milestones. Each highlight represents a student, a community, or a breakthrough powered by collective action.</p>
+        <p class="mt-4 max-w-3xl text-sm text-slate-600">{{ page_content.overview.caption }}</p>
         <div class="achievements mt-8 grid grid-cols-3 gap-6 sm:grid-cols-4 lg:grid-cols-6"></div>
         <div class="mother-container fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 p-4"></div>
     </section>
 
     <section>
         <div class="flex items-center justify-between">
-            <h2 class="text-3xl font-semibold text-slate-900">Testimonials</h2>
+            <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.testimonials.title }}</h2>
             <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Voices</span>
         </div>
         <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

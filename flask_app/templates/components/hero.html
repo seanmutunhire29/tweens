@@ -31,7 +31,7 @@
             <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
                 <a href="{{ url_for('home') }}" class="flex items-center gap-3">
                     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Tweens logo" class="h-12 w-12 rounded-2xl border border-white/30 object-cover">
-                    <span class="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">Tweens</span>
+                    <span class="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">{{ global_content.get('org_name', 'Tweens') }}</span>
                 </a>
                 <div class="hidden items-center gap-6 text-sm font-semibold text-white md:flex">
                     <a href="{{ url_for('home') }}" class="hover:text-brand-aqua">Home</a>
@@ -40,7 +40,7 @@
                     <a href="{{ url_for('contact') }}" class="hover:text-brand-aqua">Contact Us</a>
                     <a href="{{ url_for('programs') }}" class="hover:text-brand-aqua">Programs</a>
                 </div>
-                <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" class="hidden items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10 md:inline-flex">
+                <a href="{{ global_content.get('donate_url', 'https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/') }}" target="_blank" class="hidden items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10 md:inline-flex">
                     Donate
                     <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </a>

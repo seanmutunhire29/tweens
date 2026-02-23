@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tweens</title>
+    <title>{{ global_content.get('org_name', 'Tweens') }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -28,7 +28,7 @@
         <div class="logo flex items-center gap-3">
             <a href="{{ url_for('home') }}" class="inline-flex items-center gap-3">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="h-12 w-12 rounded-2xl border border-white/20 object-cover">
-                <span class="hidden text-xs font-semibold uppercase tracking-[0.3em] text-white/80 md:inline">Tweens</span>
+                <span class="hidden text-xs font-semibold uppercase tracking-[0.3em] text-white/80 md:inline">{{ global_content.get('org_name', 'Tweens') }}</span>
             </a>
         </div>
 
@@ -43,7 +43,7 @@
         </div>
 
         <div class="home-donate hidden md:block">
-            <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" class="rounded-full border border-white/40 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Donate</a>
+            <a href="{{ global_content.get('donate_url', 'https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/') }}" target="_blank" class="rounded-full border border-white/40 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Donate</a>
         </div>
 
         <div class="open-nav-icon md:hidden" style="cursor: pointer;">
@@ -56,8 +56,8 @@
             <div class="absolute inset-0"></div>
             <div class="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 text-white">
                 <div class="max-w-2xl space-y-6">
-                    <h1 class="text-5xl font-semibold leading-tight md:text-6xl">Tweens</h1>
-                    <p class="text-lg text-white/85">Over five years of improving the lives of children living in Tongogara refugee settlement.</p>
+                    <h1 class="text-5xl font-semibold leading-tight md:text-6xl">{{ page_content.hero.title }}</h1>
+                    <p class="text-lg text-white/85">{{ page_content.hero.caption }}</p>
                     <div class="flex flex-wrap gap-3">
                         <a href="{{ url_for('about') }}" class="rounded-full bg-brand-aqua px-6 py-3 text-sm font-semibold text-slate-900 transition hover:brightness-110">Check Out</a>
                         <a href="#activities" class="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10">Explore</a>
@@ -70,27 +70,25 @@
     <main class="relative z-10 bg-slate-50">
         <section class="mx-auto grid max-w-6xl gap-6 px-6 pb-12 pt-16 md:grid-cols-3">
             <div class="rounded-2xl bg-brand-blue p-6 text-white shadow-lg">
-                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-compass mr-2"></i>Our Mission</h2>
-                <p class="text-sm text-white/90">To empower underprivileged students by providing educational support, essential resources, and meaningful community engagement, fostering a culture of continuous learning, resilience, and personal growth.</p>
+                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-compass mr-2"></i>{{ page_content.mission.title }}</h2>
+                <p class="text-sm text-white/90">{{ page_content.mission.body }}</p>
                 <a href="{{ url_for('about') }}" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Learn More</a>
             </div>
             <div class="rounded-2xl bg-blue-700 p-6 text-white shadow-lg">
-                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-heart mr-2"></i>Our Values</h2>
-                <p class="text-sm text-white/90"><strong>Education for Empowerment:</strong> Providing quality learning opportunities to help children build skills and create brighter futures.</p>
-                <p class="mt-3 text-sm text-white/90"><strong>Inclusivity & Equality:</strong> Ensuring that every child, regardless of background, has an equal opportunity to succeed.</p>
-                <p class="mt-3 text-sm text-white/90"><strong>Community & Collaboration:</strong> Fostering teamwork and partnerships to create sustainable educational impact.</p>
-                <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Donate Here</a>
+                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-heart mr-2"></i>{{ page_content.values.title }}</h2>
+                <p class="text-sm text-white/90">{{ page_content.values.body }}</p>
+                <a href="{{ global_content.get('donate_url', 'https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/') }}" target="_blank" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Donate Here</a>
             </div>
             <div class="rounded-2xl bg-slate-900 p-6 text-white shadow-lg">
-                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-earth-americas mr-2"></i>Our Impact</h2>
-                <p class="text-sm text-white/85">TWEENS has significantly impacted underprivileged students through education and community support. Up to 200 students benefit from tutoring, study spaces, Wi-Fi, and learning materials.</p>
+                <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-earth-americas mr-2"></i>{{ page_content.impact.title }}</h2>
+                <p class="text-sm text-white/85">{{ page_content.impact.body }}</p>
                 <a href="{{ url_for('about') }}" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Explore</a>
             </div>
         </section>
 
         <section class="mx-auto max-w-6xl px-6 py-12" id="activities">
             <div class="flex items-center justify-between">
-                <h2 class="text-3xl font-semibold text-slate-900">Our Activities</h2>
+                <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.sections.activities_title }}</h2>
                 <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Community</span>
             </div>
             <div class="mt-8 grid gap-6 md:grid-cols-2">
@@ -162,7 +160,7 @@
 
         <section class="mx-auto max-w-6xl px-6 py-12">
             <div class="flex items-center justify-between">
-                <h2 class="text-3xl font-semibold text-slate-900">Our Partners</h2>
+                <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.sections.partners_title }}</h2>
                 <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Allies</span>
             </div>
             <div class="mt-8 grid items-center gap-6 sm:grid-cols-2 lg:grid-cols-5">
@@ -178,7 +176,7 @@
 
         <section class="mx-auto max-w-6xl px-6 py-12">
             <div class="flex items-center justify-between">
-                <h2 class="text-3xl font-semibold text-slate-900">News</h2>
+                <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.sections.news_title }}</h2>
                 <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Updates</span>
             </div>
             <div class="mt-8 grid gap-6 md:grid-cols-3">

@@ -1,14 +1,14 @@
 {% set title = 'Programs' %}
 {% set file_css = '' %}
 {% set bg_image_url = 'images/tutoring.JPG' %}
-{% set topic = 'Programs' %}
-{% set caption = 'Explore our programs' %}
+{% set topic = page_content.hero.topic %}
+{% set caption = page_content.hero.caption %}
 {% include 'components/hero.html' %}
 
 <main class="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-12">
     <section>
         <div class="flex items-center justify-between">
-            <h2 class="text-3xl font-semibold text-slate-900">Program Highlights</h2>
+            <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.overview.title }}</h2>
             <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Focus</span>
         </div>
         <div class="prog-buttons mt-6 flex flex-wrap gap-3">
@@ -23,10 +23,10 @@
     <section class="rounded-3xl bg-brand-blue px-8 py-10 text-white">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-                <h3 class="text-2xl font-semibold">Call To Action</h3>
-                <p class="mt-2 text-sm text-white/85">Do you want to volunteer to any of our programs? Feel free to contact us on our <a href="{{ url_for('contact') }}" class="text-white underline">contact page</a>.</p>
+                <h3 class="text-2xl font-semibold">{{ page_content.cta.title }}</h3>
+                <p class="mt-2 text-sm text-white/85">{{ page_content.cta.body }}</p>
             </div>
-            <a href="{{ url_for('contact') }}" class="rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-wider text-brand-blue transition hover:bg-brand-aqua hover:text-slate-900">Volunteer</a>
+            <a href="{{ url_for('contact') }}" class="rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-wider text-brand-blue transition hover:bg-brand-aqua hover:text-slate-900">{{ page_content.cta.button }}</a>
         </div>
     </section>
 

@@ -37,6 +37,14 @@ python flask_app/app.py
 
 The server starts on http://127.0.0.1:5000.
 
+## Database migrations
+
+Apply the site content migration:
+
+```
+python flask_app/migrations/0001_site_content.py
+```
+
 ## Tailwind build
 
 Install Node dependencies:
@@ -60,5 +68,5 @@ npm run tailwind:watch
 ## Notes
 
 - Static assets (CSS, JS, images) are served directly from public.
-- Database tables used: updates_table, testimony_table, newsletter_table, contact_table.
+- Database tables used: updates_table, testimony_table, newsletter_table, contact_table, site_content_table.
 - Admin editor is available at /news/createValidate.

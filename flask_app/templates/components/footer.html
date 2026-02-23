@@ -3,9 +3,9 @@
         <div class="space-y-4">
             <a href="{{ url_for('home') }}" class="inline-flex items-center gap-3">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" class="h-12 w-12 rounded-2xl border border-white/20 object-cover">
-                <span class="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">Tweens</span>
+                <span class="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">{{ global_content.get('org_name', 'Tweens') }}</span>
             </a>
-            <p class="text-sm text-slate-400">Refugee-led education initiatives building brighter futures through mentorship, access, and community care.</p>
+            <p class="text-sm text-slate-400">{{ footer_content.get('tagline', 'Refugee-led education initiatives building brighter futures through mentorship, access, and community care.') }}</p>
             <div class="flex gap-3 text-lg">
                 <a href="https://www.instagram.com/tweens_tongogara/" target="_blank" class="rounded-full border border-white/20 p-2 text-white/80 transition hover:border-brand-aqua hover:text-brand-aqua"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://x.com/TongogaraTweens" target="_blank" class="rounded-full border border-white/20 p-2 text-white/80 transition hover:border-brand-aqua hover:text-brand-aqua"><i class="fa-brands fa-twitter"></i></a>
@@ -17,7 +17,7 @@
             <h2 class="text-lg font-semibold text-white">Useful Links</h2>
             <div class="space-y-2 text-sm">
                 <p><i class="fa-solid fa-house text-brand-aqua"></i> <a href="{{ url_for('home') }}">Home</a></p>
-                <p><i class="fa-solid fa-hand-holding-heart text-brand-aqua"></i> <a href="https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/" target="_blank">Donate</a></p>
+                <p><i class="fa-solid fa-hand-holding-heart text-brand-aqua"></i> <a href="{{ global_content.get('donate_url', 'https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/') }}" target="_blank">Donate</a></p>
                 <p><i class="fa-solid fa-address-card text-brand-aqua"></i> <a href="{{ url_for('about') }}">About Us</a></p>
                 <p><i class="fa-solid fa-people-group text-brand-aqua"></i> <a href="{{ url_for('programs') }}">Programs</a></p>
                 <p><i class="fa-solid fa-medal text-brand-aqua"></i> <a href="{{ url_for('achievements') }}">Achievements</a></p>
@@ -26,8 +26,8 @@
 
         <div class="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-6">
             <div>
-                <h2 class="text-lg font-semibold text-white">News Letter</h2>
-                <p class="text-sm text-slate-300">Enter your email to signup for our newsletter.</p>
+                <h2 class="text-lg font-semibold text-white">{{ footer_content.get('newsletter_title', 'News Letter') }}</h2>
+                <p class="text-sm text-slate-300">{{ footer_content.get('newsletter_caption', 'Enter your email to signup for our newsletter.') }}</p>
             </div>
 
             {% with messages = get_flashed_messages(category_filter=['newsletter_success']) %}
@@ -57,7 +57,7 @@
     </div>
 
     <div class="border-t border-white/10 py-4 text-center text-xs text-slate-400">
-        <p>&copy; Copyright <a href="{{ url_for('news_validate_page') }}" class="text-slate-200">Tweens</a> || 2025</p>
+        <p>&copy; Copyright <a href="{{ url_for('news_validate_page') }}" class="text-slate-200">{{ global_content.get('org_name', 'Tweens') }}</a> || {{ footer_content.get('copyright_year', '2025') }}</p>
     </div>
 </section>
 

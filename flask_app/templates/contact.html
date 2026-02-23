@@ -1,8 +1,8 @@
 {% set title = 'Contact' %}
 {% set file_css = '' %}
 {% set bg_image_url = 'images/contactHero.png' %}
-{% set topic = 'Contact Us' %}
-{% set caption = 'Get in touch' %}
+{% set topic = page_content.hero.topic %}
+{% set caption = page_content.hero.caption %}
 {% include 'components/hero.html' %}
 
 <main class="mx-auto flex max-w-6xl flex-col gap-12 px-6 py-12">
@@ -23,8 +23,8 @@
     <section class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <form method="post" action="{{ url_for('contact_submit') }}" class="form-side rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
             <div class="space-y-2">
-                <h2 class="text-2xl font-semibold text-slate-900">Get In Touch</h2>
-                <p class="text-sm text-slate-500">We respond within 48 hours. Tell us how we can help.</p>
+                <h2 class="text-2xl font-semibold text-slate-900">{{ page_content.form.title }}</h2>
+                <p class="text-sm text-slate-500">{{ page_content.form.caption }}</p>
             </div>
             <div class="mt-6 grid gap-4">
                 <div>
@@ -74,11 +74,11 @@
 
     <section class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
         <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 class="text-xl font-semibold text-slate-900">Direct Contact</h3>
+            <h3 class="text-xl font-semibold text-slate-900">{{ page_content.direct.title }}</h3>
             <div class="mt-4 space-y-3 text-sm text-slate-600">
-                <p><i class="fa-solid fa-phone text-brand-aqua"></i> <strong>Phone:</strong> 078 767 6946</p>
-                <p><i class="fa-solid fa-envelope text-brand-aqua"></i> <strong>Email:</strong> admin@tweenstongogara.org</p>
-                <p class="text-xs text-slate-400">We are located in Tongogara Refugee Settlement, Zimbabwe.</p>
+                <p><i class="fa-solid fa-phone text-brand-aqua"></i> <strong>Phone:</strong> {{ page_content.direct.phone }}</p>
+                <p><i class="fa-solid fa-envelope text-brand-aqua"></i> <strong>Email:</strong> {{ page_content.direct.email }}</p>
+                <p class="text-xs text-slate-400">{{ page_content.direct.location }}</p>
             </div>
         </div>
         <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
