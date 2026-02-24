@@ -52,7 +52,7 @@
     </div>
 
     <div class="home-background relative min-h-screen">
-        <div class="home-container absolute inset-0 flex items-center" data-id="1" style="background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('{{ url_for('static', filename=page_content.hero.background_image) }}'); background-position: center; background-size: cover;">
+        <div class="home-container absolute inset-0 flex items-center transition-opacity duration-1000 ease-in-out" data-id="1" data-image="{{ url_for('static', filename=page_content.hero.background_image) }}" style="background-position: center; background-size: cover; opacity: 1; will-change: opacity;">
             <div class="absolute inset-0"></div>
             <div class="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 text-white">
                 <div class="max-w-2xl space-y-6">
@@ -68,87 +68,87 @@
     </div>
 
     <main class="relative z-10 bg-slate-50">
-        <section class="mx-auto grid max-w-6xl gap-6 px-6 pb-12 pt-16 md:grid-cols-3">
-            <div class="rounded-2xl bg-brand-blue p-6 text-white shadow-lg">
+        <section class="mx-auto grid max-w-6xl gap-6 px-6 pb-12 pt-16 md:grid-cols-3" data-reveal data-reveal-delay="80">
+            <div class="rounded-2xl bg-brand-blue p-6 text-white shadow-lg" data-reveal data-reveal-delay="120">
                 <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-compass mr-2"></i>{{ page_content.mission.title }}</h2>
                 <p class="text-sm text-white/90">{{ page_content.mission.body }}</p>
                 <a href="{{ url_for('about') }}" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Learn More</a>
             </div>
-            <div class="rounded-2xl bg-blue-700 p-6 text-white shadow-lg">
+            <div class="rounded-2xl bg-blue-700 p-6 text-white shadow-lg" data-reveal data-reveal-delay="180">
                 <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-heart mr-2"></i>{{ page_content.values.title }}</h2>
                 <p class="text-sm text-white/90">{{ page_content.values.body }}</p>
                 <a href="{{ global_content.get('donate_url', 'https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/') }}" target="_blank" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Donate Here</a>
             </div>
-            <div class="rounded-2xl bg-slate-900 p-6 text-white shadow-lg">
+            <div class="rounded-2xl bg-slate-900 p-6 text-white shadow-lg" data-reveal data-reveal-delay="240">
                 <h2 class="mb-3 text-2xl font-semibold"><i class="fa-solid fa-earth-americas mr-2"></i>{{ page_content.impact.title }}</h2>
                 <p class="text-sm text-white/85">{{ page_content.impact.body }}</p>
                 <a href="{{ url_for('about') }}" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Explore</a>
             </div>
         </section>
 
-        <section class="mx-auto max-w-6xl px-6 py-12" id="activities">
-            <div class="flex items-center justify-between">
+        <section class="mx-auto max-w-6xl px-6 py-12" id="activities" data-reveal data-reveal-delay="80">
+            <div class="flex items-center justify-between" data-reveal data-reveal-delay="120">
                 <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.sections.activities_title }}</h2>
                 <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Community</span>
             </div>
             <div class="mt-8 grid gap-6 md:grid-cols-2">
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg" data-reveal data-reveal-delay="160">
                     <img src="{{ url_for('static', filename='images/homeGirlsClub.jpeg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">Big to young sister mentorship</h3>
                         <p class="mt-2 text-sm text-slate-600">Older, more experienced students mentoring younger girls, offering academic guidance, emotional support, and motivation to help them succeed in their studies and personal growth.</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg" data-reveal data-reveal-delay="200">
                     <img src="{{ url_for('static', filename='images/homeCleanUp.png') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">Girls book club</h3>
                         <p class="mt-2 text-sm text-slate-600">A safe and engaging space where girls come together to read, discuss books, and develop a love for learning while fostering discussions on empowerment and leadership.</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg" data-reveal data-reveal-delay="240">
                     <img src="{{ url_for('static', filename='images/Parent-Teacher.jpg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">Parent Teacher Association</h3>
                         <p class="mt-2 text-sm text-slate-600">Parents, teachers, and mentors collaborate to discuss students' academic progress, challenges, and well-being to create a nurturing learning environment.</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg" data-reveal data-reveal-delay="280">
                     <img src="{{ url_for('static', filename='images/homeALevel.png') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">A level study program</h3>
                         <p class="mt-2 text-sm text-slate-600">Academic support, resources, and mentorship for students preparing for A-Level exams, including structured study sessions and guidance on scholarships.</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg" data-reveal data-reveal-delay="320">
                     <img src="{{ url_for('static', filename='images/HomeEducationAwarenessCampains.jpeg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">Education awareness campaigns</h3>
                         <p class="mt-2 text-sm text-slate-600">Advocating for the importance of education through motivational talks, workshops, and outreach that inspire learners, parents, and stakeholders.</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg" data-reveal data-reveal-delay="360">
                     <img src="{{ url_for('static', filename='images/HomeStudentSeminars.jpeg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">Student seminars and workshops</h3>
                         <p class="mt-2 text-sm text-slate-600">Interactive learning experiences where students gain academic, career, and personal development skills through expert talks and mentorship.</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg" data-reveal data-reveal-delay="400">
                     <img src="{{ url_for('static', filename='images/HomeOLevelTutoringAndHomework.JPG') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">O-Level tutoring and homework support</h3>
                         <p class="mt-2 text-sm text-slate-600">Personalized academic assistance to improve exam performance, build confidence, and strengthen academic skills.</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg" data-reveal data-reveal-delay="420">
                     <img src="{{ url_for('static', filename='images/HomeExtracurricularsAtTweens.jpeg') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">Extracurricular offerings</h3>
                         <p class="mt-2 text-sm text-slate-600">Opportunities to explore activities beyond academics such as sports, arts, leadership programs, and social clubs.</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg md:col-span-2">
+                <div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg md:col-span-2" data-reveal data-reveal-delay="460">
                     <img src="{{ url_for('static', filename='images/HomeCleanUpCampain.JPG') }}" alt="" class="h-48 w-full rounded-xl object-cover">
                     <div>
                         <h3 class="text-xl font-semibold">Clean up campaigns</h3>
@@ -158,28 +158,28 @@
             </div>
         </section>
 
-        <section class="mx-auto max-w-6xl px-6 py-12">
-            <div class="flex items-center justify-between">
+        <section class="mx-auto max-w-6xl px-6 py-12" data-reveal data-reveal-delay="80">
+            <div class="flex items-center justify-between" data-reveal data-reveal-delay="120">
                 <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.sections.partners_title }}</h2>
                 <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Allies</span>
             </div>
             <div class="mt-8 grid items-center gap-6 sm:grid-cols-2 lg:grid-cols-5">
-                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/educationMatters.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/GlobalFundLogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/cohereLogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/naledi.jpg') }}" alt="" class="mx-auto h-16 object-contain"></div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><img src="{{ url_for('static', filename='images/Globalchangemakerslogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" data-reveal data-reveal-delay="160"><img src="{{ url_for('static', filename='images/educationMatters.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" data-reveal data-reveal-delay="200"><img src="{{ url_for('static', filename='images/GlobalFundLogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" data-reveal data-reveal-delay="240"><img src="{{ url_for('static', filename='images/cohereLogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" data-reveal data-reveal-delay="280"><img src="{{ url_for('static', filename='images/naledi.jpg') }}" alt="" class="mx-auto h-16 object-contain"></div>
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" data-reveal data-reveal-delay="320"><img src="{{ url_for('static', filename='images/Globalchangemakerslogo.png') }}" alt="" class="mx-auto h-16 object-contain"></div>
             </div>
         </section>
 
     </section>
 
-        <section class="mx-auto max-w-6xl px-6 py-12">
-            <div class="flex items-center justify-between">
+        <section class="mx-auto max-w-6xl px-6 py-12" data-reveal data-reveal-delay="80">
+            <div class="flex items-center justify-between" data-reveal data-reveal-delay="120">
                 <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.sections.news_title }}</h2>
                 <span class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Updates</span>
             </div>
-            <div class="mt-8 grid gap-6 md:grid-cols-3">
+            <div class="mt-8 grid gap-6 md:grid-cols-3" data-reveal data-reveal-delay="160">
                 {% for update in updates %}
                     {% set update_img_url = url_for('static', filename=update.image or '') %}
                     {% set full_news = url_for('news_detail', update_id=update.id) %}
