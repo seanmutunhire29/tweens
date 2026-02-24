@@ -60,10 +60,15 @@ const allAchievements = [
 let starsHTML = '';
 allAchievements.forEach((achievement) => {
     const imagePath = achievement.image.startsWith('/') ? achievement.image : `/${achievement.image}`;
+    const shortText = achievement.text.length > 145 ? `${achievement.text.slice(0, 145)}...` : achievement.text;
     const myStar = `
-        <button class="star group relative flex h-20 w-20 items-center justify-center rounded-full bg-brand-blue/10 ring-2 ring-brand-aqua/30 transition hover:ring-brand-aqua md:h-24 md:w-24" data-id="${achievement.id}">
-            <span class="inner-star absolute inset-1 rounded-full bg-cover bg-center" style="background-image: url(${imagePath});"></span>
-            <span class="my-tooltip absolute -bottom-8 whitespace-nowrap rounded-full bg-slate-900 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white opacity-0 transition group-hover:opacity-100">${achievement.title}</span>
+        <button class="achievement-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl" data-id="${achievement.id}" aria-label="Open ${achievement.title}" style="height: clamp(24rem, 48vw, 28rem);">
+            <div class="bg-cover bg-center" style="height: 50%; background-image: linear-gradient(rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.55)), url('${imagePath}');"></div>
+            <div class="flex flex-col justify-between space-y-3 p-5" style="height: 50%;">
+                <h3 class="text-xl font-semibold text-slate-900">${achievement.title}</h3>
+                <p class="text-sm text-slate-600">${shortText}</p>
+                <span class="inline-flex items-center gap-2 text-sm font-semibold text-brand-blue">Read full story <i class="fa-solid fa-arrow-right text-xs"></i></span>
+            </div>
         </button>
     `;
 
@@ -74,55 +79,89 @@ if (achievementsContainer) {
     achievementsContainer.innerHTML = starsHTML;
 }
 
-const allStars = document.querySelectorAll('.star');
-allStars.forEach((star) => {
-    star.addEventListener('click', () => {
-        const modal = document.querySelector('.mother-container');
-        if (!modal) {
-            return;
-        }
+const modal = document.querySelector('.mother-container');
 
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+function closeModal() {
+    if (!modal) {
+        return;
+    }
 
-        const starId = Number(star.dataset.id);
-        const chosenObject = allAchievements.find((object) => object.id === starId);
-        if (!chosenObject) {
-            return;
-        }
+    const popupCard = modal.querySelector('[data-popup-card="true"]');
 
-        const imagePath = chosenObject.image.startsWith('/') ? chosenObject.image : `/${chosenObject.image}`;
-        const generatedHTML = `
-            <div class="relative w-full max-w-4xl rounded-3xl bg-white p-6 shadow-2xl">
-                <button class="absolute right-4 top-4 rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-brand-aqua hover:text-brand-blue" data-close="true">
+    modal.style.opacity = '0';
+    if (popupCard) {
+        popupCard.style.opacity = '0';
+        popupCard.style.transform = 'translateY(20px) scale(0.96)';
+    }
+
+    setTimeout(() => {
+        modal.innerHTML = '';
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 280);
+}
+
+function openModal(chosenObject) {
+    if (!modal || !chosenObject) {
+        return;
+    }
+
+    const generatedHTML = `
+        <div class="relative w-full max-w-5xl overflow-hidden rounded-3xl border border-white/30 bg-white shadow-2xl" data-popup-card="true" role="dialog" aria-modal="true" aria-label="${chosenObject.title}" style="max-height: 86vh; opacity: 0; transform: translateY(20px) scale(0.96); transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 240ms ease;">
+            <div class="relative flex max-h-[86vh] flex-col p-6 md:p-8">
+                <button class="absolute right-4 top-4 rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-brand-aqua hover:text-brand-blue" data-close="true" aria-label="Close popup">
                     <i class="fa-solid fa-rectangle-xmark"></i>
                 </button>
-                <div class="space-y-4">
-                    <h1 class="text-2xl font-semibold text-slate-900">${chosenObject.title}</h1>
-                    <div class="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-                        <div class="overflow-hidden rounded-2xl border border-slate-200">
-                            <img src="${imagePath}" alt="" class="h-full w-full object-cover">
-                        </div>
-                        <div class="text-sm text-slate-600">${chosenObject.text}</div>
-                    </div>
-                </div>
+                <h1 class="pr-12 text-2xl font-semibold text-slate-900 md:text-3xl">${chosenObject.title}</h1>
+                <p class="mt-4 overflow-y-auto pr-1 text-sm leading-7 text-slate-600 md:text-base">${chosenObject.text}</p>
             </div>
-        `;
+        </div>
+    `;
 
-        modal.innerHTML = generatedHTML;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.style.opacity = '0';
+    modal.style.transition = 'opacity 220ms ease';
+    modal.innerHTML = generatedHTML;
+
+    requestAnimationFrame(() => {
+        modal.style.opacity = '1';
+        const popupCard = modal.querySelector('[data-popup-card="true"]');
+        if (!popupCard) {
+            return;
+        }
+        popupCard.style.opacity = '1';
+        popupCard.style.transform = 'translateY(0) scale(1)';
+    });
+}
+
+const allCards = document.querySelectorAll('.achievement-card');
+allCards.forEach((card) => {
+    card.addEventListener('click', () => {
+        const cardId = Number(card.dataset.id);
+        const chosenObject = allAchievements.find((object) => object.id === cardId);
+        openModal(chosenObject);
     });
 });
 
 document.addEventListener('click', (event) => {
-    const modal = document.querySelector('.mother-container');
     if (!modal) {
         return;
     }
 
     const target = event.target;
     if (target && target.closest('[data-close="true"]')) {
-        modal.innerHTML = '';
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
+        closeModal();
+        return;
+    }
+
+    if (target === modal) {
+        closeModal();
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        closeModal();
     }
 });
