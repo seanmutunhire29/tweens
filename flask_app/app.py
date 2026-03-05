@@ -11,7 +11,10 @@ from markupsafe import Markup, escape
 from werkzeug.utils import secure_filename
 
 from db_migrations import run_migrations
-from models import Contact, Newsletter, SiteContent, Testimony, Updates, db
+from models import (
+    Achievement, Activity, Contact, HeroSlide, Newsletter,
+    Program, ProgramMedia, SiteContent, Testimony, Updates, db,
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PUBLIC_DIR = BASE_DIR / "public"
@@ -209,6 +212,58 @@ def render_markdown_content(value: str | None) -> Markup:
     return Markup(html)
 
 
+DEFAULT_ACHIEVEMENTS = [
+    {"title": "Empowering Students", "image": "images/achieveEmpower.png", "text": "In a remarkable display of leadership and mentorship, we inspired more than seven girls to retake their O-Level national exams after they initially faced setbacks. Recognizing the challenges these girls were experiencing, we took the initiative to provide emotional and academic support, encouraging them to overcome their doubts and persevere in their educational journey."},
+    {"title": "Impactful Outreach", "image": "images/achieveOutreach.jpeg", "text": "Through dedicated efforts, we reached more than 500 students via awareness campaigns and motivational sessions aimed at fostering personal growth and academic success."},
+    {"title": "Comprehensive Student Support", "image": "images/achieveStudentSupport.png", "text": "We provided a wide range of essential services to up to 200 students, ensuring they had the resources and support necessary for academic success and personal growth."},
+    {"title": "Scholarship Success", "image": "images/achieveScholarSuccess.jpeg", "text": "We celebrated an incredible milestone as five of our students earned full scholarships for their A-Level studies at the prestigious USAP Community School, run by Education Matters."},
+    {"title": "International Scholarships", "image": "images/achieveInternationalScholarships.png", "text": "A total of eight of our dedicated members have earned scholarships to pursue higher education abroad, marking a significant achievement in their academic journeys."},
+    {"title": "O-Level Success", "image": "images/achieveOLevelSuccess.png", "text": "Tens of non-formal education students successfully passed their O-Level exams, a direct result of the dedicated tutoring provided by TWEENS tutors."},
+    {"title": "Night Study Solar Lights", "image": "images/achieveSolarLights.png", "text": "Thanks to the solar lights facilitated through TWEENS by Naledi, more than 50 girls now have the ability to study at night in their homes, overcoming the barriers of limited electricity access."},
+    {"title": "Book Donation", "image": "images/achieveBookDonation.png", "text": "Through the generous donation of more than 200 books by Kate Chambers, the JRS local library has received a significant boost in its collection."},
+    {"title": "Church Outreach Initiative", "image": "images/achieveChurch.png", "text": "In 2023, we successfully reached out to 1,920 individuals across nine Christian denominations during our church visit initiative."},
+]
+
+DEFAULT_PROGRAMS = [
+    {"title": "Tutoring lessons", "description": "Our tutoring lessons offer personalized academic support to help students excel in their studies.", "category": "academic", "show_image": "imagePrograms/progTutoringLessons1.jpeg", "media": ["imagePrograms/progTutoringLessons1.jpeg", "imagePrograms/progTutoringLessons2.jpeg", "imagePrograms/progTutoringLessons3.jpeg", "imagePrograms/progTutoringLessons4.jpeg"]},
+    {"title": "Study spaces", "description": "Our study spaces provide a quiet and comfortable environment where students can focus, collaborate, and achieve their academic goals.", "category": "academic", "show_image": "imagePrograms/progStudySpaces.png", "media": ["imagePrograms/progStudy1.png"]},
+    {"title": "Scholarship mentorship", "description": "We provide guidance and mentorship to help students navigate scholarship opportunities and application processes.", "category": "academic", "show_image": "imagePrograms/progScholarship.png", "media": ["imagePrograms/progScholarshipMentorship1.jpeg", "imagePrograms/progScholarshipMentorship2.jpeg", "imagePrograms/progScholarshipMentorship3.jpeg"]},
+    {"title": "Internet Access", "description": "Stay connected and access online resources with our high-speed internet, providing 50GB of data per month.", "category": "resources", "show_image": "imagePrograms/progInternet.png", "media": ["imagePrograms/progInternet.png"]},
+    {"title": "Laptops & iPads", "description": "Enhance your learning experience with access to our five laptops and eight iPads.", "category": "resources", "show_image": "images/laptops-ipads_enhanced.jpg", "media": ["images/laptops-ipads_enhanced.jpg"]},
+    {"title": "Form 3 & 4 Textbooks", "description": "Access a collection of Form 3 and 4 textbooks covering key subjects to support your studies.", "category": "academic", "show_image": "imagePrograms/progBooks.png", "media": ["imagePrograms/progTextbooks1.jpeg", "imagePrograms/progTextbooks2.jpeg"]},
+    {"title": "Motivational sessions", "description": "Stay inspired and driven with our motivational sessions designed to encourage personal growth and academic excellence.", "category": "wellbeing", "show_image": "imagePrograms/progMotivation.png", "media": ["imagePrograms/progMotivation.png"]},
+    {"title": "Wide range of books", "description": "Discover a diverse collection of books covering various subjects, including academics, self-improvement, fiction, and career development.", "category": "wellbeing", "show_image": "imagePrograms/progWideRangeOfBooks.jpeg", "media": ["imagePrograms/progWideRangeOfBooks.jpeg"]},
+    {"title": "U.S. College Application Books", "description": "Gain valuable insights into the U.S. college application process with our collection of books.", "category": "resources", "show_image": "imagePrograms/progUSColleges.jpeg", "media": ["imagePrograms/progUSColleges.jpeg"]},
+    {"title": "Board games", "description": "Take a break and challenge your mind with our engaging board games!", "category": "wellbeing", "show_image": "imagePrograms/progChess.png", "media": ["imagePrograms/progBoard1.jpeg", "imagePrograms/progBoard2.jpeg", "imagePrograms/progBoard3.jpeg", "imagePrograms/progBoard4.jpeg", "imagePrograms/progBoard5.jpeg"]},
+]
+
+DEFAULT_ACTIVITIES = [
+    {"title": "Big to young sister mentorship", "description": "Older, more experienced students mentoring younger girls, offering academic guidance, emotional support, and motivation to help them succeed in their studies and personal growth.", "image": "images/homeGirlsClub.jpeg"},
+    {"title": "Girls book club", "description": "A safe and engaging space where girls come together to read, discuss books, and develop a love for learning while fostering discussions on empowerment and leadership.", "image": "images/homeCleanUp.png"},
+    {"title": "Parent Teacher Association", "description": "Parents, teachers, and mentors collaborate to discuss students' academic progress, challenges, and well-being to create a nurturing learning environment.", "image": "images/Parent-Teacher.jpg"},
+    {"title": "A level study program", "description": "Academic support, resources, and mentorship for students preparing for A-Level exams, including structured study sessions and guidance on scholarships.", "image": "images/homeALevel.png"},
+    {"title": "Education awareness campaigns", "description": "Advocating for the importance of education through motivational talks, workshops, and outreach that inspire learners, parents, and stakeholders.", "image": "images/HomeEducationAwarenessCampains.jpeg"},
+    {"title": "Student seminars and workshops", "description": "Interactive learning experiences where students gain academic, career, and personal development skills through expert talks and mentorship.", "image": "images/HomeStudentSeminars.jpeg"},
+    {"title": "O-Level tutoring and homework support", "description": "Personalized academic assistance to improve exam performance, build confidence, and strengthen academic skills.", "image": "images/HomeOLevelTutoringAndHomework.JPG"},
+    {"title": "Extracurricular offerings", "description": "Opportunities to explore activities beyond academics such as sports, arts, leadership programs, and social clubs.", "image": "images/HomeExtracurricularsAtTweens.jpeg"},
+    {"title": "Clean up campaigns", "description": "Promoting environmental awareness and responsibility within the community through cleanup activities and waste management education.", "image": "images/HomeCleanUpCampain.JPG"},
+]
+
+DEFAULT_HERO_SLIDES = [
+    {"image": "images/home1.png"},
+    {"image": "images/home2.jpeg"},
+    {"image": "images/home3.png"},
+]
+
+
+def save_uploaded_image(file_obj) -> str | None:
+    if not file_obj or not file_obj.filename or not allowed_file(file_obj.filename):
+        return None
+    filename = f"{int(datetime.utcnow().timestamp())}_{secure_filename(file_obj.filename)}"
+    file_obj.save(UPLOAD_DIR / filename)
+    return f"updateImages/{filename}"
+
+
 def seed_site_content() -> None:
     existing = {
         (item.page, item.section, item.field)
@@ -280,10 +335,34 @@ def get_site_content_editor() -> dict[str, list[dict[str, object]]]:
     return editor
 
 
+def seed_list_data() -> None:
+    if Achievement.query.count() == 0:
+        for i, item in enumerate(DEFAULT_ACHIEVEMENTS):
+            db.session.add(Achievement(title=item["title"], image=item["image"], text=item["text"], sort_order=i))
+        db.session.commit()
+    if Program.query.count() == 0:
+        for i, item in enumerate(DEFAULT_PROGRAMS):
+            prog = Program(title=item["title"], description=item["description"], category=item["category"], show_image=item["show_image"], sort_order=i)
+            db.session.add(prog)
+            db.session.flush()
+            for j, media_path in enumerate(item.get("media", [])):
+                db.session.add(ProgramMedia(program_id=prog.id, image=media_path, sort_order=j))
+        db.session.commit()
+    if Activity.query.count() == 0:
+        for i, item in enumerate(DEFAULT_ACTIVITIES):
+            db.session.add(Activity(title=item["title"], description=item["description"], image=item["image"], sort_order=i))
+        db.session.commit()
+    if HeroSlide.query.count() == 0:
+        for i, item in enumerate(DEFAULT_HERO_SLIDES):
+            db.session.add(HeroSlide(image=item["image"], sort_order=i))
+        db.session.commit()
+
+
 with app.app_context():
     run_migrations()
     db.create_all()
     seed_site_content()
+    seed_list_data()
 
 
 @app.context_processor
@@ -292,15 +371,20 @@ def inject_global_site_content():
     return {
         "global_content": global_content.get("branding", {}),
         "footer_content": global_content.get("footer", {}),
+        "current_endpoint": request.endpoint,
     }
 
 
 @app.get("/")
 def home():
     updates = public_news_query().order_by(func.coalesce(Updates.published_at, Updates.created_at).desc(), Updates.id.desc()).all()
+    activities = Activity.query.order_by(Activity.sort_order).all()
+    hero_slides = HeroSlide.query.order_by(HeroSlide.sort_order).all()
     return render_template(
         "home.html",
         updates=updates,
+        activities=activities,
+        hero_slides=hero_slides,
         page_content=get_page_content("home"),
         file_js=f'<script src="{url_for("static", filename="myJS/home.js")}"></script>',
     )
@@ -325,6 +409,10 @@ def news_create_page():
     contacts = Contact.query.order_by(Contact.id.desc()).all()
     newsletters = Newsletter.query.order_by(Newsletter.id.desc()).all()
     testimonies = Testimony.query.order_by(Testimony.id.desc()).all()
+    achievement_list = Achievement.query.order_by(Achievement.sort_order).all()
+    program_list = Program.query.order_by(Program.sort_order).all()
+    activity_list = Activity.query.order_by(Activity.sort_order).all()
+    hero_slides = HeroSlide.query.order_by(HeroSlide.sort_order).all()
     return render_template(
         "add_updates.html",
         authenticated=is_authenticated(),
@@ -333,6 +421,10 @@ def news_create_page():
         newsletters=newsletters,
         testimonies=testimonies,
         site_content_editor=get_site_content_editor(),
+        achievements=achievement_list,
+        programs=program_list,
+        activities=activity_list,
+        hero_slides=hero_slides,
     )
 
 
@@ -720,9 +812,11 @@ def about():
 @app.get("/achievements")
 def achievements():
     testimonies = Testimony.query.order_by(Testimony.id.desc()).all()
+    achievement_list = Achievement.query.order_by(Achievement.sort_order).all()
     return render_template(
         "achievements.html",
         testimonies=testimonies,
+        achievements=achievement_list,
         page_content=get_page_content("achievements"),
         file_js=f'<script src="{url_for("static", filename="myJS/achievements.js")}"></script>',
     )
@@ -794,11 +888,259 @@ def donations():
 
 @app.get("/programs")
 def programs():
+    program_list = Program.query.order_by(Program.sort_order).all()
     return render_template(
         "programs.html",
+        programs=program_list,
         page_content=get_page_content("programs"),
         file_js=f'<script src="{url_for("static", filename="myJS/programs.js")}"></script>',
     )
+
+
+# =========================================================================
+#  ADMIN — ACHIEVEMENTS CRUD
+# =========================================================================
+
+@app.post("/admin/achievements/add")
+def admin_achievement_add():
+    if not is_authenticated():
+        abort(403)
+    title = request.form.get("title", "").strip()
+    text = request.form.get("text", "").strip()
+    if not title:
+        flash("Achievement title is required.", "content_error")
+        return redirect(url_for("news_create_page"))
+    img = request.files.get("image")
+    image_path = save_uploaded_image(img) or ""
+    max_order = db.session.query(func.max(Achievement.sort_order)).scalar() or 0
+    db.session.add(Achievement(title=title, image=image_path, text=text, sort_order=max_order + 1))
+    db.session.commit()
+    flash("Achievement added.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.post("/admin/achievements/<int:item_id>/edit")
+def admin_achievement_edit(item_id):
+    if not is_authenticated():
+        abort(403)
+    item = Achievement.query.get_or_404(item_id)
+    item.title = request.form.get("title", item.title).strip()
+    item.text = request.form.get("text", item.text).strip()
+    img = request.files.get("image")
+    if img and img.filename:
+        new_path = save_uploaded_image(img)
+        if new_path:
+            if item.image.startswith("updateImages/"):
+                old = PUBLIC_DIR / item.image
+                if old.exists():
+                    old.unlink()
+            item.image = new_path
+    db.session.commit()
+    flash("Achievement updated.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.get("/admin/achievements/<int:item_id>/delete")
+def admin_achievement_delete(item_id):
+    if not is_authenticated():
+        abort(403)
+    item = Achievement.query.get_or_404(item_id)
+    if item.image.startswith("updateImages/"):
+        old = PUBLIC_DIR / item.image
+        if old.exists():
+            old.unlink()
+    db.session.delete(item)
+    db.session.commit()
+    flash("Achievement deleted.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+# =========================================================================
+#  ADMIN — PROGRAMS CRUD
+# =========================================================================
+
+@app.post("/admin/programs/add")
+def admin_program_add():
+    if not is_authenticated():
+        abort(403)
+    title = request.form.get("title", "").strip()
+    description = request.form.get("description", "").strip()
+    category = request.form.get("category", "academic").strip()
+    if not title:
+        flash("Program title is required.", "content_error")
+        return redirect(url_for("news_create_page"))
+    show_img = request.files.get("show_image")
+    show_path = save_uploaded_image(show_img) or ""
+    max_order = db.session.query(func.max(Program.sort_order)).scalar() or 0
+    prog = Program(title=title, description=description, category=category, show_image=show_path, sort_order=max_order + 1)
+    db.session.add(prog)
+    db.session.flush()
+    media_files = request.files.getlist("media_images")
+    for j, mf in enumerate(media_files):
+        if mf and mf.filename:
+            mp = save_uploaded_image(mf)
+            if mp:
+                db.session.add(ProgramMedia(program_id=prog.id, image=mp, sort_order=j))
+    db.session.commit()
+    flash("Program added.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.post("/admin/programs/<int:item_id>/edit")
+def admin_program_edit(item_id):
+    if not is_authenticated():
+        abort(403)
+    item = Program.query.get_or_404(item_id)
+    item.title = request.form.get("title", item.title).strip()
+    item.description = request.form.get("description", item.description).strip()
+    item.category = request.form.get("category", item.category).strip()
+    show_img = request.files.get("show_image")
+    if show_img and show_img.filename:
+        new_path = save_uploaded_image(show_img)
+        if new_path:
+            if item.show_image.startswith("updateImages/"):
+                old = PUBLIC_DIR / item.show_image
+                if old.exists():
+                    old.unlink()
+            item.show_image = new_path
+    media_files = request.files.getlist("media_images")
+    max_media_order = db.session.query(func.max(ProgramMedia.sort_order)).filter_by(program_id=item.id).scalar() or 0
+    for j, mf in enumerate(media_files):
+        if mf and mf.filename:
+            mp = save_uploaded_image(mf)
+            if mp:
+                db.session.add(ProgramMedia(program_id=item.id, image=mp, sort_order=max_media_order + j + 1))
+    db.session.commit()
+    flash("Program updated.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.get("/admin/programs/<int:item_id>/delete")
+def admin_program_delete(item_id):
+    if not is_authenticated():
+        abort(403)
+    item = Program.query.get_or_404(item_id)
+    if item.show_image.startswith("updateImages/"):
+        old = PUBLIC_DIR / item.show_image
+        if old.exists():
+            old.unlink()
+    for m in item.media_images:
+        if m.image.startswith("updateImages/"):
+            old = PUBLIC_DIR / m.image
+            if old.exists():
+                old.unlink()
+    db.session.delete(item)
+    db.session.commit()
+    flash("Program deleted.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.get("/admin/programs/media/<int:media_id>/delete")
+def admin_program_media_delete(media_id):
+    if not is_authenticated():
+        abort(403)
+    m = ProgramMedia.query.get_or_404(media_id)
+    if m.image.startswith("updateImages/"):
+        old = PUBLIC_DIR / m.image
+        if old.exists():
+            old.unlink()
+    db.session.delete(m)
+    db.session.commit()
+    flash("Media image removed.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+# =========================================================================
+#  ADMIN — ACTIVITIES CRUD
+# =========================================================================
+
+@app.post("/admin/activities/add")
+def admin_activity_add():
+    if not is_authenticated():
+        abort(403)
+    title = request.form.get("title", "").strip()
+    description = request.form.get("description", "").strip()
+    if not title:
+        flash("Activity title is required.", "content_error")
+        return redirect(url_for("news_create_page"))
+    img = request.files.get("image")
+    image_path = save_uploaded_image(img) or ""
+    max_order = db.session.query(func.max(Activity.sort_order)).scalar() or 0
+    db.session.add(Activity(title=title, description=description, image=image_path, sort_order=max_order + 1))
+    db.session.commit()
+    flash("Activity added.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.post("/admin/activities/<int:item_id>/edit")
+def admin_activity_edit(item_id):
+    if not is_authenticated():
+        abort(403)
+    item = Activity.query.get_or_404(item_id)
+    item.title = request.form.get("title", item.title).strip()
+    item.description = request.form.get("description", item.description).strip()
+    img = request.files.get("image")
+    if img and img.filename:
+        new_path = save_uploaded_image(img)
+        if new_path:
+            if item.image.startswith("updateImages/"):
+                old = PUBLIC_DIR / item.image
+                if old.exists():
+                    old.unlink()
+            item.image = new_path
+    db.session.commit()
+    flash("Activity updated.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.get("/admin/activities/<int:item_id>/delete")
+def admin_activity_delete(item_id):
+    if not is_authenticated():
+        abort(403)
+    item = Activity.query.get_or_404(item_id)
+    if item.image.startswith("updateImages/"):
+        old = PUBLIC_DIR / item.image
+        if old.exists():
+            old.unlink()
+    db.session.delete(item)
+    db.session.commit()
+    flash("Activity deleted.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+# =========================================================================
+#  ADMIN — HERO SLIDES CRUD
+# =========================================================================
+
+@app.post("/admin/hero-slides/add")
+def admin_hero_slide_add():
+    if not is_authenticated():
+        abort(403)
+    img = request.files.get("image")
+    image_path = save_uploaded_image(img)
+    if not image_path:
+        flash("Please upload a valid image.", "content_error")
+        return redirect(url_for("news_create_page"))
+    max_order = db.session.query(func.max(HeroSlide.sort_order)).scalar() or 0
+    db.session.add(HeroSlide(image=image_path, sort_order=max_order + 1))
+    db.session.commit()
+    flash("Hero slide added.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.get("/admin/hero-slides/<int:item_id>/delete")
+def admin_hero_slide_delete(item_id):
+    if not is_authenticated():
+        abort(403)
+    item = HeroSlide.query.get_or_404(item_id)
+    if item.image.startswith("updateImages/"):
+        old = PUBLIC_DIR / item.image
+        if old.exists():
+            old.unlink()
+    db.session.delete(item)
+    db.session.commit()
+    flash("Hero slide removed.", "content_success")
+    return redirect(url_for("news_create_page"))
 
 
 if __name__ == "__main__":

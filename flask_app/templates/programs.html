@@ -5,7 +5,7 @@
 {% set caption = page_content.hero.caption %}
 {% include 'components/hero.html' %}
 
-<main class="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-12">
+<main class="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-12 md:px-8 md:py-16 lg:px-12 lg:py-20">
     <section>
         <div class="flex items-center justify-between">
             <h2 class="text-3xl font-semibold text-slate-900">{{ page_content.overview.title }}</h2>
@@ -17,7 +17,21 @@
             <button class="js-button rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">Resources</button>
             <button class="js-button rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">Wellbeing</button>
         </div>
-        <div class="prog-body mt-8 grid gap-6 md:grid-cols-2"></div>
+        <div class="prog-body mt-8 grid gap-6 md:grid-cols-2">
+            {% for prog in programs %}
+            <div class="prog-card cursor-pointer rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                 data-title="{{ prog.title }}" data-description="{{ prog.description }}" data-category="{{ prog.category }}"
+                 data-image="{{ url_for('static', filename=prog.show_image) }}"
+                 data-media='[{% for m in prog.media_images %}"{{ url_for("static", filename=m.image) }}"{% if not loop.last %},{% endif %}{% endfor %}]'>
+                <img src="{{ url_for('static', filename=prog.show_image) }}" alt="{{ prog.title }}" class="h-48 w-full rounded-t-2xl object-cover">
+                <div class="p-5">
+                    <span class="rounded-full bg-brand-aqua/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand-blue">{{ prog.category }}</span>
+                    <h3 class="mt-2 text-lg font-semibold text-slate-900">{{ prog.title }}</h3>
+                    <p class="mt-2 line-clamp-3 text-sm text-slate-600">{{ prog.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </section>
 
     <section class="rounded-3xl bg-brand-blue px-8 py-10 text-white">
@@ -30,7 +44,7 @@
         </div>
     </section>
 
-    <div class="eachProg"></div>
+    <div class="eachProg fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 p-4" style="backdrop-filter: blur(4px);"></div>
 </main>
 
 {% include 'components/footer.html' %}

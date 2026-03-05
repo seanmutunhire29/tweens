@@ -71,3 +71,52 @@ class SiteContent(db.Model):
     field = db.Column(db.String(100), nullable=False)
     value = db.Column(db.Text, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class Achievement(db.Model):
+    __tablename__ = "achievements_table"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=False, default="")
+    text = db.Column(db.Text, nullable=False, default="")
+    sort_order = db.Column(db.Integer, nullable=False, default=0)
+
+
+class Program(db.Model):
+    __tablename__ = "programs_table"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False, default="")
+    category = db.Column(db.String(100), nullable=False, default="academic")
+    show_image = db.Column(db.String(255), nullable=False, default="")
+    sort_order = db.Column(db.Integer, nullable=False, default=0)
+    media_images = db.relationship("ProgramMedia", backref="program", cascade="all, delete-orphan", order_by="ProgramMedia.sort_order")
+
+
+class ProgramMedia(db.Model):
+    __tablename__ = "program_media_table"
+
+    id = db.Column(db.Integer, primary_key=True)
+    program_id = db.Column(db.Integer, db.ForeignKey("programs_table.id"), nullable=False)
+    image = db.Column(db.String(255), nullable=False)
+    sort_order = db.Column(db.Integer, nullable=False, default=0)
+
+
+class Activity(db.Model):
+    __tablename__ = "activities_table"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False, default="")
+    image = db.Column(db.String(255), nullable=False, default="")
+    sort_order = db.Column(db.Integer, nullable=False, default=0)
+
+
+class HeroSlide(db.Model):
+    __tablename__ = "hero_slides_table"
+
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(255), nullable=False)
+    sort_order = db.Column(db.Integer, nullable=False, default=0)

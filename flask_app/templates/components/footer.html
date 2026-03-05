@@ -1,9 +1,8 @@
 <section class="bg-slate-900 text-slate-200">
-    <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-[1.1fr_0.9fr_1.2fr]">
+    <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:px-8 md:py-16 lg:px-12 lg:py-20 md:grid-cols-[1.1fr_0.9fr_1.2fr]">
         <div class="space-y-4">
             <a href="{{ url_for('home') }}" class="inline-flex items-center gap-3">
-                <img src="{{ url_for('static', filename=global_content.get('logo_image', 'images/logo.png')) }}" alt="logo" class="h-12 w-12 rounded-2xl border border-white/20 object-cover">
-                <span class="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">{{ global_content.get('org_name', 'Tweens') }}</span>
+                <img src="{{ url_for('static', filename=global_content.get('logo_image', 'images/logo.png')) }}" alt="logo" class="h-16 object-cover">
             </a>
             <p class="text-sm text-slate-400">{{ footer_content.get('tagline', 'Refugee-led education initiatives building brighter futures through mentorship, access, and community care.') }}</p>
             <div class="flex gap-3 text-lg">

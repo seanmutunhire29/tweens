@@ -61,23 +61,45 @@
 
 </head>
 <body class="bg-slate-50">
-    <header class="border-b border-slate-200 bg-white/95 backdrop-blur">
-        <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <!-- Fixed navbar — same structure as other pages, adapted for light bg -->
+    <div class="nav-banner fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-slate-200/50 bg-white/80 px-6 py-4 backdrop-blur-lg transition-all duration-500">
+        <div class="logo flex items-center gap-3">
             <a href="{{ url_for('home') }}" class="inline-flex items-center gap-3">
-                <img src="{{ url_for('static', filename=global_content.get('logo_image', 'images/logo.png')) }}" alt="logo" class="h-10 w-10 rounded-xl border border-slate-200 object-cover">
-                <span class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-700">{{ global_content.get('org_name', 'Tweens') }}</span>
+                <img src="{{ url_for('static', filename=global_content.get('logo_image', 'images/logo.png')) }}" alt="logo" class="h-12 object-cover">
             </a>
-            <nav class="hidden items-center gap-5 text-sm font-semibold text-slate-600 md:flex">
-                <a href="{{ url_for('home') }}" class="hover:text-brand-blue">Home</a>
-                <a href="{{ url_for('about') }}" class="hover:text-brand-blue">About</a>
-                <a href="{{ url_for('programs') }}" class="hover:text-brand-blue">Programs</a>
-                <a href="{{ url_for('achievements') }}" class="hover:text-brand-blue">Achievements</a>
-                <a href="{{ url_for('contact') }}" class="hover:text-brand-blue">Contact</a>
-            </nav>
         </div>
-    </header>
 
-    <main class="mx-auto grid max-w-6xl gap-10 px-6 py-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <!-- Desktop frosted-glass pill nav -->
+        <nav class="hidden md:flex md:items-center md:gap-6 md:rounded-full md:bg-slate-900/5 md:backdrop-blur-xl md:px-8 md:py-2.5 md:border md:border-slate-200/60 md:shadow-sm">
+            <a href="{{ url_for('home') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'home' %}text-brand-aqua{% else %}text-slate-700 hover:text-brand-blue{% endif %}">Home</a>
+            <a href="{{ url_for('about') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'about' %}text-brand-aqua{% else %}text-slate-700 hover:text-brand-blue{% endif %}">About</a>
+            <a href="{{ url_for('programs') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'programs' %}text-brand-aqua{% else %}text-slate-700 hover:text-brand-blue{% endif %}">Programs</a>
+            <a href="{{ url_for('achievements') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'achievements' %}text-brand-aqua{% else %}text-slate-700 hover:text-brand-blue{% endif %}">Achievements</a>
+            <a href="{{ url_for('contact') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'contact' %}text-brand-aqua{% else %}text-slate-700 hover:text-brand-blue{% endif %}">Contact</a>
+        </nav>
+
+        <!-- Mobile slide-in drawer nav -->
+        <div class="nav-items fixed top-0 left-0 z-[60] h-full w-72 flex-col gap-6 bg-slate-950/95 px-6 py-16 text-white shadow-2xl transition-all duration-500 md:hidden" style="transform: translateX(-100%); touch-action: none;" data-news-nav-items>
+            <button class="absolute top-6 right-6" onclick="document.querySelector('[data-news-nav-items]').style.transform = 'translateX(-100%)'; document.body.style.overflow = 'auto';">
+                <i class="fa-solid fa-rectangle-xmark text-2xl"></i>
+            </button>
+            <a href="{{ url_for('home') }}" class="text-base font-semibold transition-colors hover:text-brand-aqua">Home</a>
+            <a href="{{ url_for('about') }}" class="text-base font-semibold transition-colors hover:text-brand-aqua">About</a>
+            <a href="{{ url_for('programs') }}" class="text-base font-semibold transition-colors hover:text-brand-aqua">Programs</a>
+            <a href="{{ url_for('achievements') }}" class="text-base font-semibold transition-colors hover:text-brand-aqua">Achievements</a>
+            <a href="{{ url_for('contact') }}" class="text-base font-semibold transition-colors hover:text-brand-aqua">Contact</a>
+        </div>
+
+        <div class="hidden md:block">
+            <a href="{{ global_content.get('donate_url', 'https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/') }}" target="_blank" class="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-slate-700 transition hover:border-brand-aqua hover:text-brand-blue">Donate</a>
+        </div>
+
+        <div class="md:hidden" style="cursor: pointer;" onclick="document.querySelector('[data-news-nav-items]').style.transform = 'translateX(0)'; document.body.style.overflow = 'hidden';">
+            <i class="fa-solid fa-bars text-2xl text-slate-700"></i>
+        </div>
+    </div>
+
+    <main class="mx-auto grid max-w-6xl gap-10 px-6 pt-24 pb-10 md:px-8 md:py-12 md:pt-24 lg:px-12 lg:py-16 lg:pt-24 lg:grid-cols-[minmax(0,1fr)_300px]">
         <article class="space-y-8">
             <div class="space-y-4">
                 <a href="{{ url_for('home') }}#activities" class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 hover:text-brand-blue">

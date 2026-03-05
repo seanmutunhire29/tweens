@@ -25,28 +25,48 @@
 </head>
 <body>
 
-    <header class="relative min-h-[60vh] bg-cover bg-center" style="background-image: url('{{ url_for('static', filename=bg_image_url) }}');">
-        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/50 to-slate-950/90"></div>
-        <div class="relative z-10">
-            <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-                <a href="{{ url_for('home') }}" class="flex items-center gap-3">
-                    <img src="{{ url_for('static', filename=global_content.get('logo_image', 'images/logo.png')) }}" alt="Tweens logo" class="h-12 w-12 rounded-2xl border border-white/30 object-cover">
-                    <span class="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">{{ global_content.get('org_name', 'Tweens') }}</span>
-                </a>
-                <div class="hidden items-center gap-6 text-sm font-semibold text-white md:flex">
-                    <a href="{{ url_for('home') }}" class="hover:text-brand-aqua">Home</a>
-                    <a href="{{ url_for('about') }}" class="hover:text-brand-aqua">About Us</a>
-                    <a href="{{ url_for('achievements') }}" class="hover:text-brand-aqua">Achievements</a>
-                    <a href="{{ url_for('contact') }}" class="hover:text-brand-aqua">Contact Us</a>
-                    <a href="{{ url_for('programs') }}" class="hover:text-brand-aqua">Programs</a>
-                </div>
-                <a href="{{ global_content.get('donate_url', 'https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/') }}" target="_blank" class="hidden items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10 md:inline-flex">
-                    Donate
-                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                </a>
-            </nav>
+    <!-- Fixed navbar — same structure as home page -->
+    <div class="nav-banner fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-500">
+        <div class="logo flex items-center gap-3">
+            <a href="{{ url_for('home') }}" class="inline-flex items-center gap-3">
+                <img src="{{ url_for('static', filename=global_content.get('logo_image', 'images/logo.png')) }}" alt="Logo" class="h-12 object-cover">
+            </a>
+        </div>
 
-            <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 pb-16 pt-6 text-white">
+        <!-- Desktop frosted-glass pill nav -->
+        <nav class="hidden md:flex md:items-center md:gap-6 md:rounded-full md:bg-white/10 md:backdrop-blur-xl md:px-8 md:py-2.5 md:border md:border-white/20 md:shadow-lg">
+            <a href="{{ url_for('home') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'home' %}text-brand-aqua{% else %}text-white hover:text-brand-aqua{% endif %}">Home</a>
+            <a href="{{ url_for('about') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'about' %}text-brand-aqua{% else %}text-white hover:text-brand-aqua{% endif %}">About Us</a>
+            <a href="{{ url_for('achievements') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'achievements' %}text-brand-aqua{% else %}text-white hover:text-brand-aqua{% endif %}">Achievements</a>
+            <a href="{{ url_for('programs') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'programs' %}text-brand-aqua{% else %}text-white hover:text-brand-aqua{% endif %}">Programs</a>
+            <a href="{{ url_for('contact') }}" class="text-sm font-semibold tracking-wide transition-colors {% if current_endpoint == 'contact' %}text-brand-aqua{% else %}text-white hover:text-brand-aqua{% endif %}">Contact Us</a>
+        </nav>
+
+        <!-- Mobile slide-in drawer nav -->
+        <div class="nav-items fixed top-0 left-0 z-[60] h-full w-72 flex-col gap-6 bg-slate-950/95 px-6 py-16 text-white shadow-2xl transition-all duration-500 md:hidden" style="transform: translateX(-100%); touch-action: none;" data-hero-nav-items>
+            <button class="absolute top-6 right-6" onclick="document.querySelector('[data-hero-nav-items]').style.transform = 'translateX(-100%)'; document.body.style.overflow = 'auto';">
+                <i class="fa-solid fa-rectangle-xmark text-2xl"></i>
+            </button>
+            <a href="{{ url_for('home') }}" class="text-base font-semibold transition-colors {% if current_endpoint == 'home' %}text-brand-aqua{% else %}hover:text-brand-aqua{% endif %}">Home</a>
+            <a href="{{ url_for('about') }}" class="text-base font-semibold transition-colors {% if current_endpoint == 'about' %}text-brand-aqua{% else %}hover:text-brand-aqua{% endif %}">About Us</a>
+            <a href="{{ url_for('achievements') }}" class="text-base font-semibold transition-colors {% if current_endpoint == 'achievements' %}text-brand-aqua{% else %}hover:text-brand-aqua{% endif %}">Achievements</a>
+            <a href="{{ url_for('programs') }}" class="text-base font-semibold transition-colors {% if current_endpoint == 'programs' %}text-brand-aqua{% else %}hover:text-brand-aqua{% endif %}">Programs</a>
+            <a href="{{ url_for('contact') }}" class="text-base font-semibold transition-colors {% if current_endpoint == 'contact' %}text-brand-aqua{% else %}hover:text-brand-aqua{% endif %}">Contact Us</a>
+        </div>
+
+        <div class="hidden md:block">
+            <a href="{{ global_content.get('donate_url', 'https://www.globalgiving.org/projects/transformative-education-for-refugees-in-zimbabwe/') }}" target="_blank" class="rounded-full border border-white/40 px-4 py-2 text-sm font-semibold uppercase tracking-wider text-white transition hover:border-white hover:bg-white/10">Donate</a>
+        </div>
+
+        <div class="md:hidden" style="cursor: pointer;" onclick="document.querySelector('[data-hero-nav-items]').style.transform = 'translateX(0)'; document.body.style.overflow = 'hidden';">
+            <i class="fa-solid fa-bars text-2xl text-white"></i>
+        </div>
+    </div>
+
+    <header class="relative min-h-[60vh] bg-cover bg-center" style="background-image: url('{{ url_for('static', filename=bg_image_url) }}');">
+        <div class="absolute inset-0" style="background-color: rgba(15, 23, 42, 0.62);"></div>
+        <div class="relative z-10">
+            <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 pb-16 pt-24 text-white">
                 <div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-white/70">
                     <span class="h-2 w-2 rounded-full bg-brand-aqua"></span>
                     {{ topic }}
@@ -57,13 +77,19 @@
                     <a href="{{ url_for('about') }}" class="rounded-full bg-brand-aqua px-5 py-2 text-sm font-semibold text-slate-900 transition hover:brightness-110">Learn More</a>
                     <a href="{{ url_for('contact') }}" class="rounded-full border border-white/40 px-5 py-2 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10">Get In Touch</a>
                 </div>
-                <div class="flex flex-wrap gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-white/70 md:hidden">
-                    <a href="{{ url_for('home') }}" class="hover:text-brand-aqua">Home</a>
-                    <a href="{{ url_for('about') }}" class="hover:text-brand-aqua">About</a>
-                    <a href="{{ url_for('achievements') }}" class="hover:text-brand-aqua">Achievements</a>
-                    <a href="{{ url_for('contact') }}" class="hover:text-brand-aqua">Contact</a>
-                    <a href="{{ url_for('programs') }}" class="hover:text-brand-aqua">Programs</a>
-                </div>
             </div>
         </div>
     </header>
+
+    <script>
+        // Navbar scroll behavior — matches home page
+        window.addEventListener('scroll', function() {
+            var banner = document.querySelector('.nav-banner');
+            if (!banner) return;
+            if (window.scrollY > 20) {
+                banner.classList.add('nav-scrolled');
+            } else {
+                banner.classList.remove('nav-scrolled');
+            }
+        });
+    </script>

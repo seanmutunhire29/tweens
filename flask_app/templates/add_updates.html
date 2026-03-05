@@ -28,7 +28,7 @@
 
             <section data-panel="site-content" class="admin-panel rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
                 <h1 class="text-2xl font-semibold text-slate-900">Website Content Manager</h1>
-                <p class="mt-2 text-sm text-slate-500">Edit page text sections for Home, About, Achievements, Contact, Programs, Donations, and global footer settings.</p>
+                <p class="mt-2 text-sm text-slate-500">Edit page text, hero slides, activities, achievements, and programs.</p>
 
                 {% with messages = get_flashed_messages(category_filter=['content_success']) %}
                     {% if messages %}
@@ -42,7 +42,17 @@
                     {% endif %}
                 {% endwith %}
 
-                <div class="mt-6 grid gap-6">
+                <!-- ── Page Sub-tabs ── -->
+                <div class="mt-6 flex flex-wrap gap-2 border-b border-slate-200 pb-4">
+                    <button type="button" data-page-tab="text-content" class="page-tab rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">Text Content</button>
+                    <button type="button" data-page-tab="hero-slides" class="page-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Hero Slides</button>
+                    <button type="button" data-page-tab="activities" class="page-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Activities</button>
+                    <button type="button" data-page-tab="achievements-tab" class="page-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Achievements</button>
+                    <button type="button" data-page-tab="programs-tab" class="page-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Programs</button>
+                </div>
+
+                <!-- ═══════════ TEXT CONTENT (existing site-content editor) ═══════════ -->
+                <div data-page-panel="text-content" class="page-panel mt-6 grid gap-6">
                     {% for page_name, sections in site_content_editor.items() %}
                         <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
                             <h2 class="text-lg font-semibold text-slate-900">{{ page_name.replace('_', ' ') | title }} Page</h2>
@@ -95,6 +105,210 @@
                             </div>
                         </div>
                     {% endfor %}
+                </div>
+
+                <!-- ═══════════ HERO SLIDES ═══════════ -->
+                <div data-page-panel="hero-slides" class="page-panel mt-6 hidden">
+                    <h2 class="text-lg font-semibold text-slate-900">Home Hero Slides</h2>
+                    <p class="mt-1 text-sm text-slate-500">Manage the rotating hero images on the home page.</p>
+
+                    <form action="{{ url_for('admin_hero_slide_add') }}" method="post" enctype="multipart/form-data" class="mt-4 flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="flex-1">
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">New Slide Image</label>
+                            <input type="file" name="image" required class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                        </div>
+                        <button type="submit" class="rounded-full bg-brand-blue px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Add Slide</button>
+                    </form>
+
+                    <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        {% for slide in hero_slides %}
+                            <div class="relative rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                                <img src="{{ url_for('static', filename=slide.image) }}" alt="Hero slide" class="h-36 w-full rounded-xl object-cover">
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-xs text-slate-400">Order: {{ slide.sort_order }}</span>
+                                    <a href="{{ url_for('admin_hero_slide_delete', item_id=slide.id) }}" class="rounded-full border border-rose-400 px-3 py-1 text-xs font-semibold text-rose-500">Delete</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- ═══════════ ACTIVITIES ═══════════ -->
+                <div data-page-panel="activities" class="page-panel mt-6 hidden">
+                    <h2 class="text-lg font-semibold text-slate-900">Home Activities</h2>
+                    <p class="mt-1 text-sm text-slate-500">Manage the activity cards shown on the home page.</p>
+
+                    <form action="{{ url_for('admin_activity_add') }}" method="post" enctype="multipart/form-data" class="mt-4 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="grid gap-3 md:grid-cols-2">
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Title</label>
+                                <input type="text" name="title" required class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Image</label>
+                                <input type="file" name="image" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Description</label>
+                            <textarea name="description" rows="2" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="justify-self-start rounded-full bg-brand-blue px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Add Activity</button>
+                    </form>
+
+                    <div class="mt-4 grid gap-3">
+                        {% for act in activities %}
+                            <details class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+                                <summary class="flex cursor-pointer items-center justify-between px-4 py-3">
+                                    <span class="text-sm font-semibold text-slate-800">{{ act.title }}</span>
+                                    <span class="text-xs text-slate-400">Order: {{ act.sort_order }}</span>
+                                </summary>
+                                <form action="{{ url_for('admin_activity_edit', item_id=act.id) }}" method="post" enctype="multipart/form-data" class="grid gap-3 border-t border-slate-200 p-4">
+                                    <input type="text" name="title" value="{{ act.title }}" class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                                    <textarea name="description" rows="2" class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">{{ act.description }}</textarea>
+                                    {% if act.image %}
+                                        <img src="{{ url_for('static', filename=act.image) }}" alt="" class="h-20 w-32 rounded-lg object-cover">
+                                    {% endif %}
+                                    <input type="file" name="image" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                                    <div class="flex gap-2">
+                                        <button type="submit" class="rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Save</button>
+                                        <a href="{{ url_for('admin_activity_delete', item_id=act.id) }}" class="rounded-full border border-rose-400 px-4 py-2 text-xs font-semibold text-rose-500">Delete</a>
+                                    </div>
+                                </form>
+                            </details>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- ═══════════ ACHIEVEMENTS ═══════════ -->
+                <div data-page-panel="achievements-tab" class="page-panel mt-6 hidden">
+                    <h2 class="text-lg font-semibold text-slate-900">Achievements</h2>
+                    <p class="mt-1 text-sm text-slate-500">Manage achievement cards shown on the Achievements page.</p>
+
+                    <form action="{{ url_for('admin_achievement_add') }}" method="post" enctype="multipart/form-data" class="mt-4 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="grid gap-3 md:grid-cols-2">
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Title</label>
+                                <input type="text" name="title" required class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Image</label>
+                                <input type="file" name="image" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Description</label>
+                            <textarea name="text" rows="3" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="justify-self-start rounded-full bg-brand-blue px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Add Achievement</button>
+                    </form>
+
+                    <div class="mt-4 grid gap-3">
+                        {% for ach in achievements %}
+                            <details class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+                                <summary class="flex cursor-pointer items-center justify-between px-4 py-3">
+                                    <span class="text-sm font-semibold text-slate-800">{{ ach.title }}</span>
+                                    <span class="text-xs text-slate-400">Order: {{ ach.sort_order }}</span>
+                                </summary>
+                                <form action="{{ url_for('admin_achievement_edit', item_id=ach.id) }}" method="post" enctype="multipart/form-data" class="grid gap-3 border-t border-slate-200 p-4">
+                                    <input type="text" name="title" value="{{ ach.title }}" class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                                    <textarea name="text" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">{{ ach.text }}</textarea>
+                                    {% if ach.image %}
+                                        <img src="{{ url_for('static', filename=ach.image) }}" alt="" class="h-20 w-32 rounded-lg object-cover">
+                                    {% endif %}
+                                    <input type="file" name="image" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                                    <div class="flex gap-2">
+                                        <button type="submit" class="rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Save</button>
+                                        <a href="{{ url_for('admin_achievement_delete', item_id=ach.id) }}" class="rounded-full border border-rose-400 px-4 py-2 text-xs font-semibold text-rose-500">Delete</a>
+                                    </div>
+                                </form>
+                            </details>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- ═══════════ PROGRAMS ═══════════ -->
+                <div data-page-panel="programs-tab" class="page-panel mt-6 hidden">
+                    <h2 class="text-lg font-semibold text-slate-900">Programs</h2>
+                    <p class="mt-1 text-sm text-slate-500">Manage program cards shown on the Programs page.</p>
+
+                    <form action="{{ url_for('admin_program_add') }}" method="post" enctype="multipart/form-data" class="mt-4 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="grid gap-3 md:grid-cols-3">
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Title</label>
+                                <input type="text" name="title" required class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Category</label>
+                                <select name="category" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                                    <option value="academic">Academic</option>
+                                    <option value="resources">Resources</option>
+                                    <option value="wellbeing">Wellbeing</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Card Image</label>
+                                <input type="file" name="show_image" class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Description</label>
+                            <textarea name="description" rows="2" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Media Gallery Images (select multiple)</label>
+                            <input type="file" name="media_images" multiple class="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                        </div>
+                        <button type="submit" class="justify-self-start rounded-full bg-brand-blue px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Add Program</button>
+                    </form>
+
+                    <div class="mt-4 grid gap-3">
+                        {% for prog in programs %}
+                            <details class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+                                <summary class="flex cursor-pointer items-center justify-between px-4 py-3">
+                                    <span class="text-sm font-semibold text-slate-800">{{ prog.title }} <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] uppercase text-slate-500">{{ prog.category }}</span></span>
+                                    <span class="text-xs text-slate-400">Order: {{ prog.sort_order }}</span>
+                                </summary>
+                                <form action="{{ url_for('admin_program_edit', item_id=prog.id) }}" method="post" enctype="multipart/form-data" class="grid gap-3 border-t border-slate-200 p-4">
+                                    <div class="grid gap-3 md:grid-cols-2">
+                                        <input type="text" name="title" value="{{ prog.title }}" class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                                        <select name="category" class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                                            <option value="academic" {% if prog.category == 'academic' %}selected{% endif %}>Academic</option>
+                                            <option value="resources" {% if prog.category == 'resources' %}selected{% endif %}>Resources</option>
+                                            <option value="wellbeing" {% if prog.category == 'wellbeing' %}selected{% endif %}>Wellbeing</option>
+                                        </select>
+                                    </div>
+                                    <textarea name="description" rows="2" class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">{{ prog.description }}</textarea>
+                                    {% if prog.show_image %}
+                                        <div>
+                                            <p class="text-xs text-slate-400">Card image:</p>
+                                            <img src="{{ url_for('static', filename=prog.show_image) }}" alt="" class="h-20 w-32 rounded-lg object-cover">
+                                        </div>
+                                    {% endif %}
+                                    <input type="file" name="show_image" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                                    {% if prog.media_images %}
+                                        <div>
+                                            <p class="text-xs font-semibold text-slate-500">Media gallery:</p>
+                                            <div class="mt-1 flex flex-wrap gap-2">
+                                                {% for m in prog.media_images %}
+                                                    <div class="relative">
+                                                        <img src="{{ url_for('static', filename=m.image) }}" class="h-16 w-24 rounded-lg object-cover">
+                                                        <a href="{{ url_for('admin_program_media_delete', media_id=m.id) }}" class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] text-white">&times;</a>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <label class="text-xs text-slate-400">Add more media images:</label>
+                                    <input type="file" name="media_images" multiple class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs">
+                                    <div class="flex gap-2">
+                                        <button type="submit" class="rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Save</button>
+                                        <a href="{{ url_for('admin_program_delete', item_id=prog.id) }}" class="rounded-full border border-rose-400 px-4 py-2 text-xs font-semibold text-rose-500">Delete</a>
+                                    </div>
+                                </form>
+                            </details>
+                        {% endfor %}
+                    </div>
                 </div>
             </section>
 
@@ -357,6 +571,25 @@
         });
 
         activatePanel('site-content');
+
+        /* ── Page sub-tab switching inside site-content ── */
+        const pageTabs = document.querySelectorAll('.page-tab');
+        const pagePanels = document.querySelectorAll('.page-panel');
+
+        function activatePageTab(tabName) {
+            pagePanels.forEach(p => p.classList.toggle('hidden', p.dataset.pagePanel !== tabName));
+            pageTabs.forEach(b => {
+                const active = b.dataset.pageTab === tabName;
+                b.classList.toggle('bg-brand-blue', active);
+                b.classList.toggle('text-white', active);
+                b.classList.toggle('border', !active);
+                b.classList.toggle('border-slate-300', !active);
+                b.classList.toggle('text-slate-700', !active);
+            });
+        }
+
+        pageTabs.forEach(b => b.addEventListener('click', () => activatePageTab(b.dataset.pageTab)));
+        activatePageTab('text-content');
     </script>
 
 </body>

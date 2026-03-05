@@ -27,7 +27,8 @@ const heroSlides = [
 
 function renderHero(slide) {
     return `
-        <div class="home-container absolute inset-0 flex items-center transition-opacity duration-1000 ease-in-out" data-id="${slide.id}" style="background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('${slide.image}'); background-position: center; background-size: cover; opacity: 1; will-change: opacity;">
+        <div class="home-container absolute inset-0 flex items-center transition-opacity duration-1000 ease-in-out" data-id="${slide.id}" style="background-image: url('${slide.image}'); background-position: center; background-size: cover; opacity: 1; will-change: opacity;">
+            <div class="absolute inset-0" style="background-color: rgba(15, 23, 42, 0.62);"></div>
             <div class="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 text-white">
                 <div class="max-w-2xl space-y-6">
                     <h1 class="text-5xl font-semibold leading-tight md:text-6xl">${slide.title}</h1>
@@ -41,6 +42,15 @@ function renderHero(slide) {
         </div>
     `;
 }
+
+let wipeDirection = 0; // alternates: 0=left-to-right, 1=right-to-left, 2=top-to-bottom, 3=bottom-to-top
+
+const wipeStates = [
+    { hidden: 'inset(0 100% 0 0)', revealed: 'inset(0 0 0 0)' },   // left to right
+    { hidden: 'inset(0 0 0 100%)', revealed: 'inset(0 0 0 0)' },   // right to left
+    { hidden: 'inset(100% 0 0 0)', revealed: 'inset(0 0 0 0)' },   // top to bottom
+    { hidden: 'inset(0 0 100% 0)', revealed: 'inset(0 0 0 0)' },   // bottom to top
+];
 
 function fadeToHero(nextSlide) {
     const homeContainer = document.querySelector('.home-background');
@@ -57,17 +67,28 @@ function fadeToHero(nextSlide) {
         return;
     }
 
-    incomingBackground.style.opacity = '0';
+    const wipe = wipeStates[wipeDirection % wipeStates.length];
+    wipeDirection++;
+
+    // Set up the incoming slide: hidden via clip-path, on top
+    incomingBackground.style.clipPath = wipe.hidden;
+    incomingBackground.style.transition = 'clip-path 1.4s cubic-bezier(0.77, 0, 0.175, 1)';
+    incomingBackground.style.zIndex = '2';
+    currentBackground.style.zIndex = '1';
     homeContainer.appendChild(incomingBackground);
 
+    // Trigger the wipe reveal
     requestAnimationFrame(() => {
-        currentBackground.style.opacity = '0';
-        incomingBackground.style.opacity = '1';
+        requestAnimationFrame(() => {
+            incomingBackground.style.clipPath = wipe.revealed;
+        });
     });
 
+    // Remove old slide after transition completes
     setTimeout(() => {
         currentBackground.remove();
-    }, 1000);
+        incomingBackground.style.zIndex = '';
+    }, 1500);
 }
 
 function changeBackground() {
@@ -93,7 +114,7 @@ function initializeHeroBackground() {
         return;
     }
 
-    firstBackground.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), url('${initialImage}')`;
+    firstBackground.style.backgroundImage = `url('${initialImage}')`;
 }
 
 initializeHeroBackground();
@@ -131,17 +152,12 @@ function setupScrollReveal() {
 
 window.addEventListener('scroll', () => {
     const banner = document.querySelector(".nav-banner");
-    const mobileToggle = document.querySelector('.open-nav-icon');
-    if (!banner || !mobileToggle) {
-        return;
-    }
+    if (!banner) return;
 
     if (window.scrollY > 20) {
-        banner.style.backgroundColor = "rgba(7, 201, 255, 0.9)";
-        mobileToggle.style.display = 'none';
+        banner.classList.add('nav-scrolled');
     } else {
-        banner.style.backgroundColor = "transparent";
-        mobileToggle.style.display = 'inline';
+        banner.classList.remove('nav-scrolled');
     }
 });
 

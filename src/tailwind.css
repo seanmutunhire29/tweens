@@ -19,3 +19,16 @@
   }
 
 }
+
+@layer components {
+  /* Navbar: subtle backdrop blur when scrolled */
+  .nav-scrolled {
+    @apply bg-slate-950/40 backdrop-blur-md shadow-lg;
+  }
+
+  /* Mobile drawer: flex column for links */
+  .nav-items {
+    display: flex;
+    flex-direction: column;
+  }
+}
