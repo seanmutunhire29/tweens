@@ -4,6 +4,7 @@ from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 db = SQLAlchemy()
@@ -12,8 +13,18 @@ class Admins(db.Model):
     __tablename__ = "admins_table"
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255), nullable=False)
-    password = db.Column(db.String(255), nullable=False)
+    username = db.Column(db.String(255), nullable=False, unique=True)
+    password_hash = db.Column(db.String(512), nullable=False, default="")
+    is_root = db.Column(db.Boolean, nullable=False, default=False)
+
+    # Legacy column kept so SQLite doesn't complain about the old schema
+    password = db.Column(db.String(255), nullable=True)
+
+    def set_password(self, raw_password: str) -> None:
+        self.password_hash = generate_password_hash(raw_password)
+
+    def check_password(self, raw_password: str) -> bool:
+        return check_password_hash(self.password_hash, raw_password)
 
 
 class Updates(db.Model):

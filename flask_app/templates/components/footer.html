@@ -20,6 +20,7 @@
                 <p><i class="fa-solid fa-address-card text-brand-aqua"></i> <a href="{{ url_for('about') }}">About Us</a></p>
                 <p><i class="fa-solid fa-people-group text-brand-aqua"></i> <a href="{{ url_for('programs') }}">Programs</a></p>
                 <p><i class="fa-solid fa-medal text-brand-aqua"></i> <a href="{{ url_for('achievements') }}">Achievements</a></p>
+                <p><i class="fa-solid fa-lock text-brand-aqua"></i> <a href="{{ url_for('news_validate_page') }}">Manage Site</a></p>
             </div>
         </div>
 
@@ -56,7 +57,7 @@
     </div>
 
     <div class="border-t border-white/10 py-4 text-center text-xs text-slate-400">
-        <p>&copy; Copyright <a href="{{ url_for('news_validate_page') }}" class="text-slate-200">{{ global_content.get('org_name', 'Tweens') }}</a> || {{ footer_content.get('copyright_year', '2025') }}</p>
+        <p>Made by <a href="https://seanmutunhire.site" target="_blank" class="text-brand-aqua transition hover:text-white">Sean Mutunhire</a></p>
     </div>
 </section>
 

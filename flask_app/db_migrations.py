@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, MetaData, String, Table, Text, UniqueConstraint
+from sqlalchemy import Column, DateTime, Integer, MetaData, String, Table, Text, UniqueConstraint, Boolean
 from sqlalchemy import inspect, text
 
 from models import db
@@ -63,3 +63,16 @@ def run_migrations() -> None:
                 """
             )
         )
+
+    # ── Migrate admins_table: add password_hash, is_root columns ──
+    if "admins_table" in table_names:
+        admin_cols = {col["name"] for col in inspector.get_columns("admins_table")}
+        admin_stmts = []
+        if "password_hash" not in admin_cols:
+            admin_stmts.append("ALTER TABLE admins_table ADD COLUMN password_hash VARCHAR(512) DEFAULT ''")
+        if "is_root" not in admin_cols:
+            admin_stmts.append("ALTER TABLE admins_table ADD COLUMN is_root BOOLEAN DEFAULT 0")
+        if admin_stmts:
+            with db.engine.begin() as connection:
+                for stmt in admin_stmts:
+                    connection.execute(text(stmt))

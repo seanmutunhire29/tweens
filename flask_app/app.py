@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 
 from db_migrations import run_migrations
 from models import (
-    Achievement, Activity, Contact, HeroSlide, Newsletter,
+    Admins, Achievement, Activity, Contact, HeroSlide, Newsletter,
     Program, ProgramMedia, SiteContent, Testimony, Updates, db,
 )
 
@@ -52,6 +52,13 @@ def allowed_file(filename: str) -> bool:
 
 def is_authenticated() -> bool:
     return bool(session.get("authenticated"))
+
+
+def current_admin_user() -> Admins | None:
+    uid = session.get("admin_user_id")
+    if uid:
+        return Admins.query.get(uid)
+    return None
 
 
 def admin_credentials() -> tuple[str, str]:
@@ -358,11 +365,28 @@ def seed_list_data() -> None:
         db.session.commit()
 
 
+def seed_root_user() -> None:
+    """Ensure a root admin exists (credentials from env vars)."""
+    root_name, root_pw = admin_credentials()
+    existing = Admins.query.filter_by(username=root_name).first()
+    if not existing:
+        root = Admins(username=root_name, is_root=True, password="")
+        root.set_password(root_pw)
+        db.session.add(root)
+        db.session.commit()
+    elif not existing.password_hash:
+        # Migrate legacy row: set hash + root flag
+        existing.set_password(root_pw)
+        existing.is_root = True
+        db.session.commit()
+
+
 with app.app_context():
     run_migrations()
     db.create_all()
     seed_site_content()
     seed_list_data()
+    seed_root_user()
 
 
 @app.context_processor
@@ -413,9 +437,13 @@ def news_create_page():
     program_list = Program.query.order_by(Program.sort_order).all()
     activity_list = Activity.query.order_by(Activity.sort_order).all()
     hero_slides = HeroSlide.query.order_by(HeroSlide.sort_order).all()
+    admin_user = current_admin_user()
+    admin_users = Admins.query.order_by(Admins.id).all() if (admin_user and admin_user.is_root) else []
     return render_template(
         "add_updates.html",
         authenticated=is_authenticated(),
+        current_admin=admin_user,
+        admin_users=admin_users,
         news=news,
         contacts=contacts,
         newsletters=newsletters,
@@ -526,16 +554,25 @@ def news_validate_page():
 
 @app.post("/news/createValidate")
 def news_validate_submit():
-    name = request.form.get("name", "")
+    name = request.form.get("name", "").strip()
     password = request.form.get("password", "")
-    admin_name, admin_password = admin_credentials()
 
-    # if name == admin_name and password == admin_password:
-    if name == "tweens" and password == "tweens":
+    user = Admins.query.filter_by(username=name).first()
+    if user and user.check_password(password):
         session["authenticated"] = True
+        session["admin_user_id"] = user.id
         return redirect(url_for("news_create_page"))
 
     session["authenticated"] = False
+    session.pop("admin_user_id", None)
+    flash("Invalid credentials.", "login_error")
+    return redirect(url_for("news_validate_page"))
+
+
+@app.get("/admin/logout")
+def admin_logout():
+    session.pop("authenticated", None)
+    session.pop("admin_user_id", None)
     return redirect(url_for("home"))
 
 
@@ -1140,6 +1177,46 @@ def admin_hero_slide_delete(item_id):
     db.session.delete(item)
     db.session.commit()
     flash("Hero slide removed.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+# =========================================================================
+#  ADMIN — USER MANAGEMENT (root only)
+# =========================================================================
+
+@app.post("/admin/users/add")
+def admin_user_add():
+    admin = current_admin_user()
+    if not admin or not admin.is_root:
+        abort(403)
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "").strip()
+    if not username or not password:
+        flash("Username and password are required.", "content_error")
+        return redirect(url_for("news_create_page"))
+    if Admins.query.filter_by(username=username).first():
+        flash("That username already exists.", "content_error")
+        return redirect(url_for("news_create_page"))
+    new_user = Admins(username=username, is_root=False, password="")
+    new_user.set_password(password)
+    db.session.add(new_user)
+    db.session.commit()
+    flash(f"User '{username}' created.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
+@app.get("/admin/users/<int:user_id>/delete")
+def admin_user_delete(user_id):
+    admin = current_admin_user()
+    if not admin or not admin.is_root:
+        abort(403)
+    target = Admins.query.get_or_404(user_id)
+    if target.is_root:
+        flash("Cannot delete the root user.", "content_error")
+        return redirect(url_for("news_create_page"))
+    db.session.delete(target)
+    db.session.commit()
+    flash(f"User '{target.username}' deleted.", "content_success")
     return redirect(url_for("news_create_page"))
 
 

@@ -23,6 +23,11 @@
                     <button type="button" data-filter="testimony-list" class="admin-filter rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Available Testimonies</button>
                     <button type="button" data-filter="contacts" class="admin-filter rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Contacts</button>
                     <button type="button" data-filter="newsletters" class="admin-filter rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Newsletters</button>
+                    {% if current_admin and current_admin.is_root %}
+                    <button type="button" data-filter="users" class="admin-filter rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Users</button>
+                    {% endif %}
+                    <button type="button" data-filter="help" class="admin-filter rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700"><i class="fa-solid fa-circle-question mr-1"></i>Help</button>
+                    <a href="{{ url_for('admin_logout') }}" class="rounded-full border border-rose-400 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-rose-500 transition hover:bg-rose-50">Logout</a>
                 </div>
             </section>
 
@@ -500,6 +505,143 @@
                     {% endfor %}
                 </div>
             </section>
+
+            <!-- ═══════════ USERS (root only) ═══════════ -->
+            {% if current_admin and current_admin.is_root %}
+            <section data-panel="users" class="admin-panel rounded-3xl border border-slate-200 bg-white p-8 shadow-sm hidden">
+                <h2 class="text-xl font-semibold text-slate-900">User Management</h2>
+                <p class="mt-2 text-sm text-slate-500">As the root admin you can add or remove other users who can log into the admin portal.</p>
+
+                {% with messages = get_flashed_messages(category_filter=['content_success']) %}
+                    {% if messages %}<div class="mt-4 rounded-xl bg-emerald-100 px-4 py-3 text-sm font-semibold text-emerald-700">{{ messages[0] }}</div>{% endif %}
+                {% endwith %}
+                {% with messages = get_flashed_messages(category_filter=['content_error']) %}
+                    {% if messages %}<div class="mt-4 rounded-xl bg-rose-100 px-4 py-3 text-sm font-semibold text-rose-700">{{ messages[0] }}</div>{% endif %}
+                {% endwith %}
+
+                <form action="{{ url_for('admin_user_add') }}" method="post" class="mt-6 flex flex-wrap items-end gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div class="flex-1">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Username</label>
+                        <input type="text" name="username" required class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                    </div>
+                    <div class="flex-1">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-slate-500">Password</label>
+                        <input type="password" name="password" required class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm focus:border-brand-aqua focus:outline-none">
+                    </div>
+                    <button type="submit" class="rounded-full bg-brand-blue px-5 py-2 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-deep">Add User</button>
+                </form>
+
+                <div class="mt-6 grid gap-3">
+                    {% for user in admin_users %}
+                        <div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800">{{ user.username }}</span>
+                                {% if user.is_root %}
+                                    <span class="ml-2 rounded-full bg-brand-blue/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brand-blue">Root</span>
+                                {% endif %}
+                            </div>
+                            {% if not user.is_root %}
+                                <a href="{{ url_for('admin_user_delete', user_id=user.id) }}" class="rounded-full border border-rose-400 px-3 py-1 text-xs font-semibold text-rose-500">Delete</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- ═══════════ HELP ═══════════ -->
+            <section data-panel="help" class="admin-panel rounded-3xl border border-slate-200 bg-white p-8 shadow-sm hidden">
+                <h2 class="text-2xl font-semibold text-slate-900"><i class="fa-solid fa-circle-question mr-2 text-brand-blue"></i>Admin Help Guide</h2>
+                <p class="mt-2 text-sm text-slate-500">Everything you need to know about managing this site. Click a topic below to expand it.</p>
+
+                <!-- Help sub-tabs -->
+                <div class="mt-6 flex flex-wrap gap-2 border-b border-slate-200 pb-4">
+                    <button type="button" data-help-tab="overview" class="help-tab rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white">Overview</button>
+                    <button type="button" data-help-tab="site-content-help" class="help-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Site Content</button>
+                    <button type="button" data-help-tab="news-help" class="help-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">News & Updates</button>
+                    <button type="button" data-help-tab="testimonies-help" class="help-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Testimonies</button>
+                    <button type="button" data-help-tab="lists-help" class="help-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Achievements & Programs</button>
+                    <button type="button" data-help-tab="users-help" class="help-tab rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-slate-700">Users & Auth</button>
+                </div>
+
+                <!-- OVERVIEW -->
+                <div data-help-panel="overview" class="help-panel mt-6 space-y-4 text-sm text-slate-600">
+                    <h3 class="text-lg font-semibold text-slate-900">Welcome to the Admin Portal</h3>
+                    <p>This is the central dashboard for managing all content on the Tweens website. Use the <strong>filter buttons</strong> at the top of the page to switch between different sections.</p>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+                        <p><strong>Edit Site Content</strong> — Change text, images, hero slides, activities, achievements, and programs that appear on each public page.</p>
+                        <p><strong>Add Updates / Current Updates</strong> — Create, edit, and delete news articles shown on the home page and the news detail pages.</p>
+                        <p><strong>Add Testimonies / Available Testimonies</strong> — Manage testimonial cards on the Achievements page.</p>
+                        <p><strong>Contacts</strong> — View messages submitted through the Contact Us form.</p>
+                        <p><strong>Newsletters</strong> — See all email addresses collected from the footer newsletter signup.</p>
+                        <p><strong>Users</strong> — (Root admin only) Add or remove other admin users.</p>
+                        <p><strong>Help</strong> — You're here! Browse these sub-tabs for detailed guidance on each section.</p>
+                    </div>
+                    <p>Changes are saved immediately when you click a <em>Save</em> or <em>Submit</em> button. The public website reflects changes on the next page load.</p>
+                </div>
+
+                <!-- SITE CONTENT -->
+                <div data-help-panel="site-content-help" class="help-panel mt-6 hidden space-y-4 text-sm text-slate-600">
+                    <h3 class="text-lg font-semibold text-slate-900">Site Content Manager</h3>
+                    <p>The <strong>Edit Site Content</strong> tab lets you modify all text and images on every public page. Inside it you'll find five sub-tabs:</p>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                        <p><strong>Text Content</strong> — Edit headings, body text, button labels, and background images for each page (Home, About, Achievements, Programs, Contact, Donations, and global/footer settings). Each field has its own <em>Save</em> button. For images, use <em>Upload</em> to replace or <em>Remove Image</em> to revert to the default.</p>
+                        <p><strong>Hero Slides</strong> — Manage the rotating background images on the home page hero section. Upload new slides, view the current order, or delete slides you no longer need. Images should ideally be at least 1400 × 800 px.</p>
+                        <p><strong>Activities</strong> — Add, edit, or delete the activity cards shown in the "Activities" grid on the home page. Each activity has a title, description, and image.</p>
+                        <p><strong>Achievements</strong> — Manage the achievement cards on the Achievements page. Each has a title, image, and long-form description that appears in a popup when visitors click the card.</p>
+                        <p><strong>Programs</strong> — Manage the program cards on the Programs page. Each program has a title, description, category (Academic / Resources / Wellbeing), a card image, and an optional media gallery of multiple images shown inside the popup.</p>
+                    </div>
+                    <p class="text-xs text-slate-400"><strong>Tip:</strong> Image uploads accept JPG, JPEG, PNG, and GIF formats.</p>
+                </div>
+
+                <!-- NEWS -->
+                <div data-help-panel="news-help" class="help-panel mt-6 hidden space-y-4 text-sm text-slate-600">
+                    <h3 class="text-lg font-semibold text-slate-900">News & Updates</h3>
+                    <p>Use <strong>Add Updates</strong> to write a new article. Fill in the headline, category, author, status, and optionally schedule a publish date. The <em>Full Article</em> field supports <strong>Markdown</strong> formatting — use the toolbar buttons or write Markdown directly.</p>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+                        <p><strong>Draft vs Published</strong> — Draft articles are only visible in the admin; Published articles appear on the public site.</p>
+                        <p><strong>Editing</strong> — Click <em>Edit</em> on any article in the <em>Current Updates</em> list to modify it.</p>
+                        <p><strong>Deleting</strong> — Click <em>Delete</em> to permanently remove an article and its image.</p>
+                        <p><strong>Markdown cheat sheet:</strong> <code>**bold**</code>, <code>*italic*</code>, <code>## Heading</code>, <code>- bullet</code>, <code>[link text](url)</code>, <code>---</code> horizontal rule.</p>
+                    </div>
+                </div>
+
+                <!-- TESTIMONIES -->
+                <div data-help-panel="testimonies-help" class="help-panel mt-6 hidden space-y-4 text-sm text-slate-600">
+                    <h3 class="text-lg font-semibold text-slate-900">Testimonies</h3>
+                    <p>Testimony cards appear on the <strong>Achievements</strong> page under the "Voices" section.</p>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+                        <p><strong>Adding</strong> — Go to <em>Add Testimonies</em>, enter the person's name, upload their photo, and type the testimony message.</p>
+                        <p><strong>Deleting</strong> — In <em>Available Testimonies</em>, click <em>Delete</em> next to the entry you want to remove.</p>
+                    </div>
+                </div>
+
+                <!-- ACHIEVEMENTS & PROGRAMS -->
+                <div data-help-panel="lists-help" class="help-panel mt-6 hidden space-y-4 text-sm text-slate-600">
+                    <h3 class="text-lg font-semibold text-slate-900">Achievements, Programs & Activities</h3>
+                    <p>These items are managed inside the <strong>Edit Site Content</strong> section using the sub-tabs (Achievements, Programs, Activities). Here's how they work:</p>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                        <p><strong>Achievements</strong> — Each card shows an image, title, and short preview. Visitors click to see the full story in a popup. To add one, fill in the form at the top. To edit, expand an existing item — change the title, description, or upload a replacement image, then click <em>Save</em>.</p>
+                        <p><strong>Programs</strong> — Similar to achievements but with a <em>category</em> filter (Academic, Resources, Wellbeing) and a <em>media gallery</em>. The card image is the main display image; media gallery images are shown in the popup. You can add more media images to an existing program and remove individual gallery photos.</p>
+                        <p><strong>Activities</strong> — These cards appear on the home page. Each has a title, description, and image. Add, edit, or delete from the Activities sub-tab.</p>
+                    </div>
+                    <p class="text-xs text-slate-400"><strong>Ordering:</strong> Items are displayed in the order they were added. To reorder, you can delete and re-add items.</p>
+                </div>
+
+                <!-- USERS & AUTH -->
+                <div data-help-panel="users-help" class="help-panel mt-6 hidden space-y-4 text-sm text-slate-600">
+                    <h3 class="text-lg font-semibold text-slate-900">Users & Authentication</h3>
+                    <p>The admin portal uses a <strong>username + password</strong> login system. Passwords are securely hashed — they are never stored in plain text.</p>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+                        <p><strong>The root user</strong> — can add and remove other admin users. The root user cannot be deleted from the portal.</p>
+                        <p><strong>Regular Users</strong> — Can access all admin features <em>except</em> the Users tab. Only the root user sees and manages the Users list.</p>
+                        <p><strong>Adding a User</strong> — In the <em>Users</em> tab, enter a username and password, then click <em>Add User</em>.</p>
+                        <p><strong>Removing a User</strong> — Click <em>Delete</em> next to any non-root user to revoke their access.</p>
+                        <p><strong>Logging Out</strong> — Click the <em>Logout</em> button in the top filter bar.</p>
+                    </div>
+                    <p class="text-xs text-slate-400"><strong>Security tip:</strong> Choose strong passwords and change them periodically by deleting and re-adding the user.</p>
+                </div>
+            </section>
         </main>
     {% else %}
         <div class="mx-auto max-w-xl px-6 py-20 text-center text-slate-600">You are not authenticated!</div>
@@ -590,6 +732,25 @@
 
         pageTabs.forEach(b => b.addEventListener('click', () => activatePageTab(b.dataset.pageTab)));
         activatePageTab('text-content');
+
+        /* ── Help sub-tab switching inside help panel ── */
+        const helpTabs = document.querySelectorAll('.help-tab');
+        const helpPanels = document.querySelectorAll('.help-panel');
+
+        function activateHelpTab(tabName) {
+            helpPanels.forEach(p => p.classList.toggle('hidden', p.dataset.helpPanel !== tabName));
+            helpTabs.forEach(b => {
+                const active = b.dataset.helpTab === tabName;
+                b.classList.toggle('bg-brand-blue', active);
+                b.classList.toggle('text-white', active);
+                b.classList.toggle('border', !active);
+                b.classList.toggle('border-slate-300', !active);
+                b.classList.toggle('text-slate-700', !active);
+            });
+        }
+
+        helpTabs.forEach(b => b.addEventListener('click', () => activateHelpTab(b.dataset.helpTab)));
+        activateHelpTab('overview');
     </script>
 
 </body>
