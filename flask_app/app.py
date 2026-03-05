@@ -1212,6 +1212,32 @@ def admin_user_add():
     return redirect(url_for("news_create_page"))
 
 
+@app.post("/admin/users/change-password")
+def admin_user_change_password():
+    admin = current_admin_user()
+    if not admin:
+        abort(403)
+    current_pw = request.form.get("current_password", "").strip()
+    new_pw = request.form.get("new_password", "").strip()
+    confirm_pw = request.form.get("confirm_password", "").strip()
+    if not current_pw or not new_pw or not confirm_pw:
+        flash("All password fields are required.", "content_error")
+        return redirect(url_for("news_create_page"))
+    if not admin.check_password(current_pw):
+        flash("Current password is incorrect.", "content_error")
+        return redirect(url_for("news_create_page"))
+    if new_pw != confirm_pw:
+        flash("New passwords do not match.", "content_error")
+        return redirect(url_for("news_create_page"))
+    if len(new_pw) < 6:
+        flash("New password must be at least 6 characters.", "content_error")
+        return redirect(url_for("news_create_page"))
+    admin.set_password(new_pw)
+    db.session.commit()
+    flash("Password changed successfully.", "content_success")
+    return redirect(url_for("news_create_page"))
+
+
 @app.get("/admin/users/<int:user_id>/delete")
 def admin_user_delete(user_id):
     admin = current_admin_user()
