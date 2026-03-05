@@ -5,7 +5,10 @@ from datetime import datetime
 from sqlalchemy import Column, DateTime, Integer, MetaData, String, Table, Text, UniqueConstraint, Boolean
 from sqlalchemy import inspect, text
 
-from models import db
+try:
+    from flask_app.models import db
+except ImportError:
+    from models import db
 
 
 def run_migrations() -> None:

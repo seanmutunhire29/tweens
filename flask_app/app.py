@@ -10,11 +10,18 @@ from sqlalchemy import func, or_
 from markupsafe import Markup, escape
 from werkzeug.utils import secure_filename
 
-from db_migrations import run_migrations
-from models import (
-    Admins, Achievement, Activity, Contact, HeroSlide, Newsletter,
-    Program, ProgramMedia, SiteContent, Testimony, Updates, db,
-)
+try:
+    from flask_app.db_migrations import run_migrations
+    from flask_app.models import (
+        Admins, Achievement, Activity, Contact, HeroSlide, Newsletter,
+        Program, ProgramMedia, SiteContent, Testimony, Updates, db,
+    )
+except ImportError:
+    from db_migrations import run_migrations
+    from models import (
+        Admins, Achievement, Activity, Contact, HeroSlide, Newsletter,
+        Program, ProgramMedia, SiteContent, Testimony, Updates, db,
+    )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PUBLIC_DIR = BASE_DIR / "public"
