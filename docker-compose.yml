@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist SQLite database and uploaded images between container restarts
+      - tweens_data:/data
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      DATABASE_URL: sqlite:////data/database.sqlite3
+      ADMIN_NAME: ${ADMIN_NAME:-tweenstongogara}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-tweens@2020Admin}
+      FLASK_ENV: production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  tweens_data:
