@@ -2,6 +2,8 @@
   "name": "tweens-flask",
   "private": true,
   "scripts": {
+    "build": "npm run tailwind:build",
+    "watch": "npm run tailwind:watch",
     "tailwind:build": "tailwindcss -i ./src/tailwind.css -o ./public/css/tailwind.css",
     "tailwind:watch": "tailwindcss -i ./src/tailwind.css -o ./public/css/tailwind.css --watch"
   },

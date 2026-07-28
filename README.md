@@ -31,11 +31,27 @@ export SECRET_KEY="change-me"
 
 ## Run the app
 
+### Option 1: one-command development start
+
+```
+make run
+```
+
+The first run creates a local `.venv`, installs Python dependencies from `requirements.txt`, and starts Flask on http://127.0.0.1:5000.
+
+If you want to prepare the environment separately:
+
+```
+make setup
+```
+
+### Option 2: manual Python
+
 ```
 python flask_app/app.py
 ```
 
-The server starts on http://127.0.0.1:5000.
+The server also starts on http://127.0.0.1:5000.
 
 ## Database migrations
 
@@ -56,13 +72,31 @@ npm install
 Build Tailwind once:
 
 ```
-npm run tailwind:build
+npm run build
 ```
 
 Or watch during development:
 
 ```
-npm run tailwind:watch
+npm run watch
+```
+
+Alternatively, use the Makefile:
+
+```
+make build
+```
+
+For development watching:
+
+```
+make watch
+```
+
+For a clean rebuild:
+
+```
+make clean
 ```
 
 ## Notes
